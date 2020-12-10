@@ -1,7 +1,7 @@
 # Como Visualizar os Diagramas
 Para poder visualizar os diagramas criadas, que serve para ajudar na documentação do projeto, é necessário duas coisas: 
 - Fazer uma fork do repositório 
-- Entrar no [FlowChart](https://app.diagrams.net)
+- Entrar no [Diagrams](https://app.diagrams.net)
 
 # Abrir arquivo no FlowChart
 Para isso, basta clicar em `File`, em seguida `Open from`, `GitHub` e por fim, selecionar a fork feita. 
