@@ -1,5 +1,5 @@
-const { join } = require('../database/connection')
 const db = require('../database/connection')
+const { report } = require('../routes')
 const filterByComponents = require('../utils/filterByComponents')
 
 class CombinationsController {
@@ -61,6 +61,29 @@ class CombinationsController {
         }
 
         return response.status(200).json(filteredCombinations)
+    }
+    async update(request, response){
+        const { id, name, graphic_card, processor, ram_memory, motherboard, FPSAverages } = request.body
+
+        const trx = await db.transaction()
+
+        try{
+            FPSAverages.forEach(async FPSAverageItem => 
+                await trx('fps_averages').where('id', FPSAverageItem.id).update('fps_average', FPSAverageItem.fps_average)
+            )
+
+            await trx('combinations').where({ id }).update({ id, name, graphic_card, processor, ram_memory, motherboard })
+            
+            trx.commit()
+
+            return response.status(200).json({ })
+            
+        }
+        catch{
+            trx.rollback()
+
+            return response.status(400).json('Unexpected error while updating a combination')
+        }
     }
     async delete(request, response){
         const { id } = request.body
