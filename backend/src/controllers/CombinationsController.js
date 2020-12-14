@@ -1,4 +1,5 @@
 const db = require('../database/connection')
+const filterByComponents = require('../utils/filterByComponents')
 
 class CombinationsController {
     async create(request, response){
@@ -29,82 +30,41 @@ class CombinationsController {
         }
     }
     async index(request, response){
-        const setOtherAttrs = (attrsParams) => {
-            if(attrsParams.length == 1){
-                const [ attr ] = attrsParams
-                
-                if(attr.name === 'graphic_card'){
-                    return ['processor', 'ram_memory' ]
-                }
-                else if (attr.name === 'processor'){
-                    return ['graphic_card', 'ram_memory']
-                }
-                else {
-                    return ['graphic_card', 'processor']
-                }
-            }
-            else {
-                const [ attr1, attr2 ] = attrsParams
-                
-                if(attr1.name === 'graphic_card'){
-                    return attr2.name === 'processor' ? ['ram_memory'] : ['processor']
-                }
-                else if (attr1.name === 'processor'){
-                    return attr2.name === 'graphic_card' ? ['ram_memory'] : ['graphic_card']
-                }
-                else {
-                    return attr2.name === 'processor' ? ['graphic_card'] : ['processor']
-                }
-            }
-        }
-
-        const { attrs } = request.body
+        const { components, name } = request.body
 
         try{
-            if(attrs.length === 3){
-                const [ attr1, attr2, attr3 ] = attrs
-                    
-                const [ combination ] = await db('combinations')
-                                                .where(attr1.name, attr1.value)
-                                                .where(attr2.name, attr2.value)
-                                                .where(attr3.name, attr3.value)
-                                                .select('*')
-                
-                const combinationFPSs = await db('fps_averages').select('*').where('id_combination', combination.id)
-                                                
-
-                return response.status(200).json({ ...combination, fps_averages: [...combinationFPSs] })
-            }
-            else if(attrs.length === 2){
-                const [ attr1, attr2 ] = attrs
-                const [ attr3 ] = setOtherAttrs([attr1, attr2])
-                
-                const filteredComponents = await db('combinations')
-                                                    .select(attr3)
-                                                    .where(attr1.name, attr1.value)
-                                                    .where(attr2.name, attr2.value)
-
-                return response.status(200).json(filteredComponents)
-            }
-            else if(attrs.length === 1){
-                const [ attr1 ] = attrs
-                const [ attr2, attr3 ] = setOtherAttrs([attr1])
-
-                const filteredComponents = await db('combinations')
-                                                    .select(`${attr2}`, `${attr3}`)
-                                                    .where(attr1.name, attr1.value)
+            if(components){
+                const filteredComponents = await filterByComponents(components)
 
                 return response.status(200).json(filteredComponents)
             }
             else {
-                return response.status(400).json({ error: 'You must pass at least one argument' })
-            }
-            
+                const combinations = [... await db('combinations').select('*') ] 
+                const FPSAverages = [... await db('fps_averages').select('*') ]
+
+                const getFPSAverages = combination => FPSAverages.filter(FPSAverage => combination.id === FPSAverage.id_combination)
+
+                const combinationsWithFPS = combinations.map(combination => ({...combination, FPSAverages: getFPSAverages(combination)}))
+
+                return response.status(200).json(combinationsWithFPS)
+            }  
         }
         catch(error){
 
             console.log(error)
             return response.status(400).json('Unexpected error while listing a combination')
+        }
+    }
+    async delete(request, response){
+        const { id } = request.body
+
+        try{
+            const deletedCombination = await db('combinations').where('id', id).delete()
+
+            return response.status(200).json({ deletedCombination })
+        }
+        catch{
+            return response.status(400).json('Unexpected error while deleting a combination')
         }
     }
 }

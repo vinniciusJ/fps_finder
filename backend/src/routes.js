@@ -16,6 +16,7 @@ router.route('/games')
 router.route('/combinations')
     .post(combinationsController.create)
     .get(combinationsController.index)
+    .delete(combinationsController.delete)
 
 
 module.exports = router
