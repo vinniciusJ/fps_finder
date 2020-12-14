@@ -1,3 +1,4 @@
+const { join } = require('../database/connection')
 const db = require('../database/connection')
 const filterByComponents = require('../utils/filterByComponents')
 
@@ -30,30 +31,36 @@ class CombinationsController {
         }
     }
     async index(request, response){
+        const joinWithFPS = async combinations => {
+            const getFPSAverages = combination => FPSAverages.filter(FPSAverage => combination.id === FPSAverage.id_combination)
+            const FPSAverages = [... await db('fps_averages').select('*') ]
+
+            return combinations.map(combination => ({...combination, FPSAverages: getFPSAverages(combination)}))
+        }
+
         const { components, name } = request.body
+        let filteredCombinations = []
 
         try{
             if(components){
-                const filteredComponents = await filterByComponents(components)
-
-                return response.status(200).json(filteredComponents)
+                filteredCombinations = await filterByComponents(components)
+            }
+            else if(name){
+                const combinations = await db('combinations').select('*').where('name', 'like', `%${name}%`)
+                
+                filteredCombinations = await joinWithFPS(combinations)
             }
             else {
-                const combinations = [... await db('combinations').select('*') ] 
-                const FPSAverages = [... await db('fps_averages').select('*') ]
+                const combinations = [... await db('combinations').select('*')] 
 
-                const getFPSAverages = combination => FPSAverages.filter(FPSAverage => combination.id === FPSAverage.id_combination)
-
-                const combinationsWithFPS = combinations.map(combination => ({...combination, FPSAverages: getFPSAverages(combination)}))
-
-                return response.status(200).json(combinationsWithFPS)
+                filteredCombinations = await joinWithFPS(combinations)
             }  
         }
-        catch(error){
-
-            console.log(error)
+        catch{
             return response.status(400).json('Unexpected error while listing a combination')
         }
+
+        return response.status(200).json(filteredCombinations)
     }
     async delete(request, response){
         const { id } = request.body

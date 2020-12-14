@@ -22,7 +22,7 @@ const filterByComponents = async components => {
     }
     else if(componentsLength === 2){
         const [ key1, key2 ] = getComponentKeys(components)
-        const [ key3 ] = setOtherComponents([key1])
+        const [ key3 ] = setOtherComponents([key1, key2])
 
         const filteredComponents = await db('combinations')
                                             .select(key3)
@@ -36,7 +36,7 @@ const filterByComponents = async components => {
         const [ key2, key3 ] = setOtherComponents([key1])
 
         const filteredComponents = await db('combinations')
-                                            .select(`${key2}`, `${key3}`)
+                                            .select(key2, key3)
                                             .where(key1, components[key1])
         
         return filteredComponents  
