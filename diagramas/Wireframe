@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-12-15T12:54:13.370Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36 OPR/72.0.3815.400" etag="o6YfzxgWw7ctJybLizSs" version="14.0.1" type="github">
+<mxfile host="app.diagrams.net" modified="2020-12-15T13:10:27.896Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36 OPR/72.0.3815.400" etag="V48__XttEnmsQq6TrWm_" version="14.0.1" type="github">
   <diagram id="UJFsYgPwCGUnvlh7u_fJ" name="Page-1">
     <mxGraphModel dx="2764" dy="1528" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -802,6 +802,18 @@
             <mxPoint y="-30" as="offset" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="Hjw3d4jTG5-huAeVjrZe-334" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/feather-2/24/edit-3-128.png" vertex="1" parent="Hjw3d4jTG5-huAeVjrZe-254">
+          <mxGeometry x="407" y="10" width="15" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="Hjw3d4jTG5-huAeVjrZe-335" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/feather-2/24/edit-3-128.png" vertex="1" parent="Hjw3d4jTG5-huAeVjrZe-254">
+          <mxGeometry x="407" y="40" width="15" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="Hjw3d4jTG5-huAeVjrZe-336" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/feather-2/24/edit-3-128.png" vertex="1" parent="Hjw3d4jTG5-huAeVjrZe-254">
+          <mxGeometry x="407" y="70" width="15" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="Hjw3d4jTG5-huAeVjrZe-337" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn1.iconfinder.com/data/icons/feather-2/24/edit-3-128.png" vertex="1" parent="Hjw3d4jTG5-huAeVjrZe-254">
+          <mxGeometry x="407" y="94" width="15" height="15" as="geometry" />
+        </mxCell>
         <mxCell id="Hjw3d4jTG5-huAeVjrZe-259" value="&lt;font color=&quot;#707070&quot;&gt;FPS&lt;/font&gt;" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;strokeWidth=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;fontSize=14;strokeColor=#CCCCCC;" vertex="1" parent="Hjw3d4jTG5-huAeVjrZe-230">
           <mxGeometry x="592" y="940" width="105" height="40" as="geometry" />
         </mxCell>
@@ -1036,8 +1048,8 @@
         <mxCell id="Hjw3d4jTG5-huAeVjrZe-330" value="&lt;font style=&quot;font-size: 14px&quot;&gt;Salvar&lt;br&gt;&lt;/font&gt;" style="strokeWidth=1;shadow=0;dashed=0;align=center;html=1;shape=mxgraph.mockup.buttons.button;strokeColor=#666666;fontColor=#ffffff;mainText=;buttonStyle=round;fontSize=17;fontStyle=1;fillColor=#008cff;whiteSpace=wrap;" vertex="1" parent="Hjw3d4jTG5-huAeVjrZe-325">
           <mxGeometry x="39" y="260" width="90" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Hjw3d4jTG5-huAeVjrZe-331" value="&lt;b&gt;&lt;font style=&quot;font-size: 24px&quot;&gt;Adicionar jogo&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="Hjw3d4jTG5-huAeVjrZe-325">
-          <mxGeometry x="39" y="30" width="170.5" height="20" as="geometry" />
+        <mxCell id="Hjw3d4jTG5-huAeVjrZe-331" value="&lt;b&gt;&lt;font style=&quot;font-size: 24px&quot;&gt;Adicionar ou editar jogo&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="Hjw3d4jTG5-huAeVjrZe-325">
+          <mxGeometry x="39" y="30" width="281" height="20" as="geometry" />
         </mxCell>
         <mxCell id="Hjw3d4jTG5-huAeVjrZe-332" value="&lt;font color=&quot;#707070&quot; style=&quot;font-size: 12px&quot;&gt;Paste URL here&lt;/font&gt;" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;strokeWidth=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;fontSize=14;strokeColor=#CCCCCC;" vertex="1" parent="Hjw3d4jTG5-huAeVjrZe-325">
           <mxGeometry x="39.5" y="200" width="520" height="40" as="geometry" />
