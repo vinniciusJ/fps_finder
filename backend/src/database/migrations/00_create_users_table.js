@@ -2,7 +2,7 @@ exports.up = knex => {
     return knex.schema.createTableIfNotExists('users', table => {
         table.increments('id').primary()
         table.string('username').notNullable().unique()
-        table.string('passoword').notNullable()
+        table.string('password').notNullable()
         table.string('email').notNullable()
     })
 } 

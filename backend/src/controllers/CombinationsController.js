@@ -1,5 +1,4 @@
 const db = require('../database/connection')
-const { report } = require('../routes')
 const filterByComponents = require('../utils/filterByComponents')
 
 class CombinationsController {
@@ -22,7 +21,7 @@ class CombinationsController {
 
             await trx.commit()
 
-            return response.status(201).json({ ...createdCombination, fps_averages: [ ...createdCombinationFPSs ] })
+            return response.status(201).json({ ...createdCombination, fpsAverages: [ ...createdCombinationFPSs ] })
         }
         catch{
             await trx.rollback()
@@ -77,7 +76,6 @@ class CombinationsController {
             trx.commit()
 
             return response.status(200).json({ })
-            
         }
         catch{
             trx.rollback()
