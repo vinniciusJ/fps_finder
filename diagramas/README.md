@@ -1,5 +1,5 @@
 # Como Visualizar os Diagramas
-Para poder visualizar os diagramas criadas, que serve para ajudar na documentação do projeto, é necessário duas coisas: 
+Para poder visualizar os diagramas criados, que serve para ajudar na documentação do projeto, é necessário duas coisas: 
 - Fazer uma fork do repositório 
 - Entrar no [Diagrams](https://app.diagrams.net)
 
