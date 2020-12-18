@@ -62,7 +62,6 @@ const combinations = {
         combinationsController.create
     ],
     get: [
-        requireAuth,
         celebrate({
             [Segments.BODY]: Joi.object().keys({
                 components: Joi.object().keys({

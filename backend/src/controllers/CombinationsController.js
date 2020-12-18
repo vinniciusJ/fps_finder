@@ -26,7 +26,7 @@ class CombinationsController {
         catch{
             await trx.rollback()
 
-            return response.status(400).json('Unexpected error while creating a combination')
+            return response.status(400).json({ message: 'Aconteceu um erro na criação de uma combinação. Por favor, tente novamente.' })
         }
     }
     async index(request, response){
@@ -38,7 +38,9 @@ class CombinationsController {
         }
 
         const { components, name } = request.body
+        
         let filteredCombinations = []
+        let combinationsCounter
 
         try{
             if(components){
@@ -51,15 +53,16 @@ class CombinationsController {
             }
             else {
                 const combinations = [... await db('combinations').select('*')] 
-
+                
+                combinationsCounter = combinations.length
                 filteredCombinations = await joinWithFPS(combinations)
-            }  
+            }           
         }
         catch{
-            return response.status(400).json('Unexpected error while listing a combination')
+            return response.status(400).json({ message: "Ocorreu um erro na listagem das combinações" })
         }
 
-        return response.status(200).json(filteredCombinations)
+        return response.status(200).json(combinationsCounter ? { filteredCombinations, combinationsCounter } : filteredCombinations)
     }
     async update(request, response){
         const { id, name, graphic_card, processor, ram_memory, motherboard, FPSAverages } = request.body
@@ -80,7 +83,7 @@ class CombinationsController {
         catch{
             trx.rollback()
 
-            return response.status(400).json('Unexpected error while updating a combination')
+            return response.status(400).json({ message: 'Ocorreu um erro na atualização dos dados da combinação. Por favor, tente novamente.' })
         }
     }
     async delete(request, response){
@@ -92,7 +95,7 @@ class CombinationsController {
             return response.status(200).json({ deletedCombination })
         }
         catch{
-            return response.status(400).json('Unexpected error while deleting a combination')
+            return response.status(400).json({ message: 'Ocorreu um erro na exclusão da combinação. Por favor, tente novamente.' })
         }
     }
 }

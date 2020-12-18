@@ -7,17 +7,17 @@ class GamesController{
         const { name, url_logo } = request.body
 
         if(!name || !url_logo){
-            return response.status(422).json({ error: `It's missing arguments` })
+            return response.status(422).json({ message: 'Você deve informar um nome e a URL da logo do jogo.' })
         }
         else if(!isAnURL(url_logo)){
-            return response.status(400).json({ error: 'URL invalid format' })
+            return response.status(400).json({ message: 'Formato inválido de URL.' })
         }
         
         try{
             await db('games').insert({ name, url_logo })
         }
         catch(error){
-            return response.status(400).json('Unexpected error while creating a game')
+            return response.status(400).json({ message: 'Ocorreu um erro na criação de um game.' })
         }
 
         return response.status(201).json({ name, url_logo })
@@ -35,7 +35,7 @@ class GamesController{
             }
         }
         catch{
-            return response.status(400).json('Unexpected error while listing the games')
+            return response.status(400).json({ message: 'Ocorreu um erro na listagem de games' })
         }
         
         return response.status(200).json(games)
@@ -43,7 +43,7 @@ class GamesController{
     async update(request, response){
         const { id, name, url_logo } = request.body
 
-        if(!name && !url_logo) return response.status(422).json({ error: 'You must pass at least one argument' })
+        if(!name && !url_logo) return response.status(422).json({ message: 'Você deve passar pelo menos uma opção para editar' })
 
         try{
             if(!name){
@@ -57,12 +57,12 @@ class GamesController{
             }
         }
         catch(error){
-            return response.status(400).json('Unexpected error while updating a game')
+            return response.status(400).json({ message: 'Ocorreu um erro na atualização dos dados do jogo' })
         }
 
         const [ updatedGame ] = await db('games').select('*').where('id', id)
 
-        return response.status(200).json({ ...updatedGame })
+        return response.status(200).json(updatedGame)
     }
 }
 

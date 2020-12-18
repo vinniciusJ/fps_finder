@@ -13,7 +13,7 @@ class UserController{
 
             if(password === confirmPassword){
                 if(users.find(user => user.email === email)){
-                    return response.status(400).json({ message: 'User already registered' })
+                    return response.status(400).json({ message: 'Usuário já está registrado no sistema.' })
                 }
 
                 const hashedPassword = getHashedCode(password)
@@ -21,7 +21,7 @@ class UserController{
                 await db('users').insert({ username, password: hashedPassword, email })
             }
             else {
-                return response.status(400).json({ message: 'Password do not match' })
+                return response.status(400).json({ message: 'As senhas são diferentes.' })
             }
         }
         catch(error){
@@ -56,12 +56,12 @@ class UserController{
                 response.locals.authTokens = {}
                 response.locals.authTokens[authToken] = user
 
-                response.status(200).cookie('AuthToken', authToken).json({ message: 'User is logged in' })
+                response.status(200).cookie('AuthToken', authToken).json({ message: 'O usuário está logado.' })
 
                 next()
             }
             else {
-                return response.status(400).json({ message: 'Invalid username or password' })
+                return response.status(400).json({ message: 'Usuário ou senha incorreta' })
             }
         }
         catch(error){
