@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap');
+
+:root{
+    font-size: 50%;
+
+    --main-color: #5500F1;
+    --main-color-variation: #763BF8;
+    --secondary-color: #9776FF;
+    --contrast-color: #FFD382;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*, button, input{
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2 {
+    font-family: 'Gameplay', sans-serif;
+}
+
+@font-face{
+    font-family: 'Gameplay';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./Gameplay.ttf');
+}
