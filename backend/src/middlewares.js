@@ -1,14 +1,10 @@
-const express = require('express')
-
 const { Joi, celebrate, Segments } = require('celebrate')
+
+const requireAuth = require('./utils/requireAuth')
 
 const GamesController = require('./controllers/GamesController')
 const CombinationsController = require('./controllers/CombinationsController')
 const UserController = require('./controllers/UserController')
-
-const requireAuth = require('./utils/requireAuth')
-
-const router = express.Router()
 
 const gamesController = new GamesController()
 const combinationsController = new CombinationsController()
@@ -94,55 +90,3 @@ const combinations = {
         combinationsController.delete
     ]
 }
-
-const user = {
-    post: [
-        celebrate({
-            [Segments.BODY]: Joi.object().keys({
-                email: Joi.string().required(),
-                username: Joi.string().required(),
-                password: Joi.string().required(),
-                confirmPassword: Joi.string().required()
-            })
-        }),
-        userController.create
-    ],
-    get: [
-        celebrate({
-            [Segments.BODY]: Joi.object().keys({
-                email: Joi.string(),
-                username: Joi.string(),
-                password: Joi.string().required()
-            })
-        }),
-        userController.login,
-        (request, response) => authTokens = response.locals.authTokens
-    ]
-}
-
-router.use((request, response, next) => {
-    const auth = request.cookies['AuthToken']
-
-    if(Object.entries(authTokens).length){
-        request.user = authTokens[auth]
-    }
-
-    next()
-})
-
-router.route('/games')
-    .post(games.post)
-    .put(games.put)
-    .get(games.get)
-
-router.route('/combinations')
-    .post(combinations.post)
-    .get(combinations.get)
-    .put(combinations.put)
-    .delete(combinations.delete)
-
-router.route('/user')
-    .post(user.post)
-    .get(user.get)
-
-module.exports = router
