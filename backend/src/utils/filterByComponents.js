@@ -41,6 +41,11 @@ const filterByComponents = async components => {
         
         return filteredComponents  
     }
+    else {
+        const filteredCombinations = await db('combinations').select('graphic_card', 'processor', 'ram_memory')
+
+        return filteredCombinations
+    }
 }
 
 module.exports = filterByComponents
