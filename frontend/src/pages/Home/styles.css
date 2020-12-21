@@ -1,0 +1,54 @@
+.main-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    margin-bottom: 2.8rem;
+}
+
+.main-header .nav-bar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 2rem;
+
+    background: var(--contrast-color);
+    margin-bottom: 3rem;
+}
+
+.main-header .nav-bar img{
+    width: clamp(6rem, 16rem, 10rem);
+}
+
+.main-header .presentation{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 0 2.4rem;
+}
+
+.main-header .presentation h2{
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.main-header .presentation p{
+    line-height: 1.8;
+
+    font-size: 1.5rem;
+}
+
+.section-title{
+    background: var(--secondary-color);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: clamp(6rem, 8rem, 10rem);
+
+    font-size: 1.6rem;
+    color: #FFF;
+}

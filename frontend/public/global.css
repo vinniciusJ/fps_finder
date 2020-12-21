@@ -19,8 +19,14 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-h1, h2 {
+h1{
     font-family: 'Gameplay', sans-serif;
+    font-weight: 400;
+}
+
+h2{
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: .2rem;
 }
 
 @font-face{
