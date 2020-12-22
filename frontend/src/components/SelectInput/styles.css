@@ -22,7 +22,13 @@
     font-size: 1.8rem;
 }
 
-.select-container .select-header img{
+.select-container .select-header button{
+    border: none;
+    background: transparent;
+    outline: none;
+}
+
+.select-container .select-header button img{
     width: 2.6rem;
 }
 

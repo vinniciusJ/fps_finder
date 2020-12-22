@@ -5,13 +5,15 @@ import helpIcon from '../../assets/images/help.svg'
 import './styles.css'
 
 const SelectInput = (props) => {
-    const { label, selectedOption, options, handleSelectChange } = props
+    const { label, selectedOption, options, handleSelectChange, handlePopUp, popUpID } = props
 
     return (
         <div className="select-container">
             <section className="select-header">
                 <h2>{label}</h2>
-                <img src={helpIcon} alt={label}/>
+                <button onClick={handlePopUp} >
+                    <img src={helpIcon} alt={label} id={popUpID}/>
+                </button>
             </section>
             <section className="select-input">
                 <select value={selectedOption} onChange={handleSelectChange}>
