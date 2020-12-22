@@ -39,30 +39,34 @@ class CombinationsController {
 
         const { components, name } = request.body
         
-        let filteredCombinations = []
-        let combinationsCounter
+        let combinations = { 'graphic_card': [] , 'processor': [], 'ram_memory': [] }
 
         try{
             if(components){
-                filteredCombinations = await filterByComponents(components)
+                const filteredComponents = [...await filterByComponents(components)]
+
+                filteredComponents.forEach(component => {
+                    const [ key1, key2, key3 ] = Object.keys(component)
+
+                    if(key1) combinations[key1] = [... new Set([...combinations[key1], component[key1]])]
+                    if(key2) combinations[key2] = [... new Set([...combinations[key2], component[key2]])]
+                    if(key3) combinations[key3] = [... new Set([...combinations[key3], component[key3]])]
+                })
+                 
             }
-            else if(name){
-                const combinations = await db('combinations').select('*').where('name', 'like', `%${name}%`)
-                
-                filteredCombinations = await joinWithFPS(combinations)
+            else if(name){              
+                combinations = await joinWithFPS(await db('combinations').select('*').where('name', 'like', `%${name}%`))
             }
-            else {
-                const combinations = [... await db('combinations').select('*')] 
-                
-                combinationsCounter = combinations.length
-                filteredCombinations = await joinWithFPS(combinations)
+            else {  
+                combinations = await joinWithFPS([... await db('combinations').select('*')] )
             }           
         }
-        catch{
+        catch(error){
+            console.log(error)
             return response.status(400).json({ message: "Ocorreu um erro na listagem das combinações" })
         }
 
-        return response.status(200).json(combinationsCounter ? { filteredCombinations, combinationsCounter } : filteredCombinations)
+        return response.status(200).json(combinations)
     }
     async update(request, response){
         const { id, name, graphic_card, processor, ram_memory, motherboard, FPSAverages } = request.body
