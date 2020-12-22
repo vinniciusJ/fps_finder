@@ -2,6 +2,8 @@ import React from 'react'
 
 import helpIcon from '../../assets/images/help.svg'
 
+import './styles.css'
+
 const SelectInput = (props) => {
     const { label, selectedOption, options, handleSelectChange } = props
 

@@ -17,6 +17,7 @@
 
 *, button, input{
     font-family: 'Montserrat', sans-serif;
+    letter-spacing: .2rem;
 }
 
 h1{
@@ -34,4 +35,42 @@ h2{
     font-style: normal;
     font-weight: 400;
     src: url('./Gameplay.ttf');
+}
+
+.btn{
+    border: none;
+    color: #000;
+    background: #E7E6E6;
+    font-weight: 800;
+    
+    width: clamp(16rem, 22rem, 30rem);
+
+    padding: 0 1.4rem;
+
+    height: 6rem;
+    border-radius: none;
+    outline: none;
+
+    transition: .2s ease-in-out;
+}
+
+.btn:hover, .btn:focus{
+    background: #FAF9F9;
+}
+
+.btn:active{
+    background: #8A8888;
+}
+
+.btn.main{
+    background: var(--contrast-color);
+    color: #FFF;
+}
+
+.btn.main:hover, .btn.main:focus{
+    background: #FFDB98;
+}
+
+.btn.main:active{
+    background: var(--main-color);
 }

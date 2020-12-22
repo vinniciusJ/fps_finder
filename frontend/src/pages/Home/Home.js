@@ -1,44 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import api from '../../services/api'
+import React, { useState } from 'react'
 
+import PopUp from '../../components/PopUp/PopUp'
 import SelectInput from '../../components/SelectInput/SelectInput'
 
 import FPSFinderLogo from '../../assets/images/logo.svg'
+import graphicCardImage from '../../assets/images/graphic-card.svg'
+
 
 import './styles.css'
 
 const Home = () => {
-    const options = ['Oi', 'Aoba', 'Suague', 'Eh nois']
-
-    const [ graphicCards, setGraphicCards ] = useState([])
-    const [ processors, setProcessors ] = useState([])
-    const [ ramMemories, setRamMemories ] = useState([])
-
-    useEffect(() => {
-        const componentsParams = []
-
-        api.get('combinations', { params: { components: componentsParams } }).then(response => {
-            const { filteredCombinations } = response.data
-            const components = [...filteredCombinations]
-
-            const repeatedGraphicCards = []
-
-            components.forEach(component => {
-                repeatedGraphicCards.push(component.graphic_card)
-            })
-            
-            setGraphicCards([...new Set(repeatedGraphicCards)])
-        })
-    }, [ ])
-
-
-    const [ selectedGraphicCard, setselectedGraphicCard ] = useState('')
-
+    const [ selectedGraphicCard, setSelectedGraphicCard ] = useState('')
+    const [ selectedProcessor, setSelectedProcessor ] = useState('')
+    const [ selectedRamMemory, setSelectedRamMemory ] = useState('')
     
+    const handleProcessorChange = event => {
+        const processor = event.target.value
+
+        setSelectedProcessor(processor)
+    }
+
+    const handleRamMemoryChange = event => {
+        const ramMemory = event.target.value
+
+        setSelectedRamMemory(ramMemory)
+    }
+
     const handleGraphicCardChange = event => {
         const graphicCard = event.target.value
         
-        setselectedGraphicCard(graphicCard)
+        setSelectedGraphicCard(graphicCard)
     }
 
     return (
@@ -58,8 +49,53 @@ const Home = () => {
             </div>
 
             <main className="input-section">
-                <SelectInput label="Placa de Vídeo" selectedOption={selectedGraphicCard} options={graphicCards} handleSelectChange={handleGraphicCardChange}/>
+                <div>
+                    <SelectInput 
+                        label="Placa de Vídeo"
+                        selectedOption={selectedGraphicCard}
+                        options={[]} 
+                        handleSelectChange={handleGraphicCardChange}
+                    />
+
+                    <PopUp>
+                        <section className="popup-title">
+                            <img src={graphicCardImage} alt="Placa Gráfica"/>
+                            <h2>Placa Gráfica</h2>
+                        </section>
+                        <main>
+                            <p>
+                            A placa de vídeo é um dos principais componentes de qualquer pc, principalmente se seu foco é rodar jogos. A placa de vídeo é a peça responsável por gerar as imagens que você vê na tela.</p> 
+                        </main>
+                    </PopUp>
+                </div>
+                <div>
+                    <SelectInput 
+                        label="Processador" 
+                        selectedOption={selectedProcessor} 
+                        options={[]} 
+                        handleSelectChange={handleProcessorChange}
+                    />
+                </div>
+                <div>
+                    <SelectInput 
+                        label="Memória RAM" 
+                        selectedOption={selectedRamMemory} 
+                        options={[]} 
+                        handleSelectChange={handleRamMemoryChange}
+                    />
+                </div>
+
+                <section className="operations-buttons">
+                    <button className="btn main">Calcular</button>
+                    <button className="btn">Limpar campos</button>
+                </section>
             </main>
+
+            <div className="section-title">
+                <h1>RESULTADO</h1>
+            </div>
+
+            
         </div>
     )
 }

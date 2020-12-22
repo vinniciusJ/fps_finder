@@ -1,3 +1,5 @@
+
+
 .main-header{
     display: flex;
     flex-direction: column;
@@ -51,4 +53,26 @@
 
     font-size: 1.6rem;
     color: #FFF;
+}
+
+.input-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 4rem 0;
+    padding: 2.4rem;
+}
+
+.input-section div{
+    width: 100%;
+}
+
+.operations-buttons{
+    display: flex;
+    justify-content: space-between;
+
+    gap: clamp(1.2rem, 1.8rem, 2rem);
+    width: 100%;
 }
