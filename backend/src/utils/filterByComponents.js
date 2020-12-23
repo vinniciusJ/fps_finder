@@ -18,7 +18,7 @@ const filterByComponents = async components => {
         const combinationFPSs = await db('fps_averages').select('*').where('id_combination', combination.id)
                                         
 
-        return ({ ...combination, FPSAverages: [...combinationFPSs] })
+        return ([{ ...combination, FPSAverages: [...combinationFPSs] }])
     }
     else if(componentsLength === 2){
         const [ key1, key2 ] = getComponentKeys(components)

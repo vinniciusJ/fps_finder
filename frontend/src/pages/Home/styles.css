@@ -76,3 +76,53 @@
     gap: clamp(1.2rem, 1.8rem, 2rem);
     width: 100%;
 }
+
+.filter-combination{
+    margin-top: 1rem;
+    padding: 2.4rem;
+}
+
+.filter-combination h2{
+    font-size: 1.8rem;
+    margin-bottom: 4rem;
+}
+
+.filter-combination .filter-components{
+    background: #E7E6E6;
+    padding: 1.4rem 2.2rem;
+}
+
+.filter-combination .filter-components ul{
+    list-style: none;
+    font-size: 1.6rem;
+    line-height: 2;
+}
+
+.filter-combination .filter-components ul li span{
+    color: var(--main-color);
+}
+
+.motherboard{
+    padding: 2.4rem;
+}
+
+.motherboard h2{
+    font-size: 1.8rem;
+    margin-bottom: 4rem;
+}
+
+.motherboard .motherboard-box{
+    background: var(--secondary-color);
+    padding: 1.4rem 2.2rem;
+
+    display: flex;
+    align-items: center;
+
+    font-size: 1.6rem;
+    color: #FFF;
+}
+
+.motherboard .motherboard-box img{
+    width: 4rem;
+    margin-right: 1.5rem;
+}

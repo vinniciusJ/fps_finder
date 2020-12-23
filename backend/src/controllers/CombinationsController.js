@@ -37,27 +37,39 @@ class CombinationsController {
             return combinations.map(combination => ({...combination, FPSAverages: getFPSAverages(combination)}))
         }
 
-        const { components, name } = request.body
-        
+        let { components, name } = request.query
+
         let combinations = { 'graphic_card': [] , 'processor': [], 'ram_memory': [] }
+        let status = true
+
+        components = JSON.parse(components)
 
         try{
             if(components){
                 const filteredComponents = [...await filterByComponents(components)]
 
-                filteredComponents.forEach(component => {
+                filteredComponents.every(component => {
                     const [ key1, key2, key3 ] = Object.keys(component)
 
+                    if(key1 === 'id'){
+                        status = false
+
+                        return status
+                    }
+                    
                     if(key1) combinations[key1] = [... new Set([...combinations[key1], component[key1]])]
                     if(key2) combinations[key2] = [... new Set([...combinations[key2], component[key2]])]
                     if(key3) combinations[key3] = [... new Set([...combinations[key3], component[key3]])]
-                })
-                 
+
+                    return true
+                })   
+                
+                if(!status) combinations = filteredComponents
             }
             else if(name){              
                 combinations = await joinWithFPS(await db('combinations').select('*').where('name', 'like', `%${name}%`))
             }
-            else {  
+            else {                  
                 combinations = await joinWithFPS([... await db('combinations').select('*')] )
             }           
         }
@@ -65,6 +77,8 @@ class CombinationsController {
             console.log(error)
             return response.status(400).json({ message: "Ocorreu um erro na listagem das combinações" })
         }
+
+        console.log(combinations)
 
         return response.status(200).json(combinations)
     }
