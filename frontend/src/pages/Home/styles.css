@@ -126,3 +126,22 @@
     width: 4rem;
     margin-right: 1.5rem;
 }
+
+.games-container{
+    padding: 2.4rem;
+}
+
+.games-container h2{
+    font-size: 1.8rem;
+    margin-bottom: 4rem;
+}
+
+.btn-again{
+    padding: 2.4rem; 
+}
+
+.btn-again button{
+    width: 26rem;
+    margin-bottom: 6rem;
+}
+

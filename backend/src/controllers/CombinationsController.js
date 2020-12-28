@@ -74,11 +74,8 @@ class CombinationsController {
             }           
         }
         catch(error){
-            console.log(error)
             return response.status(400).json({ message: "Ocorreu um erro na listagem das combinações" })
         }
-
-        console.log(combinations)
 
         return response.status(200).json(combinations)
     }

@@ -23,14 +23,16 @@ class GamesController{
         return response.status(201).json({ name, url_logo })
     }
     async index(request, response){
-        const { filterOption  } = request.body
+        let { name } = request.query
         let games = []
 
         try{
-            if(filterOption){
-                games = await db('games').select('*').where('name', 'like', `%${filterOption}%`)
+            if(name){
+                console.log('I')
+                games = await db('games').select('*').where('name', 'like', `%${name}%`)
             }
             else {
+                console.log('hi')
                 games = await db('games').select('*')
             }
         }

@@ -1,0 +1,39 @@
+.game-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    padding: 1rem 2.4rem;
+
+    border: 3px solid var(--secondary-color);
+
+    margin-bottom: 1.6rem;
+}
+
+.game-container .game-logo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.game-container .game-logo img{
+    width: 4.8rem;
+    height: 4.8rem;
+    margin-right: 1.4rem;
+}
+
+.game-container .game-logo p{
+    font-size: 1.4rem;
+    width: 8rem;
+}
+
+.game-container .game-fps p{
+    font-size: 1.4rem;
+    min-width: 14rem;
+}
+
+.game-container .game-fps p span{
+    color: var(--main-color);
+}

@@ -1,0 +1,102 @@
+.fps-footer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    padding: 2.4rem;
+    
+
+    background: var(--secondary-color);
+}
+
+.fps-footer .footer-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 48rem;
+    height: 20rem;
+
+    margin-bottom: 6rem;
+}
+
+.fps-footer .footer-info .fps-info-email h1{
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+.fps-footer .footer-info .fps-info-email p{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.6rem;
+}
+
+
+.fps-footer .footer-info .devs-info-email h1{
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+}
+
+.fps-footer .footer-info .devs-info-email p{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.6rem;
+}
+
+.fps-footer .footer-email{
+    width: 48rem;
+}
+
+.fps-footer .footer-email h1{
+    font-size: 2rem;
+    margin-bottom: 1.8rem;
+}
+
+.fps-footer .footer-email form input{
+    width: 100%;
+    font-size: 1.6rem;
+    
+    height: 4.8rem;
+    padding: 1rem 1.2rem;
+
+    border: none;
+
+    background: #000;
+    outline: none;
+
+    margin-bottom: 1.8rem;
+}
+
+.fps-footer .footer-email form textarea{
+    width: 100%;
+    background: #000;
+    padding: 1.6rem 1.2rem;
+    border: none;
+    outline: none;
+
+    margin-bottom: 1.8rem;
+}
+
+.fps-footer .footer-email form .btn{
+    width: 16rem;
+}
+
+.fps-footer .footer-email form .btn span{
+    display: flex;
+    align-self: center;
+
+    gap: 2rem;
+}
+
+.fps-footer .footer-email form .btn span strong{
+    display: flex;
+    align-self: center;
+}
+
+::placeholder{
+    color: white;
+   
+}

@@ -4,6 +4,8 @@ import api from '../../services/api'
 
 import PopUp from '../../components/PopUp/PopUp'
 import SelectInput from '../../components/SelectInput/SelectInput'
+import GameContainer from '../../components/GameContainer/GameContainer'
+import Footer from '../../components/Footer/Footer'
 
 import FPSFinderLogo from '../../assets/images/logo.svg'
 import graphicCardImage from '../../assets/images/graphic-card.svg'
@@ -13,12 +15,12 @@ import motherboardImage from '../../assets/images/motherboard.svg'
 
 import './styles.css'
 
+
 const Home = () => {
     const [ currentPopUp, setCurrentPopUp ] = useState({ id: 0, isVisible: false })
-    const [ resultContainer, setResultContainer ] = useState(true)
-    const [ requestStatus, setRequestStatus ] = useState(false)
+    const [ resultContainer, setResultContainer ] = useState(false)
+    const [ games, setGames ] = useState([])
 
-    //const [ filterComponents, setFilterComponents ] = useState({})
     const [ filteredCombination, setFilteredCombination ] = useState({})
 
     const [ selectedGraphicCard, setSelectedGraphicCard ] = useState(0)
@@ -29,6 +31,8 @@ const Home = () => {
     const [ processorOptions, setProcessorOptions ] = useState([])
     const [ ramMemoryOptions, setRamMemoryOptions ] = useState([])
 
+    const isValid = (value) => Number(value) !== 0 
+
     useEffect(() => {
         api.get('combinations', { params: { components: {} } }).then(response => {
             const combination = response.data
@@ -37,6 +41,12 @@ const Home = () => {
             setProcessorOptions(combination['processor'])
             setRamMemoryOptions(combination['ram_memory'])        
         })  
+
+        api.get('games', { params: { name: "" } }).then(response => {
+            const receveidGames = response.data
+
+            setGames(receveidGames)
+        })
     }, [  ])
 
     useEffect(() => {
@@ -46,7 +56,7 @@ const Home = () => {
         components.forEach(component => {
             const [ key ] = Object.keys(component)
     
-            if(component[key] !== 0 && component[key] !== '0') filterOption[key] = component[key]
+            if(isValid(component[key])) filterOption[key] = component[key]
         })
 
         if(Object.keys(filterOption).length === 3){
@@ -60,9 +70,9 @@ const Home = () => {
             api.get('combinations', { params: { components: { ...filterOption } } }).then(response => {
                 const { graphic_card, processor, ram_memory } = response.data
 
-                if(graphic_card.length !== 0) setGraphicCardOptions(graphic_card)
-                if(processor.length !== 0) setProcessorOptions(processor)
-                if(ram_memory.length !== 0) setRamMemoryOptions(ram_memory)
+                if(isValid(graphic_card.length)) setGraphicCardOptions(graphic_card)
+                if(isValid(processor.length)) setProcessorOptions(processor)
+                if(isValid(ram_memory.length)) setRamMemoryOptions(ram_memory)
             })
         }
     }, [ selectedGraphicCard, selectedProcessor, selectedRamMemory ])
@@ -81,10 +91,22 @@ const Home = () => {
 
         setCurrentPopUp({ id, isVisible: status })
     }
-    const handleSelectFields = () => {
+
+    const clearSelectFields = () => {
         setSelectedGraphicCard(0)
         setSelectedProcessor(0)
         setSelectedRamMemory(0)
+    }
+
+    const handleCalculateAgain = () => {
+        const link = document.createElement('a')
+        link.href = '#calculate'
+
+        link.click()
+        
+        setResultContainer(false)
+        setFilteredCombination({})
+        clearSelectFields()  
     }
 
     const handleProcessorChange = event => {
@@ -92,7 +114,7 @@ const Home = () => {
 
         setSelectedProcessor(processor)
 
-        event.target.value !== '0' && setProcessorOptions([event.target.value])
+        isValid(event.target.value) && setProcessorOptions([event.target.value])
     }
 
     const handleRamMemoryChange = event => {
@@ -100,7 +122,7 @@ const Home = () => {
 
         setSelectedRamMemory(ramMemory)
         
-        event.target.value !== '0' && setRamMemoryOptions([event.target.value])
+        isValid(event.target.value) && setRamMemoryOptions([event.target.value])
     }
 
     const handleGraphicCardChange = event => {
@@ -108,7 +130,17 @@ const Home = () => {
         
         setSelectedGraphicCard(graphicCard)
 
-        event.target.value !== '0' && setGraphicCardOptions([event.target.value])
+        isValid(event.target.value) && setGraphicCardOptions([event.target.value])
+    }
+
+    const handleResultContainerView = () => {
+        if(!isValid(selectedGraphicCard) || !isValid(selectedProcessor) || !isValid(selectedRamMemory)) return
+
+        setResultContainer(true)
+
+        const link = document.createElement('a')
+        link.href = `#result`
+        link.click()  
     }
 
     return (
@@ -123,7 +155,7 @@ const Home = () => {
                 </section>
             </header>
 
-            <div className="section-title">
+            <div className="section-title" id="calculate">
                 <h1>CALCULAR</h1>
             </div>
 
@@ -200,18 +232,18 @@ const Home = () => {
                 </div>
 
                 <section className="operations-buttons">
-                    <button className="btn main" onClick={() => setRequestStatus(true)}>Calcular</button>
-                    <button className="btn" onClick={handleSelectFields}>Limpar campos</button>
+                    <button className="btn main" onClick={handleResultContainerView}>Calcular</button>
+                    <button className="btn" onClick={clearSelectFields}>Limpar campos</button>
                 </section>
             </main>
 
             {resultContainer &&
                 <>
-                    <div className="section-title">
+                    <div className="section-title" id="result">
                         <h1>RESULTADO</h1>
                     </div>
 
-                    <section className="filter-combination">
+                    <section className="filter-combination" id="filter-combination">
                         <h2>Peças escolhidas: </h2>
 
                         <div className="filter-components">
@@ -231,10 +263,29 @@ const Home = () => {
                             <p>{filteredCombination.motherboard}</p>
                         </div>
                     </section>
+
+                    <section className="games-container">
+                        <h2>Jogos:</h2>
+
+                        <div className="games-list">
+                            {filteredCombination.FPSAverages.map(item => {
+                                const [ game ] = games.filter(game => game.id === item.id_game)
+
+                                return (
+                                    <GameContainer name={game.name} URLLogo={game.url_logo} FPSAverage={item.fps_average} key={game.id}/>
+                                )
+                            })}
+                        </div>
+                    </section>
+
+                    <div className="btn-again">
+                        <button className="btn main" onClick={handleCalculateAgain}>Calcular Novamente</button>
+                    </div>
                 </>
+                    
             }
 
-            
+            <Footer />
         </div>
     )
 }

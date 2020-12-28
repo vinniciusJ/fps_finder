@@ -12,6 +12,7 @@
     "react-feather": "^2.0.9",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "react-scroll": "^1.8.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

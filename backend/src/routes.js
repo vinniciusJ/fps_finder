@@ -39,7 +39,6 @@ const games = {
         gamesController.update
     ],
     get: [
-        requireAuth,
         celebrate({
             [Segments.BODY]: Joi.object().keys({
                 filterOption: Joi.string()  

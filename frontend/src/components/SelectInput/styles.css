@@ -38,6 +38,7 @@
     border: solid 3px var(--secondary-color);
     padding: .8rem;
     color: #5c5c5c;
+    background:#FFF;
 
     outline: none;
 }
