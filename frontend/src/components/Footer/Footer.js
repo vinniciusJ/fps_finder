@@ -21,9 +21,9 @@ const Footer = () => {
             </section>
             <section className="footer-email">
                 <h1>Fale conosco</h1>
-                <form>
-                    <input type="email" required="required"placeholder="Seu endereço de e-mail aqui" ref={emailAdress}/>
-                    <textarea name="e-mail" id="e-mail" cols="30" rows="10" ref={emailMessage} placeholder="Mensagem..."></textarea>
+                <form className="contact-us">
+                    <input name="e-mail" id="e-mail" type="email" required="required"placeholder="Seu endereço de e-mail aqui" ref={emailAdress}/>
+                    <textarea  cols="30" rows="10" ref={emailMessage} placeholder="Mensagem..."></textarea>
 
                     <button className="btn main"><span><Send width={24}/><strong>Enviar</strong></span></button>
                 </form>

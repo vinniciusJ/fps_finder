@@ -32,7 +32,7 @@ class UserController{
 
     }
     async login(request, response, next){
-        const { email, password } = request.body
+        const { email, password } = request.params
         const hashedPassword = getHashedCode(password)
 
         try{

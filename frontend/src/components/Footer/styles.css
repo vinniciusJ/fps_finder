@@ -108,7 +108,8 @@
     align-self: center;
 }
 
-::placeholder{
+.contact-us input::placeholder, .contact-us textarea::placeholder{
     color: white;
 }
+
 
