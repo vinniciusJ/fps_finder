@@ -32,7 +32,7 @@ class UserController{
 
     }
     async login(request, response, next){
-        const { email, password } = request.params
+        const { email, password } = request.query
         const hashedPassword = getHashedCode(password)
 
         try{
@@ -41,9 +41,6 @@ class UserController{
             const user = users.find(u => {
                 if(email){
                     return u.email === email && hashedPassword === u.password
-                }
-                else if(username){
-                    return u.username === username && hashedPassword === u.password
                 }
                 else{
                     return false
