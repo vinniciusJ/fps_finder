@@ -1,19 +1,20 @@
 import React from 'react'
+import { HashLink as Link } from 'react-router-hash-link'
 
 import helpIcon from '../../assets/images/help.svg'
 
 import './styles.css'
 
 const SelectInput = (props) => {
-    const { label, selectedOption, options, handleSelectChange, handlePopUp, popUpID } = props
+    const { label, selectedOption, options, handleSelectChange, handlePopUp, popUpID, isAMobileDevice } = props
 
     return (
         <div className="select-container">
             <section className="select-header">
                 <h2>{label}</h2>
-                <button onClick={handlePopUp} >
+                <Link onClick={handlePopUp} smooth to={isAMobileDevice ? `#component-${popUpID}` : ``}>
                     <img src={helpIcon} alt={label} id={popUpID}/>
-                </button>
+                </Link>
             </section>
             <section className="select-input">
                 <select value={selectedOption} onChange={handleSelectChange}>

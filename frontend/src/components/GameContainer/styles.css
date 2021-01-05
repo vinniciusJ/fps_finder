@@ -26,7 +26,7 @@
 
 .game-container .game-logo p{
     font-size: 1.4rem;
-    width: 8rem;
+    width: clamp(8rem, 20rem, 22rem);
 }
 
 .game-container .game-fps p{

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { HashLink as Link } from 'react-router-hash-link'
 
 import api from '../../services/api'
 
@@ -15,9 +16,9 @@ import motherboardImage from '../../assets/images/motherboard.svg'
 
 import './styles.css'
 
-
 const Home = () => {
     const [ currentPopUp, setCurrentPopUp ] = useState({ id: 0, isVisible: false })
+    const [ isAMobileDevice, setIsAMobileDevice ] = useState(false)
     const [ resultContainer, setResultContainer ] = useState(false)
     const [ games, setGames ] = useState([])
 
@@ -79,17 +80,19 @@ const Home = () => {
 
     const handleCurrentPopUpVisibility = event => {
         const status = !currentPopUp.isVisible
-        const id = status ? event.target.id : 0
+        const id = event.target.id
+        
+        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+            setIsAMobileDevice(true)
+            document.body.style.overflow = status ? 'hidden' : 'initial'
+        }
 
-        if(status){
-            window.scrollTo(0, 0)
-            document.body.style.overflow = 'hidden'
+        if(!status && id !== currentPopUp.id){
+            setCurrentPopUp({ id, isVisible: true })
         }
         else {
-            document.body.style.overflow = 'initial'
-        }
-
-        setCurrentPopUp({ id, isVisible: status })
+            setCurrentPopUp({ id, isVisible: status })
+        }  
     }
 
     const clearSelectFields = () => {
@@ -160,7 +163,7 @@ const Home = () => {
             </div>
 
             <main className="input-section">
-                <div>
+                <div className="label-section">
                     <SelectInput 
                         label="Placa de Vídeo"
                         selectedOption={selectedGraphicCard}
@@ -168,11 +171,15 @@ const Home = () => {
                         popUpID="graphic-card"
                         handlePopUp={handleCurrentPopUpVisibility}
                         handleSelectChange={handleGraphicCardChange}
+                        isAMobileDevice={isAMobileDevice}
                     />
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'graphic-card') &&
                         
-                        <PopUp closePopUp={handleCurrentPopUpVisibility} isVisible={currentPopUp.isVisible}>
+                        <PopUp 
+                            closePopUp={handleCurrentPopUpVisibility} isVisible={currentPopUp.isVisible}
+                            id="component-graphic_card"
+                        >
                             <section className="popup-title">
                                 <img src={graphicCardImage} alt="Placa Gráfica"/>
                                 <h2>Placa Gráfica</h2>
@@ -184,7 +191,7 @@ const Home = () => {
                         </PopUp>
                     }
                 </div>
-                <div>
+                <div className="label-section">
                     <SelectInput 
                         label="Processador" 
                         selectedOption={selectedProcessor} 
@@ -192,11 +199,15 @@ const Home = () => {
                         popUpID="processor"
                         handlePopUp={handleCurrentPopUpVisibility}
                         handleSelectChange={handleProcessorChange}
+                        isAMobileDevice={isAMobileDevice}
                     />
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'processor') &&
                         
-                        <PopUp closePopUp={handleCurrentPopUpVisibility} isVisible={currentPopUp.isVisible}>
+                        <PopUp 
+                        closePopUp={handleCurrentPopUpVisibility} isVisible={currentPopUp.isVisible}
+                        id="component-processor"
+                        >
                             <section className="popup-title">
                                 <img src={processorImage} alt="Processador"/>
                                 <h2>Processador</h2>
@@ -207,7 +218,7 @@ const Home = () => {
                         </PopUp>
                     }
                 </div>
-                <div>
+                <div className="label-section">
                     <SelectInput 
                         label="Memória RAM" 
                         selectedOption={selectedRamMemory} 
@@ -215,11 +226,15 @@ const Home = () => {
                         popUpID="ram-memory"
                         handlePopUp={handleCurrentPopUpVisibility} 
                         handleSelectChange={handleRamMemoryChange}
+                        isAMobileDevice={isAMobileDevice}
                     />
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'ram-memory') &&
                         
-                        <PopUp closePopUp={handleCurrentPopUpVisibility} isVisible={currentPopUp.isVisible}>
+                        <PopUp 
+                        closePopUp={handleCurrentPopUpVisibility} isVisible={currentPopUp.isVisible}
+                        id="component-ram-memory"
+                        >
                             <section className="popup-title">
                                 <img src={ramMemoryImage} alt="Memória RAM"/>
                                 <h2>Memória RAM</h2>
@@ -229,20 +244,22 @@ const Home = () => {
                             </main>
                         </PopUp>
                     }
-                </div>
-
-                <section className="operations-buttons">
-                    <button className="btn main" onClick={handleResultContainerView}>Calcular</button>
+                    <section className="operations-buttons">
+                    <Link className="btn main" onClick={handleResultContainerView} smooth to={`#result`}>Calcular</Link>
                     <button className="btn" onClick={clearSelectFields}>Limpar campos</button>
                 </section>
+                </div>
+
+                
             </main>
 
             {resultContainer &&
+                
                 <>
-                    <div className="section-title" id="result">
-                        <h1>RESULTADO</h1>
-                    </div>
-
+                <div className="section-title" id="result">
+                    <h1>RESULTADO</h1>
+                </div>
+                <div className="result-container-div">
                     <section className="filter-combination" id="filter-combination">
                         <h2>Peças escolhidas: </h2>
 
@@ -278,15 +295,16 @@ const Home = () => {
                         </div>
                     </section>
 
-                    <div className="btn-again">
+                    <section className="btn-again">
                         <button className="btn main" onClick={handleCalculateAgain}>Calcular Novamente</button>
-                    </div>
+                    </section>
+                </div>
                 </>
                     
             }
-
             <Footer />
         </div>
+        
     )
 }
 

@@ -22,13 +22,13 @@
     font-size: 1.8rem;
 }
 
-.select-container .select-header button{
+.select-container .select-header a{
     border: none;
     background: transparent;
     outline: none;
 }
 
-.select-container .select-header button img{
+.select-container .select-header a img{
     width: 2.6rem;
 }
 
@@ -36,7 +36,7 @@
     width: 100%;
 
     border: solid 3px var(--secondary-color);
-    padding: .8rem;
+    padding: 1.6rem;
     color: #5c5c5c;
     background:#FFF;
 

@@ -1,12 +1,22 @@
+@media screen and (min-width: 1024px){
+    .fps-footer{
+        justify-content: space-evenly;
+
+    }
+    .footer-info{
+        min-height: 34rem;
+    }
+    
+}
+
 .fps-footer{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+    
+    /*align-items: center;*/
 
     padding: 2.4rem;
     
-
     background: var(--secondary-color);
 }
 
@@ -15,7 +25,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    width: 48rem;
+    width: 40rem;
     height: 20rem;
 
     margin-bottom: 6rem;
@@ -77,6 +87,8 @@
     border: none;
     outline: none;
 
+    height: 20rem;
+
     margin-bottom: 1.8rem;
 }
 
@@ -98,5 +110,5 @@
 
 ::placeholder{
     color: white;
-   
 }
+

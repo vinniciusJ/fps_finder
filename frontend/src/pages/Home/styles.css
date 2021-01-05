@@ -1,3 +1,39 @@
+@media screen and (min-width: 1024px){
+    .main-header{
+        align-items: center;
+    }
+    
+    .presentation{
+        max-width: 66vw;
+        margin-bottom: 3rem;
+    }
+
+    .presentation h2{
+        font-size: 2.4rem;
+    }
+
+    .input-section > div{
+        max-width: 66vw;
+    }
+
+    .result-container-div{
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+
+        padding: 0;
+    }
+
+    .result-container-div > section{
+        width: 66vw;
+    }
+
+    .label-section{
+        position: relative;
+        margin-bottom: 4rem;
+    }
+    
+}
 
 
 .main-header{
@@ -12,6 +48,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    width: 98.8vw;
 
     padding: 2rem;
 
@@ -32,7 +70,6 @@
 }
 
 .main-header .presentation h2{
-    font-size: 1.8rem;
     margin-bottom: 2rem;
 }
 
@@ -49,7 +86,7 @@
     align-items: center;
     justify-content: center;
 
-    height: clamp(6rem, 8rem, 10rem);
+    height: clamp(6rem, 10rem, 12rem);
 
     font-size: 1.6rem;
     color: #FFF;
@@ -65,7 +102,7 @@
     padding: 2.4rem;
 }
 
-.input-section div{
+.input-section > div{
     width: 100%;
 }
 
@@ -77,9 +114,13 @@
     width: 100%;
 }
 
+.result-container-div{
+    padding: 0 2.4rem;
+}
+
 .filter-combination{
     margin-top: 1rem;
-    padding: 2.4rem;
+    padding: 2.4rem 0;
 }
 
 .filter-combination h2{
@@ -103,7 +144,7 @@
 }
 
 .motherboard{
-    padding: 2.4rem;
+    padding: 2.4rem 0;
 }
 
 .motherboard h2{
@@ -128,7 +169,7 @@
 }
 
 .games-container{
-    padding: 2.4rem;
+    padding: 2.4rem 0;
 }
 
 .games-container h2{
@@ -137,7 +178,7 @@
 }
 
 .btn-again{
-    padding: 2.4rem; 
+    padding: 2.4rem 0; 
 }
 
 .btn-again button{
