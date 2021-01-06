@@ -65,6 +65,8 @@ const Home = () => {
                 const [ combination ] = response.data
 
                 setFilteredCombination(combination)
+
+                console.log(combination)
             })
         }
         else {

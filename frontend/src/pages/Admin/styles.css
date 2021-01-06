@@ -1,0 +1,182 @@
+.admin-header{
+    width: 100vw;
+    height: 12.8vh;
+    background: var(--secondary-color);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.admin-header div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    width: 76vw;
+}
+
+.admin-header div .total-combinations{
+    font-size: 2.4rem;
+    color: #FFF;
+}
+
+.admin-header div input{
+    height: 6.2rem;
+    width: 40rem;
+    
+    background: var(--secondary-color) url(../../assets/images/search.svg) left no-repeat;
+    font-size: 1.4rem;
+    padding-left: 4rem;
+
+    border: 2px solid #FFF;
+    border-radius: none;
+    outline: none;
+    color: #FFF;
+}
+
+.admin-header div input::placeholder{
+    color: #FFF;
+}
+
+.admin-header div .add-new-combination{
+    height: 6.2rem;
+    width: 6.8rem;
+
+    background: transparent;
+    border: 2px solid #FFF;
+    outline: none;
+}
+
+.admin-header div .add-new-combination:active{
+    height: 6rem;
+    width: 6.6rem;
+}
+
+.admin-header div .add-new-combination svg{
+    height: 4rem;
+    width: 4rem;
+}
+
+.combinations{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 6rem 0;
+}
+
+.combinations .combinations-registered{
+    width: 62vw;
+    margin-bottom: 6rem;
+}
+
+.combinations .combinations-registered h2{
+    font-size: 3.8rem;
+    font-weight: 400;
+    letter-spacing: initial;
+}
+
+.combinations .combination-container{
+    width: 62vw;
+}
+
+.combinations .combination-container header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    position: relative;
+}
+
+.combinations .combination-container header h2{
+    font-size: 2.6rem;
+}
+
+.combinations .combination-container header .more-options{
+    border: none;
+    background: transparent;
+}
+
+.combinations .combination-container header .combination-options{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+
+    right: -72px;
+    top: 36px;
+
+    border: 3px solid var(--secondary-color);
+    background: #FFF;
+}
+
+.combinations .combination-container header .combination-options button{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    width: 12rem;
+    border: none;
+    border-radius: none;  
+    background: #FFF;
+
+    padding: 0 1rem;
+}
+
+.combinations .combination-container header .combination-options button:first-child{
+    border-bottom:
+    1.5px solid var(--secondary-color); ;
+}
+
+
+.combinations .combination-container header .combination-options button svg{
+    margin-right: 1rem;
+}
+
+.combinations .combination-container .combinations-data{
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+
+    background: #E7E6E6;
+    padding: 2.8rem 3.8rem;
+
+    height: 28rem;
+}
+
+.combinations .combination-container .combinations-data .combinations-components ul{
+    list-style: none;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    font-size: 1.9rem;
+}
+
+.combinations .combination-container .combinations-data .combinations-components ul li .component{
+    color: var(--main-color);
+}
+
+.combinations .combination-container .combinations-data .combinations-game{
+    padding: 0 4rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.combinations .combination-container .combinations-data .combinations-game::-webkit-scrollbar{
+    width: 1rem;
+}
+
+.combinations .combination-container .combinations-data .combinations-game::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background: #8B8B8B;
+}
+
+.combinations .combination-container .combinations-data .combinations-game .game-container{
+    margin-bottom: 2rem;
+}
