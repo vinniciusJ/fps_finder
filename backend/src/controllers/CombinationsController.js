@@ -42,7 +42,7 @@ class CombinationsController {
         let combinations = { 'graphic_card': [] , 'processor': [], 'ram_memory': [] }
         let status = true
 
-        components = JSON.parse(components)
+        if(components) components = JSON.parse(components)
 
         try{
             if(components){

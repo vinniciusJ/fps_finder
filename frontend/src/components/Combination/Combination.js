@@ -17,10 +17,6 @@ const Combination = props => {
     
     return (
         <>
-        <header className="combinations-registered">
-            <h2>Combinações Cadastradas</h2>
-        </header>
-
         <section className="combination-container">
             <header>
                 <h2>{combination.name}:</h2>
@@ -37,15 +33,15 @@ const Combination = props => {
                 <section className="combinations-components">
                     <ul>
                         {Object.keys(componentsText).map(key => {
-                            return <li><span className="component">{componentsText[key]} &nbsp;</span>{combination[key]}</li>
+                            return <li key={key}><span className="component">{componentsText[key]} &nbsp;</span>{combination[key]}</li>
                         })}  
                     </ul>
                 </section>
                 <aside className="combinations-game">
-                    {combination.FPSAverage.map(FPSAverage => {
+                    {combination.FPSAverages.map(FPSAverage => {
                         const [ currentGame ] = games.filter(game => game.id === FPSAverage.id_game)
 
-                        return <GameContainer name={currentGame.name} FPSAverage={FPSAverage.fps_average} URLLogo={currentGame.url_logo} background='#FFF'/>
+                        return <GameContainer name={currentGame.name} FPSAverage={FPSAverage.fps_average} URLLogo={currentGame.url_logo} background='#FFF' key={currentGame.name}/>
                     })}
                 </aside>
             </main>

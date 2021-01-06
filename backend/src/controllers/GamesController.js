@@ -28,12 +28,11 @@ class GamesController{
 
         try{
             if(name){
-                console.log('I')
-                games = await db('games').select('*').where('name', 'like', `%${name}%`)
+                games = [...await db('games').select('*').where('name', 'like', `%${name}%`)]
             }
             else {
-                console.log('hi')
-                games = await db('games').select('*')
+                console.log('Im here')
+                games = [...await db('games').select('*')]
             }
         }
         catch{
