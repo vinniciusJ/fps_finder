@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MoreHorizontal, Edit3, X } from 'react-feather'
 
 import GameContainer from '../../components/GameContainer/GameContainer'
@@ -15,25 +15,33 @@ const Combination = props => {
         motherboard: 'Placa Mãe'
     }
     
+    const [ isMoreOptionVisible, setIsMoreOptionVisible ] = useState(false)
+
+    const handleMoreOptions = () => {
+        setIsMoreOptionVisible(!isMoreOptionVisible)
+    }
+
     return (
         <>
         <section className="combination-container">
             <header>
                 <h2>{combination.name}:</h2>
-                <button className="more-options">
+                <button className="more-options" onClick={handleMoreOptions}>
                     <MoreHorizontal width={32} height={32} fill='none' strokeWidth={1}/>
                 </button>
 
-                <div className="combination-options">
-                    <button className='edit-combination'><Edit3 width={16}/>Editar</button>
-                    <button className='delete-combination'><X width={16}/>Apagar</button>
-                </div>
+                {isMoreOptionVisible && 
+                    <div className="combination-options">
+                        <button className='edit-combination'><Edit3 width={16}/>Editar</button>
+                        <button className='delete-combination'><X width={16}/>Apagar</button>
+                     </div>
+                }
             </header>
             <main className="combinations-data">
                 <section className="combinations-components">
                     <ul>
                         {Object.keys(componentsText).map(key => {
-                            return <li key={key}><span className="component">{componentsText[key]} &nbsp;</span>{combination[key]}</li>
+                            return <li key={key}><span className="component">{componentsText[key]}: </span>{combination[key]}</li>
                         })}  
                     </ul>
                 </section>

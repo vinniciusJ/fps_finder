@@ -4,7 +4,7 @@
     align-items: center;
 
     width: 100%;
-    min-width: 37rem;
+    min-width: 32rem;
     padding: .6rem 2rem;
 
     border: 3px solid var(--secondary-color);
@@ -20,17 +20,18 @@
 }
 
 .game-container .game-logo img{
-    
     width: 4.2rem;
     height: 4.2rem;
-    
     
     margin-right: 1.4rem;
 }
 
 .game-container .game-logo p{
     font-size: 1.4rem;
-    width: clamp(8rem, 20rem, 22rem);
+    min-width: 10rem;
+    width: 16rem;
+    max-width: 20rem;
+    
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

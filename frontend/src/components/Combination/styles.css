@@ -20,6 +20,11 @@
     border: none;
     background: transparent;
     outline: none;
+    transition: .4s ease;
+}
+
+.combination-container header .more-options:active svg{
+    stroke: var(--main-color);
 }
 
 .combination-container header .combination-options{
@@ -46,6 +51,7 @@
 
     padding: 0 1rem;
     outline: none;
+    transition: .4s ease;
 }
 
 .combination-container header .combination-options button:first-child{
@@ -53,6 +59,13 @@
     1.5px solid var(--secondary-color); ;
 }
 
+.combination-container header .combination-options button:active{
+    color: var(--main-color);
+}
+
+.combination-container header .combination-options button:active svg{
+    stroke: var(--main-color)
+}
 
 .combination-container header .combination-options button svg{
     margin-right: 1rem;
@@ -62,6 +75,7 @@
     display: flex;
     justify-content: space-between;
     align-self: center;
+    flex-wrap: wrap;
 
     background: #E7E6E6;
     padding: 2.8rem 3.8rem;
@@ -101,4 +115,33 @@
 
 .combination-container .combinations-data .combinations-game .game-container{
     margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 796px){
+    .combination-container{
+        width: 88vw;
+    }
+    .combination-container header .combination-options{
+        right: 0;
+        top: 36px;
+    }
+    .combination-container .combinations-data{
+        height: 56rem;
+    }
+
+    .combination-container .combinations-data .combinations-components{
+        padding-bottom: 1.8rem;
+        border-bottom: 1px solid var(--secondary-color);
+        margin-bottom: 1.8rem;
+    }
+
+    .combination-container .combinations-data .combinations-game{
+        padding: 0;
+        overflow-y: scroll;
+        height: 28rem;
+    }
+
+    .combination-container .combinations-data .combinations-game::-webkit-scrollbar{
+        display: none;
+    }
 }
