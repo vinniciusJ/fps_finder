@@ -79,7 +79,50 @@
     letter-spacing: initial;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 1152px){
+    .admin-header{
+        height: 16.8vh;
+    }
+    .admin-header div, .combinations .combinations-registered{
+        width: 72vw;
+    }
+}
+
+@media screen and (max-width: 980px){
+    .admin-header{
+        height: 16.8vh;
+        
+    }
+    .admin-header div{
+        display: grid;
+        
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 'search-bar add-button'
+                             'paragraph paragraph';
+        
+        padding: 2rem 0;
+    }
+
+    .admin-header div p{
+        grid-area: paragraph;
+        font-size: 1.8rem;
+        align-self: flex-end;
+    }
+
+    .admin-header div input{
+        grid-area: search-bar;
+        width: 56rem;
+       
+    }
+
+    .admin-header div button{
+        grid-area: add-button;
+        justify-self: end;
+    }
+}
+
+@media screen and (max-width: 766px){
     .admin-header{
         height: 16.8vh;
     }
@@ -101,17 +144,21 @@
     .admin-header div p{
         grid-area: paragraph;
         font-size: 1.8rem;
+        align-self: flex-end;
     }
 
     .admin-header div input{
         grid-area: search-bar;
         width: 28rem;
-       
     }
 
     .admin-header div button{
         grid-area: add-button;
         justify-self: end;
+    }
+
+    .combinations{
+        padding-bottom: 6rem;
     }
 
     .combinations .combinations-registered{

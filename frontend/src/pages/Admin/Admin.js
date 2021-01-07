@@ -4,6 +4,7 @@ import { Plus } from 'react-feather'
 import Combination from '../../components/Combination/Combination'
 
 import api from '../../services/api'
+import { debounceEvent } from '../../utils/index'
 
 import './styles.css'
 
@@ -11,6 +12,12 @@ const Admin = () => {
     const [ games, setGames ] = useState([])
     const [ combinations, setCombinations ] = useState([])
     const [ totalCombinations, setTotalCombinations ] = useState(0)
+
+    const [ searchedName, setSearchedName ] = useState('')
+
+    const handleKeyUp = ({ target: { value } }) => {
+        api.get('/combinations', { params: { name: value } }).then(response => setCombinations(response.data))
+    }
 
     useEffect(() => {
         api.get('/combinations').then(response => {
@@ -20,16 +27,17 @@ const Admin = () => {
         api.get('/games').then(response => setGames(response.data))
     }, [ ])
 
+   
+
     return (
         <div className="Admin">
             <header className="admin-header">
                 <div>
                     <p className="total-combinations">Total de Combinações: {totalCombinations}</p>
-                    <input type="text" placeholder="Buscar por nome..." id="name" name="name"/>
+                    <input type="text" placeholder="Buscar por nome..." id="name" name="name" onKeyUp={debounceEvent(handleKeyUp)}/>
                     <button className="add-new-combination">
                         <Plus color="#FFF" width={24} height={24} strokeWidth={1}/>
-                    </button>
-                    
+                    </button>  
                 </div>
             </header>
             <main className="combinations">

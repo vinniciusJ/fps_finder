@@ -102,6 +102,7 @@
     padding: 0 4rem;
     overflow-y: scroll;
     overflow-x: hidden;
+    height: 100%;
 }
 
 .combination-container .combinations-data .combinations-game::-webkit-scrollbar{
@@ -117,7 +118,47 @@
     margin-bottom: 2rem;
 }
 
-@media screen and (max-width: 796px){
+@media screen and (max-width: 1392px){
+    .combination-container{
+       width: 72vw;
+    }
+    .combination-container header .combination-options{
+        right: 0;
+        top: 36px;
+    }
+
+    .combination-container .combinations-data .combinations-components ul li{
+        max-width: 50rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media screen and (max-width: 1152px){
+    .combination-container .combinations-data{
+        height: 48rem;
+    }
+    
+    .combination-container header .combination-options{
+        right: 0;
+        top: 36px;
+    }
+
+    .combination-container .combinations-data .combinations-components{
+        width: 100%;
+        margin-bottom: 1.8rem;
+    }
+
+    .combination-container .combinations-data .combinations-game{
+        width: 100%;
+        height: 26rem;
+        padding: 0;
+        padding-right: 2rem;
+    }
+}
+
+@media screen and (max-width: 766px){
     .combination-container{
         width: 88vw;
     }
@@ -126,13 +167,13 @@
         top: 36px;
     }
     .combination-container .combinations-data{
-        height: 56rem;
+        height: 60rem;
     }
 
     .combination-container .combinations-data .combinations-components{
-        padding-bottom: 1.8rem;
+        padding-bottom: 3rem;
         border-bottom: 1px solid var(--secondary-color);
-        margin-bottom: 1.8rem;
+        margin-bottom: 3rem;
     }
 
     .combination-container .combinations-data .combinations-game{
