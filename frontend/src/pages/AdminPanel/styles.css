@@ -79,9 +79,28 @@
     letter-spacing: initial;
 }
 
+.combinations .no-combination-found{
+    margin-top: 8rem;
+    width: 64vw;
+    min-height: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    align-items: center;
+    font-size: 2.8rem;
+    color: #E7E6E6;
+
+    text-align: center;
+}
+
+.combinations .no-combination-found svg{
+    margin-bottom: 2rem;
+}
+
 @media screen and (max-width: 1152px){
     .admin-header{
-        height: 16.8vh;
+        height: 10.8vh;
     }
     .admin-header div, .combinations .combinations-registered{
         width: 72vw;
@@ -90,8 +109,7 @@
 
 @media screen and (max-width: 980px){
     .admin-header{
-        height: 16.8vh;
-        
+        height: 16.8vh;  
     }
     .admin-header div{
         display: grid;
@@ -120,6 +138,7 @@
         grid-area: add-button;
         justify-self: end;
     }
+
 }
 
 @media screen and (max-width: 766px){
@@ -163,5 +182,9 @@
 
     .combinations .combinations-registered{
         width: 88vw;
+    }
+
+    .combinations .no-combination-found{
+        height: 26rem;
     }
 }
