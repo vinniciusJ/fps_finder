@@ -13,7 +13,7 @@
 }
 
 .combination-container header h2{
-    font-size: 2.6rem;
+    font-size: 2.4rem;
 }
 
 .combination-container header .more-options{
@@ -39,7 +39,8 @@
     background: #FFF;
 }
 
-.combination-container header .combination-options button{
+.combination-container header .combination-options button,
+.combination-container header .combination-options a{
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -52,6 +53,10 @@
     padding: 0 1rem;
     outline: none;
     transition: .4s ease;
+    text-decoration: none;
+    color: #000000;
+
+    font-size: 1.6rem;
 }
 
 .combination-container header .combination-options button:first-child{
@@ -67,7 +72,8 @@
     stroke: var(--main-color)
 }
 
-.combination-container header .combination-options button svg{
+.combination-container header .combination-options button svg,
+.combination-container header .combination-options a svg{
     margin-right: 1rem;
 }
 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Plus, AlertCircle } from 'react-feather'
+import { Link } from 'react-router-dom'
 
-import Combination from '../../components/Combination/Combination'
+import CombinationBox from '../../components/CombinationBox/CombinationBox'
 
 import api from '../../services/api'
 import { debounceEvent } from '../../utils/index'
@@ -33,9 +34,9 @@ const AdminPanel = () => {
                 <div>
                     <p className="total-combinations">Total de Combinações: {totalCombinations}</p>
                     <input type="text" placeholder="Buscar por nome..." id="name" name="name" onKeyUp={debounceEvent(handleKeyUp)} spellCheck={false}/>
-                    <button className="add-new-combination">
+                    <Link className="add-new-combination" to="/combination">
                         <Plus color="#FFF" width={24} height={24} strokeWidth={1}/>
-                    </button>  
+                    </Link>  
                 </div>
             </header>
             <main className="combinations">
@@ -45,7 +46,7 @@ const AdminPanel = () => {
                 {
                     isThereAnyCombination ? (
                         <>
-                            {combinations.map(combination => <Combination combination={combination} games={games} key={combination.id}/>)}
+                            {combinations.map(combination => <CombinationBox combination={combination} games={games} key={combination.id}/>)}
                         </>
                     ) : (
                         <div className="no-combination-found">

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;@500;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;800&display=swap');
 
 :root{
     font-size: 50%;
@@ -51,7 +51,7 @@ h2{
     border-radius: none;
     outline: none;
 
-    transition: .2s ease-in-out;
+    transition: background .4s;
     text-decoration: none;
 
     display: flex;

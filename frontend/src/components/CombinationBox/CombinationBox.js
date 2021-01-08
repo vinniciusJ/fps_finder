@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { MoreHorizontal, Edit3, X } from 'react-feather'
+import { Link } from 'react-router-dom'
 
-import GameContainer from '../../components/GameContainer/GameContainer'
+import GameContainer from '../GameContainer/GameContainer'
 
 import './styles.css'
 
-const Combination = props => {
+const CombinationBox = props => {
     const { combination, games } = props
+    const [ isMoreOptionVisible, setIsMoreOptionVisible ] = useState(false)
    
     const componentsText = { 
         graphic_card: 'Placa de Vídeo',
@@ -15,11 +17,8 @@ const Combination = props => {
         motherboard: 'Placa Mãe'
     }
     
-    const [ isMoreOptionVisible, setIsMoreOptionVisible ] = useState(false)
-
-    const handleMoreOptions = () => {
-        setIsMoreOptionVisible(!isMoreOptionVisible)
-    }
+    const handleMoreOptions = () => setIsMoreOptionVisible(!isMoreOptionVisible)
+    
 
     return (
         <>
@@ -32,8 +31,8 @@ const Combination = props => {
 
                 {isMoreOptionVisible && 
                     <div className="combination-options">
-                        <button className='edit-combination'><Edit3 width={16}/>Editar</button>
-                        <button className='delete-combination'><X width={16}/>Apagar</button>
+                        <Link to={`/combination/${combination.id}`} className='edit-combination'><Edit3 width={16}/>Editar</Link>
+                        <button className='delete-combination' data-id={combination.id}><X width={16}/>Apagar</button>
                      </div>
                 }
             </header>
@@ -58,4 +57,4 @@ const Combination = props => {
     )
 }
 
-export default Combination
+export default CombinationBox

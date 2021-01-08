@@ -24,7 +24,7 @@
 }
 
 .admin-header div input{
-    height: 6.2rem;
+    height: 5.4rem;
     width: 40rem;
     
     background: var(--secondary-color) url(../../assets/images/search.svg) left no-repeat;
@@ -42,22 +42,27 @@
 }
 
 .admin-header div .add-new-combination{
-    height: 6.2rem;
-    width: 6.8rem;
+    height: 5.4rem;
+    width: 6.4rem;
 
     background: transparent;
     border: 2px solid #FFF;
     outline: none;
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .admin-header div .add-new-combination:active{
-    height: 6rem;
-    width: 6.6rem;
+    height: 5.2rem;
+    width: 6.2rem;
 }
 
 .admin-header div .add-new-combination svg{
-    height: 4rem;
-    width: 4rem;
+    height: 4.2rem;
+    width: 4.2rem;
 }
 
 .combinations{
@@ -70,12 +75,12 @@
 
 .combinations .combinations-registered{
     width: 62vw;
-    margin-bottom: 6rem;
+    margin-bottom: 6.2rem;
 }
 
 .combinations .combinations-registered h2{
-    font-size: 3.8rem;
-    font-weight: 400;
+    font-size: 4.4rem;
+    font-weight: 500;
     letter-spacing: initial;
 }
 

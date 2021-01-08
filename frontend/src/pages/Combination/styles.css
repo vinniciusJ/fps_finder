@@ -1,0 +1,114 @@
+.Combination{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6.8rem 0;
+}
+
+.combination-header{
+    width: 56vw;
+    margin-bottom: 6.2rem;
+}
+
+.combination-header h2{
+    font-size: 4.4rem;
+    font-weight: 500;
+    letter-spacing: initial;
+}
+
+.combination-data-container{
+    width: 56vw;
+   
+}
+
+.combination-data-container .combination-form > div{
+   margin-bottom: 6rem;
+}
+
+.combination-data-container .combination-form .fps-input-container h2{
+    font-weight: 800;
+    font-size: 2.4rem;
+    margin-bottom: 2rem;
+}
+
+.fps-input{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    column-gap: 3rem;
+
+    margin-bottom: 3.6rem;
+}
+
+.fps-input select{
+    appearance: none;
+    background: transparent url(../../assets/images/arrow-select.svg) 98% no-repeat;
+    
+
+    border: 3px solid var(--secondary-color);
+    outline: none;
+
+    width: 220%;
+    height: 5.4rem;
+    color: #5C5C5C;
+    padding: 0 2rem;
+}
+
+.fps-input select:focus{
+    border: 3px solid var(--main-color-variation);
+}
+
+.fps-input div input::-webkit-outer-spin-button,
+.fps-input div input::-webkit-inner-spin-button{
+    appearance: none;
+}
+
+.fps-input .delete-fps-average{
+    height: 5.4rem;
+    min-width: 5.4rem;
+
+    border: 3px solid var(--secondary-color);
+    background: transparent;
+
+    outline: none;
+}
+
+.fps-input .delete-fps-average:active{
+    height: 5.2rem;
+    min-width: 5.2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 3px solid var(--main-color-variation);
+}
+
+.fps-input .delete-fps-average:active svg{
+    stroke: var(--main-color-variation);
+}
+
+.fps-input-container .add-new-fps-average{
+    width: 100%;
+    border: none;
+
+    background: var(--secondary-color);
+    outline: none;
+    transition: background .4s;
+}
+
+.fps-input-container .add-new-fps-average:active{
+    background: var(--main-color-variation);
+}
+
+.combination-options{
+    margin-top: 6rem;
+    width: 56vw;
+    display: flex;
+    column-gap: 4rem;
+}
+
+.combination-options button{
+    width: 36rem;
+}
