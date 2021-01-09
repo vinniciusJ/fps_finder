@@ -35,6 +35,9 @@
 .select-container .select-input select{
     width: 100%;
 
+    appearance: none;
+    background: transparent url(../../assets/images/arrow-select.svg) 98% no-repeat;
+
     border: solid 3px var(--secondary-color);
     padding: 1.6rem;
     color: #5c5c5c;

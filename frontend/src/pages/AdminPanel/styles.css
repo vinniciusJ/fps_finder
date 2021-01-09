@@ -27,9 +27,9 @@
     height: 5.4rem;
     width: 40rem;
     
-    background: var(--secondary-color) url(../../assets/images/search.svg) left no-repeat;
+    background: var(--secondary-color) url(../../assets/images/search.svg) 1rem no-repeat;
     font-size: 1.4rem;
-    padding-left: 4rem;
+    padding-left: 4.8rem;
 
     border: 2px solid #FFF;
     border-radius: none;
@@ -121,8 +121,8 @@
         
         grid-template-rows: 1fr 1fr;
         grid-template-columns: 1fr 1fr;
-        grid-template-areas: 'search-bar add-button'
-                             'paragraph paragraph';
+        grid-template-areas: 'paragraph paragraph'
+                             'search-bar add-button';
         
         padding: 2rem 0;
     }
@@ -160,9 +160,9 @@
         
         grid-template-rows: 1fr 1fr;
         grid-template-columns: 1fr 1fr;
-        grid-template-areas: 'search-bar add-button'
-                             'paragraph paragraph';
-        row-gap: 1rem;
+        grid-template-areas: 'paragraph paragraph'
+                             'search-bar add-button';
+        row-gap: 4rem;
     }
 
     .admin-header div p{
