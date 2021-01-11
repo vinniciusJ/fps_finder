@@ -22,7 +22,8 @@ const AdminPanel = () => {
         api.get('/combinations').then(response => {
             setCombinations(response.data)
             setTotalCombinations(response.data.length)
-        })
+        }).catch(error => setIsThereAnyCombination(false))
+
         api.get('/games').then(response => setGames(response.data))
     }, [ ])
 

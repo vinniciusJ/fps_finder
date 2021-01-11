@@ -8,7 +8,7 @@ const Input = props => {
     return (
         <div className="input-container">
             {label && <label htmlFor={name}>{label}: </label>}
-            <input value={value && value} name={name} required={isRequired} type={type} placeholder={placeholder} onChange={onKeyUp}/>
+            <input defaultValue={value} name={name} required={isRequired} type={type} placeholder={placeholder} onChange={onKeyUp}/>
         </div>
     )
 }

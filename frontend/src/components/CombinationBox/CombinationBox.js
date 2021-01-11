@@ -45,10 +45,14 @@ const CombinationBox = props => {
                     </ul>
                 </section>
                 <aside className="combinations-game">
-                    {combination.FPSAverages.map(FPSAverage => {
+                    {combination.FPSAverages.map((FPSAverage, index) => {
                         const [ currentGame ] = games.filter(game => game.id === FPSAverage.id_game)
 
-                        return <GameContainer name={currentGame.name} FPSAverage={FPSAverage.fps_average} URLLogo={currentGame.url_logo} background='#FFF' key={currentGame.name}/>
+                        if(currentGame){
+                            return <GameContainer name={currentGame.name} FPSAverage={FPSAverage.fps_average} URLLogo={currentGame.url_logo} background='#FFF' key={index}/>
+                        }
+
+                        return <></>
                     })}
                 </aside>
             </main>

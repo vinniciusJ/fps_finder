@@ -16,16 +16,32 @@ const Combination = () => {
     const [ games, setGames ] = useState([])
     const [ combination, setCombination ] = useState({})
 
-    const [ FPSInputs, setFPSInputs ] = useState([{ key: 0, gameValue: 0, fpsValue: 0, isDuplicated: false }])
+    const [ FPSInputs, setFPSInputs ] = useState([!id && { key: 0, gameValue: 0, fpsValue: 0, isDuplicated: false }])
     const [ components, setComponents ] = useState({ graphic_card: '', processor: '', ram_memory: '', motherboard: '' })
 
     const [ backToAdminPainel, setBackToAdminPainel ] = useState(false)
 
     useEffect(() => api.get('/games').then(response => setGames(response.data)), [ ])
-    useEffect(() => id && api.get('/combinations', { params: { id } }).then(response => setCombination(...response.data)))
-    
-    useEffect(() => console.log(components), [ components ])
+    useEffect(() => {
+        id && api.get('/combinations', { params: { id } }).then(response => {
+            const [ selectedCombination ] = response.data
+            const { FPSAverages, name, graphic_card, processor, ram_memory, motherboard } = selectedCombination
 
+            const FPSInputValues = FPSAverages.map((average, index) => {
+                return {
+                    key: index,
+                    gameValue: average.id_game,
+                    fpsValue: average.fps_average,
+                    isDuplicated: false
+                }
+            })
+
+            setCombination(selectedCombination)
+            setComponents({ name, graphic_card, processor, ram_memory, motherboard })
+            setFPSInputs(FPSInputValues)
+        })
+    }, [ id ])
+    
     const addFPSInput = () => {
         const newKey = FPSInputs[FPSInputs.length - 1].key + 1
 
@@ -111,11 +127,11 @@ const Combination = () => {
     }
 
     const componentsInput = [
-        { value: combination.name , label: 'Nome da Combinação', name: 'name', isRequired: true, onKeyUp: handleComponentInput },
-        { value: combination.graphic_card, label: 'Placa de Vídeo' ,name: 'graphic_card', isRequired: true, onKeyUp: handleComponentInput },
-        { value: combination.processor, label: 'Processador', name: 'processor', isRequired: true, onKeyUp: handleComponentInput },
-        { value: combination.ram_memory, label: 'Memória RAM', name: 'ram_memory', isRequired: true, onKeyUp: handleComponentInput },
-        { value: combination.motherboard, label: 'Placa Mãe', name: 'motherboard', isRequired: true, onKeyUp: handleComponentInput }
+        { value: combination.name ?? '', label: 'Nome da Combinação', name: 'name', isRequired: true, onKeyUp: handleComponentInput },
+        { value: combination.graphic_card ?? '', label: 'Placa de Vídeo' ,name: 'graphic_card', isRequired: true, onKeyUp: handleComponentInput },
+        { value: combination.processor ?? '', label: 'Processador', name: 'processor', isRequired: true, onKeyUp: handleComponentInput },
+        { value: combination.ram_memory ?? '', label: 'Memória RAM', name: 'ram_memory', isRequired: true, onKeyUp: handleComponentInput },
+        { value: combination.motherboard ?? '', label: 'Placa Mãe', name: 'motherboard', isRequired: true, onKeyUp: handleComponentInput }
     ]
 
     const saveCombination = event => {
@@ -171,6 +187,8 @@ const Combination = () => {
                             <FPSInput 
                                 key={input.key} 
                                 id={input.key}
+                                selectValue={input.gameValue}
+                                inputValue={input.fpsValue}
                                 isDuplicated={input.isDuplicated}
                                 options={games} 
                                 handleSelect={handleGameSelection} 
@@ -189,7 +207,7 @@ const Combination = () => {
                     </footer>
                 </form>
             </main>
-            {backToAdminPainel &&  <Redirect to='/admin' />}
+            {backToAdminPainel &&  <Redirect to='/admin' /> }
         </div>
     )
 }
