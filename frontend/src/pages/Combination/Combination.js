@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Redirect, useParams } from 'react-router-dom'
 import { Plus } from 'react-feather'
 
 import Input from '../../components/Input/Input'
@@ -14,35 +14,45 @@ const Combination = () => {
     const { id } = useParams()
     
     const [ games, setGames ] = useState([])
-    const [ FPSInputs, setFPSInputs ] = useState([{ key: 0, selectValue: 0, inputValue: '', isDuplicated: false }])
     const [ combination, setCombination ] = useState({})
 
-    const textInputs = [
-        { value: combination.name ?? '', label: 'Nome da Combinação', name: 'name', isRequired: true, onKeyUp: () => {} },
-        { value: combination.graphic_card ?? '', label: 'Placa de Vídeo', name: 'graphic_card', isRequired: true, onKeyUp: () => {} },
-        { value: combination.processor ?? '', label: 'Processador', name: 'processor', isRequired: true, onKeyUp: () => {} },
-        { value: combination.ram_memory ?? '', label: 'Memória RAM', name: 'ram_memory', isRequired: true, onKeyUp: () => {} },
-        { value: combination.motherboard ?? '', label: 'Placa Mãe', name: 'motherboard', isRequired: true, onKeyUp: () => {} }
-    ]
+    const [ FPSInputs, setFPSInputs ] = useState([{ key: 0, gameValue: 0, fpsValue: 0, isDuplicated: false }])
+    const [ components, setComponents ] = useState({ graphic_card: '', processor: '', ram_memory: '', motherboard: '' })
 
+    const [ backToAdminPainel, setBackToAdminPainel ] = useState(false)
 
     useEffect(() => api.get('/games').then(response => setGames(response.data)), [ ])
     useEffect(() => id && api.get('/combinations', { params: { id } }).then(response => setCombination(...response.data)))
     
-    useEffect(() => console.log(FPSInputs), [ FPSInputs ])
+    useEffect(() => console.log(components), [ components ])
+
+    const addFPSInput = () => {
+        const newKey = FPSInputs[FPSInputs.length - 1].key + 1
+
+        setFPSInputs([...FPSInputs, { key: newKey, gameValue: 0, fpsValue: 0, isDuplicated: false }])
+    }
+
+    const removeFPSInput = ({ target }) => {
+        const { dataset: { id } } = target.parentNode
+        
+        if(Number(id) === 0) return
+        
+        setFPSInputs(FPSInputs.filter(input => input.key !== Number(id)))
+    }
 
     const handleGameSelection = ({ target }) => {
-        const { dataset: { id: inputID }, value: gameID } = target
+        const { value: gameID } = target
+        const { dataset: { id: inputID } } = target.parentNode
     
-        const selectedGames = FPSInputs.map(input => input.selectValue)
+        const selectedGames = FPSInputs.map(input => input.gameValue)
 
         if(selectedGames.includes(Number(gameID))){ 
             const duplicatedFieldInputs = FPSInputs.map(input => {
                 if(input.key === Number(inputID)){
                     return { 
                         key: input.key, 
-                        selectValue: Number(gameID), 
-                        inputValue: input.inputValue, 
+                        gameValue: Number(gameID), 
+                        fpsValue: input.fpsValue, 
                         isDuplicated: Number(gameID) === 0 ? false : true
                     }
                 }
@@ -55,13 +65,13 @@ const Combination = () => {
             return
         }
 
-        const newFPSInputs = FPSInputs.map((input, index) => {
+        const modifiedFPSInputs = FPSInputs.map((input, index) => {
             if(index === Number(inputID)){
-                const { key, selectValue, inputValue, isDuplicated } = input
+                const { key, gameValue, fpsValue, isDuplicated } = input
             
-                const newInput = { key, selectValue, inputValue, isDuplicated }
+                const newInput = { key, gameValue, fpsValue, isDuplicated }
                 
-                if(selectValue !== Number(gameID)) newInput.selectValue = Number(gameID)
+                if(gameValue !== Number(gameID)) newInput.gameValue = Number(gameID)
                 if(input.isDuplicated) newInput.isDuplicated = false
     
                 return newInput 
@@ -70,24 +80,70 @@ const Combination = () => {
             return input
         })
  
-        setFPSInputs(newFPSInputs)
+        setFPSInputs(modifiedFPSInputs)
     }
 
-    const handleFPSInput = ({ target: { value } }) => {
+    const handleFPSInput = ({ target }) => {
+        const { value } = target
+        const { dataset: { id: inputID } } = target.parentNode.parentNode
 
+        const modifiedFPSInputs = FPSInputs.map(input => {
+            if(input.key === Number(inputID)){
+                let { key, gameValue, fpsValue, isDuplicated } = input
+
+                fpsValue = Number(value)
+
+                return { key, gameValue, fpsValue, isDuplicated}
+            }
+
+            return input
+        })
+
+        setFPSInputs(modifiedFPSInputs)
     }
 
-   
-    const addFPSInput = () => {
-        const newKey = FPSInputs[FPSInputs.length - 1].key + 1
+    const handleComponentInput = ({ target }) => {
+        const copiedComponents = components
 
-        setFPSInputs([...FPSInputs, { key: newKey, value: 0, isDuplicated: false }])
+        copiedComponents[target.name] = target.value
+
+        setComponents(copiedComponents)
     }
 
-    const removeFPSInput = ({ target: { dataset: { id } } }) => {
-        if(Number(id) === 0) return
-        
-        setFPSInputs(FPSInputs.filter(input => input.key !== Number(id)))
+    const componentsInput = [
+        { value: combination.name , label: 'Nome da Combinação', name: 'name', isRequired: true, onKeyUp: handleComponentInput },
+        { value: combination.graphic_card, label: 'Placa de Vídeo' ,name: 'graphic_card', isRequired: true, onKeyUp: handleComponentInput },
+        { value: combination.processor, label: 'Processador', name: 'processor', isRequired: true, onKeyUp: handleComponentInput },
+        { value: combination.ram_memory, label: 'Memória RAM', name: 'ram_memory', isRequired: true, onKeyUp: handleComponentInput },
+        { value: combination.motherboard, label: 'Placa Mãe', name: 'motherboard', isRequired: true, onKeyUp: handleComponentInput }
+    ]
+
+    const saveCombination = event => {
+        event.preventDefault()
+
+        const { name, graphic_card, processor, ram_memory, motherboard } = components
+        const gamesValues = FPSInputs.map(input => input.gameValue) 
+
+        if(!(name && graphic_card && processor && ram_memory && motherboard)) 
+            return alert('Por favor, você deve preencher todos os campos de componentes.')
+
+        if(gamesValues.includes(0)) return alert('Por favor, em todos os campos de seleção você deve selecionar um jogo.')
+
+        const fps_averages = FPSInputs.map(input => {
+            const { gameValue, fpsValue } = input
+
+            return { fps_average: fpsValue, id_game: gameValue }
+        })
+
+        const newCombination = { ...components, fps_averages }
+
+        console.log(newCombination)
+    }
+
+    const cancelOperation = event => {
+        event.preventDefault()
+
+        setBackToAdminPainel(true)
     }
 
     return (
@@ -97,14 +153,14 @@ const Combination = () => {
             </header>
             <main className="combination-data-container">
                 <form className='combination-form'>
-                    {textInputs.map((input, index) => (
+                    {componentsInput.map((input, index) => (
                         <Input 
                             key={index}
                             value={input.value}
                             label={input.label}
                             name={input.name}
                             isRequired={input.isRequired}
-                            onKeyUp={input.onKeyUp}
+                            onKeyUp={debounceEvent(input.onKeyUp)}
                         />
                     ))}
                     
@@ -118,7 +174,7 @@ const Combination = () => {
                                 isDuplicated={input.isDuplicated}
                                 options={games} 
                                 handleSelect={handleGameSelection} 
-                                handleInput={(event) => console.log(event.target.value)} 
+                                handleInput={debounceEvent(handleFPSInput)} 
                                 deleteInput={removeFPSInput}
                             />
                         )}                        
@@ -127,12 +183,13 @@ const Combination = () => {
                             <Plus color='#FFF' height={48} width={48} strokeWidth={1}/>
                         </button>
                     </div>
+                    <footer className="edit-add-buttons">
+                        <button className="btn main" onClick={saveCombination}>Salvar</button>
+                        <button className="btn" onClick={cancelOperation}>Cancelar</button>
+                    </footer>
                 </form>
             </main>
-            <footer className="edit-add-buttons">
-                <button className="btn main">Salvar</button>
-                <button className="btn">Cancelar</button>
-            </footer>
+            {backToAdminPainel &&  <Redirect to='/admin' />}
         </div>
     )
 }
