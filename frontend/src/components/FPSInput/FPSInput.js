@@ -2,8 +2,6 @@ import React from 'react'
 
 import Input from '../Input/Input'
 
-import { debounceEvent } from '../../utils/index'
-
 import './styles.css'
 
 const FPSInput = props => {
@@ -16,7 +14,7 @@ const FPSInput = props => {
                     <option value={0}>Escolha um jogo: </option>
                     {options.map(option => <option key={option.id} value={option.id}>{option.name}</option>)}
                 </select>
-                <Input name='fps_average' isRequired={true} placeholder='FPS' onKeyUp={debounceEvent(handleInput)}/>
+                <Input name='fps_average' isRequired={true} placeholder='FPS' onKeyUp={handleInput}/>
                 <button data-id={id} onClick={deleteInput} type='button' className="delete-fps-average">
                     X
                 </button>

@@ -33,19 +33,6 @@
     padding: 0 2rem;
 }
 
-.fps-input select:active{
-    color: #000;
-}
-
-.fps-input select:focus{
-    border: 3px solid var(--main-color-variation);
-}
-
-.fps-input div input::-webkit-outer-spin-button,
-.fps-input div input::-webkit-inner-spin-button{
-    appearance: none;
-}
-
 .fps-input .delete-fps-average{
     height: 5.4rem;
     min-width: 5.4rem;
@@ -61,6 +48,17 @@
     background: transparent;
 
     outline: none;
+}
+
+.fps-input:focus-within select,
+.fps-input:focus-within div input,
+.fps-input:focus-within .delete-fps-average{
+    border: 3px solid var(--main-color-variation);
+}
+
+.fps-input div input::-webkit-outer-spin-button,
+.fps-input div input::-webkit-inner-spin-button{
+    appearance: none;
 }
 
 .fps-input .delete-fps-average:active{

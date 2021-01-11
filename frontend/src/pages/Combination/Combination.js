@@ -6,6 +6,7 @@ import Input from '../../components/Input/Input'
 import FPSInput from '../../components/FPSInput/FPSInput'
 
 import api from '../../services/api'
+import { debounceEvent } from '../../utils/index'
 
 import './styles.css'
 
@@ -13,7 +14,7 @@ const Combination = () => {
     const { id } = useParams()
     
     const [ games, setGames ] = useState([])
-    const [ FPSInputs, setFPSInputs ] = useState([{ key: 0, value: 0, isDuplicated: false }])
+    const [ FPSInputs, setFPSInputs ] = useState([{ key: 0, selectValue: 0, inputValue: '', isDuplicated: false }])
     const [ combination, setCombination ] = useState({})
 
     const textInputs = [
@@ -30,15 +31,20 @@ const Combination = () => {
     
     useEffect(() => console.log(FPSInputs), [ FPSInputs ])
 
-    const handleSelectGames = ({ target }) => {
+    const handleGameSelection = ({ target }) => {
         const { dataset: { id: inputID }, value: gameID } = target
     
-        const selectedGames = FPSInputs.map(input => input.value)
+        const selectedGames = FPSInputs.map(input => input.selectValue)
 
         if(selectedGames.includes(Number(gameID))){ 
             const duplicatedFieldInputs = FPSInputs.map(input => {
                 if(input.key === Number(inputID)){
-                    return { key: input.key, value: Number(gameID), isDuplicated: true }
+                    return { 
+                        key: input.key, 
+                        selectValue: Number(gameID), 
+                        inputValue: input.inputValue, 
+                        isDuplicated: Number(gameID) === 0 ? false : true
+                    }
                 }
 
                 return input
@@ -51,11 +57,11 @@ const Combination = () => {
 
         const newFPSInputs = FPSInputs.map((input, index) => {
             if(index === Number(inputID)){
-                const { key, value, isDuplicated } = input
+                const { key, selectValue, inputValue, isDuplicated } = input
             
-                const newInput = { key, value, isDuplicated }
+                const newInput = { key, selectValue, inputValue, isDuplicated }
                 
-                if(input.value !== Number(gameID)) newInput.value = Number(gameID)
+                if(selectValue !== Number(gameID)) newInput.selectValue = Number(gameID)
                 if(input.isDuplicated) newInput.isDuplicated = false
     
                 return newInput 
@@ -65,6 +71,10 @@ const Combination = () => {
         })
  
         setFPSInputs(newFPSInputs)
+    }
+
+    const handleFPSInput = ({ target: { value } }) => {
+
     }
 
    
@@ -107,7 +117,7 @@ const Combination = () => {
                                 id={input.key}
                                 isDuplicated={input.isDuplicated}
                                 options={games} 
-                                handleSelect={handleSelectGames} 
+                                handleSelect={handleGameSelection} 
                                 handleInput={(event) => console.log(event.target.value)} 
                                 deleteInput={removeFPSInput}
                             />
