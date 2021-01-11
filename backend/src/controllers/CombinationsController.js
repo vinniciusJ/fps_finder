@@ -1,3 +1,4 @@
+const { join } = require('../database/connection')
 const db = require('../database/connection')
 const filterByComponents = require('../utils/filterByComponents')
 
@@ -37,7 +38,7 @@ class CombinationsController {
             return combinations.map(combination => ({...combination, FPSAverages: getFPSAverages(combination)}))
         }
 
-        let { components, name } = request.query
+        let { components, name, id } = request.query
 
         let combinations = { 'graphic_card': [] , 'processor': [], 'ram_memory': [] }
         let status = true
@@ -69,11 +70,17 @@ class CombinationsController {
             else if(name){              
                 combinations = await joinWithFPS(await db('combinations').select('*').where('name', 'like', `%${name}%`))
             }
+            else if(id){
+               
+                combinations = await joinWithFPS(await db('combinations').select('*'). where('id', id))
+
+            }
             else {                  
                 combinations = await joinWithFPS([... await db('combinations').select('*')] )
             }           
         }
         catch(error){
+            console.log(error)
             return response.status(400).json({ message: "Ocorreu um erro na listagem das combinações" })
         }
 

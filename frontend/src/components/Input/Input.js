@@ -3,12 +3,12 @@ import React from 'react'
 import './styles.css'
 
 const Input = props => {
-    const { label, name, type = 'text', placeholder = 'Digite aqui...', isRequired, onKeyUp } = props
+    const { label, name, type = 'text', placeholder = 'Digite aqui...', isRequired, onKeyUp, value } = props
 
     return (
         <div className="input-container">
             {label && <label htmlFor={name}>{label}: </label>}
-            <input name={name} required={isRequired} type={type} placeholder={placeholder} onKeyUp={onKeyUp}/>
+            <input value={value} name={name} required={isRequired} type={type} placeholder={placeholder} onChange={onKeyUp}/>
         </div>
     )
 }

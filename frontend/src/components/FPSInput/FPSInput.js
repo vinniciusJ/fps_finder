@@ -1,5 +1,4 @@
 import React from 'react'
-import { X } from 'react-feather'
 
 import Input from '../Input/Input'
 
@@ -8,19 +7,22 @@ import { debounceEvent } from '../../utils/index'
 import './styles.css'
 
 const FPSInput = props => {
-    const { options, handleSelect, handleInput, deleteInput = () => {} } = props
+    const { id, options, handleSelect, handleInput, deleteInput = () => {}, isDuplicated = false } = props
 
     return (
-        <div className="fps-input">
-            <select name="game" id="game" onChange={handleSelect}>
-                <option value={0}>Escolha um jogo: </option>
-                {options.map(option => <option key={option.id} value={option.id}>{option.name}</option>)}
-            </select>
-            <Input name='fps_average' isRequired={true} placeholder='FPS' onKeyUp={debounceEvent(handleInput)}/>
-            <button onClick={deleteInput} type='button' className="delete-fps-average">
-                <X width={24} strokeWidth={2} height={24}/>
-            </button>
-        </div>
+       <div className='fps-input-container'>
+            <div className={isDuplicated ? "fps-input duplicated" : "fps-input"}>
+                <select name="game" id="game" onChange={handleSelect} data-id={id}>
+                    <option value={0}>Escolha um jogo: </option>
+                    {options.map(option => <option key={option.id} value={option.id}>{option.name}</option>)}
+                </select>
+                <Input name='fps_average' isRequired={true} placeholder='FPS' onKeyUp={debounceEvent(handleInput)}/>
+                <button data-id={id} onClick={deleteInput} type='button' className="delete-fps-average">
+                    X
+                </button>
+            </div>
+            { isDuplicated && <p>Este jogo já foi selecionado</p>}
+       </div> 
     )
 }
 

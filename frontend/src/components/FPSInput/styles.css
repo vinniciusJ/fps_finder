@@ -1,3 +1,13 @@
+.fps-input-container{
+    margin-bottom: 3.6rem;
+}
+
+.fps-input-container p{
+    margin-top: 1rem;
+    font-size: 1.8rem;
+
+    color: var(--main-color);
+}
 
 .fps-input{
     display: flex;
@@ -6,7 +16,7 @@
 
     column-gap: 3rem;
 
-    margin-bottom: 3.6rem;
+   
 }
 
 .fps-input select{
@@ -41,6 +51,13 @@
     min-width: 5.4rem;
 
     border: 3px solid var(--secondary-color);
+    color: var(--secondary-color);
+    font-size: 3rem;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     background: transparent;
 
     outline: none;
@@ -55,8 +72,16 @@
     align-items: center;
 
     border: 3px solid var(--main-color-variation);
+    color: var(--main-color-variation);
 }
 
-.fps-input .delete-fps-average:active svg{
-    stroke: var(--main-color-variation);
+
+.fps-input.duplicated select,
+.fps-input.duplicated .delete-fps-average,
+.fps-input.duplicated div input{
+    border: 3px solid var(--main-color);
+}
+
+.fps-input.duplicated .delete-fps-average svg{
+    stroke: var(--main-color);
 }
