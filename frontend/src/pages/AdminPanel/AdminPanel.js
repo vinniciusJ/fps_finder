@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Plus, AlertCircle } from 'react-feather'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import CombinationBox from '../../components/CombinationBox/CombinationBox'
 
@@ -9,7 +9,9 @@ import { debounceEvent } from '../../utils/index'
 
 import './styles.css'
 
-const AdminPanel = () => {
+const AdminPanel = props => {
+    const isThereUserLogged = sessionStorage.getItem('user')
+
     const [ games, setGames ] = useState([])
     const [ combinations, setCombinations ] = useState([])
     const [ totalCombinations, setTotalCombinations ] = useState(0)
@@ -22,7 +24,7 @@ const AdminPanel = () => {
         api.get('/combinations').then(response => {
             setCombinations(response.data)
             setTotalCombinations(response.data.length)
-        }).catch(error => setIsThereAnyCombination(false))
+        }).catch(() => setIsThereAnyCombination(false))
 
         api.get('/games').then(response => setGames(response.data))
     }, [ ])
@@ -31,35 +33,40 @@ const AdminPanel = () => {
 
     return (
         <div className="Admin">
-            <header className="admin-header">
-                <div>
-                    <p className="total-combinations">Total de Combinações: {totalCombinations}</p>
-                    <input type="text" placeholder="Buscar por nome..." id="name" name="name" onKeyUp={debounceEvent(handleKeyUp)} spellCheck={false}/>
-                    <Link className="add-new-combination" to="/combination">
-                        <Plus color="#FFF" width={24} height={24} strokeWidth={1}/>
-                    </Link>  
-                </div>
-            </header>
-            <main className="combinations">
-                <header className="combinations-registered">
-                    <h2>Combinações Cadastradas</h2>
+            {isThereUserLogged ? (
+                <>
+                <header className="admin-header">
+                    <div>
+                        <p className="total-combinations">Total de Combinações: {totalCombinations}</p>
+                        <input type="text" placeholder="Buscar por nome..." id="name" name="name" onKeyUp={debounceEvent(handleKeyUp)} spellCheck={false}/>
+                        <Link className="add-new-combination" to="/combination">
+                            <Plus color="#FFF" width={24} height={24} strokeWidth={1}/>
+                        </Link>  
+                    </div>
                 </header>
-                {
-                    isThereAnyCombination ? (
-                        <>
-                            {combinations.map(combination => <CombinationBox combination={combination} games={games} key={combination.id}/>)}
-                        </>
-                    ) : (
-                        <div className="no-combination-found">
-                            <AlertCircle width={96} height={96} color='#E7E6E6'/>
-                            <p>   
-                                Nenhuma combinação com esse nome foi encontrada
-                            </p>
-                        </div>
-                    )
-                }
-                
-            </main>
+                <main className="combinations">
+                    <header className="combinations-registered">
+                        <h2>Combinações Cadastradas</h2>
+                    </header>
+                    {
+                        isThereAnyCombination ? (
+                            <>
+                                {combinations.map(combination => <CombinationBox combination={combination} games={games} key={combination.id}/>)}
+                            </>
+                        ) : (
+                            <div className="no-combination-found">
+                                <AlertCircle width={96} height={96} color='#E7E6E6'/>
+                                <p>   
+                                    Nenhuma combinação com esse nome foi encontrada
+                                </p>
+                            </div>
+                        )
+                    }
+                </main>
+                </>
+            ) : (
+                <Redirect to={{ pathname: '/login/', state: { from: props.location }}} />
+            )}
         </div>
     )
 }

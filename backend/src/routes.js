@@ -14,7 +14,7 @@ const gamesController = new GamesController()
 const combinationsController = new CombinationsController()
 const userController = new UserController()
 
-let authTokens = {}
+let authTokens = { }
 
 const games = {
     post: [
@@ -94,7 +94,7 @@ const combinations = {
 }
 
 const user = {
-    post: [
+    /*post: [
         celebrate({
             [Segments.BODY]: Joi.object().keys({
                 email: Joi.string().required(),
@@ -104,12 +104,11 @@ const user = {
             })
         }),
         userController.create
-    ],
-    get: [
+    ],*/
+    post: [
         celebrate({
             [Segments.BODY]: Joi.object().keys({
                 email: Joi.string(),
-                username: Joi.string(),
                 password: Joi.string().required()
             })
         }),
@@ -141,6 +140,7 @@ router.route('/combinations')
 
 router.route('/user')
     .post(user.post)
-    .get(user.get)
+    //.post(user.post)
+    
 
 module.exports = router

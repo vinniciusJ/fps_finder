@@ -1,14 +1,16 @@
-import React, { useRef, useState } from 'react'
-import { Redirect } from 'react-router-dom'
+import React, { useRef } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import api from '../../services/api'
 
 import './styles.css'
 
-const Login = () => {
+const Login = props => {
     const emailInput = useRef('')
     const passwordInput = useRef('')
-    const [ isThereUser, setIsThereUser ] = useState(false)
+    const history = useHistory()
+
+    const { location: { state = { from: { pathname: '/admin'} }} } = props
 
     const handleLogIn = event => {
         event.preventDefault()
@@ -16,14 +18,15 @@ const Login = () => {
         const email = emailInput.current.value
         const password = passwordInput.current.value
 
-        api.get('/user', { params: { email, password } }).then(response => {
+        api.post('/user', { email, password }).then(response => {
             if(response.status === 400){
                 alert(response.data.message)
 
                 return
             }
             
-            setIsThereUser(true)
+            sessionStorage.setItem('user', response.headers['authtoken'])
+            history.push(state.from.pathname)
         })
     }
      
@@ -43,7 +46,7 @@ const Login = () => {
                     <button className="btn main" onClick={handleLogIn}>Entrar</button>
                 </form>
             </main>
-            {isThereUser && <Redirect to='/'/>}
+            
         </div>
     )
 }

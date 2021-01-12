@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Redirect, useParams } from 'react-router-dom'
+import { Redirect, useParams, useHistory } from 'react-router-dom'
 import { Plus } from 'react-feather'
 
 import Input from '../../components/Input/Input'
@@ -10,7 +10,9 @@ import { debounceEvent } from '../../utils/index'
 
 import './styles.css'
 
-const Combination = () => {
+const Combination = props => {
+    const isThereUserLogged = sessionStorage.getItem('user')
+
     const { id } = useParams()
     
     const [ games, setGames ] = useState([])
@@ -19,7 +21,7 @@ const Combination = () => {
     const [ FPSInputs, setFPSInputs ] = useState([!id && { key: 0, gameValue: 0, fpsValue: 0, isDuplicated: false }])
     const [ components, setComponents ] = useState({ graphic_card: '', processor: '', ram_memory: '', motherboard: '' })
 
-    const [ backToAdminPainel, setBackToAdminPainel ] = useState(false)
+    const history = useHistory()
 
     useEffect(() => api.get('/games').then(response => setGames(response.data)), [ ])
     useEffect(() => {
@@ -159,26 +161,28 @@ const Combination = () => {
     const cancelOperation = event => {
         event.preventDefault()
 
-        setBackToAdminPainel(true)
+        history.push('/admin')
     }
 
     return (
         <div className="Combination">
-            <header className="combination-header">
-                <h2>{id ? 'Editar combinação: ' : 'Criar uma combinação: '}</h2>
-            </header>
-            <main className="combination-data-container">
-                <form className='combination-form'>
-                    {componentsInput.map((input, index) => (
-                        <Input 
-                            key={index}
-                            value={input.value}
-                            label={input.label}
-                            name={input.name}
-                            isRequired={input.isRequired}
-                            onKeyUp={debounceEvent(input.onKeyUp)}
-                        />
-                    ))}
+            {isThereUserLogged ? (
+                <>
+                <header className="combination-header">
+                    <h2>{id ? 'Editar combinação: ' : 'Criar uma combinação: '}</h2>
+                </header>
+                <main className="combination-data-container">
+                    <form className='combination-form'>
+                        {componentsInput.map((input, index) => (
+                            <Input 
+                                key={index}
+                                value={input.value}
+                                label={input.label}
+                                name={input.name}
+                                isRequired={input.isRequired}
+                                onKeyUp={debounceEvent(input.onKeyUp)}
+                            />
+                        ))}
                     
                     <div className="fps-input-container">
                         <h2>Jogos:</h2>
@@ -207,7 +211,10 @@ const Combination = () => {
                     </footer>
                 </form>
             </main>
-            {backToAdminPainel &&  <Redirect to='/admin' /> }
+            </>
+            ) : (
+                <Redirect to={{ pathname: '/login/', state: { from: props.location }}} />
+            )}
         </div>
     )
 }

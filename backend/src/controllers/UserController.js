@@ -32,7 +32,7 @@ class UserController{
 
     }
     async login(request, response, next){
-        const { email, password } = request.query
+        const { email, password } = request.body
         const hashedPassword = getHashedCode(password)
 
         try{
@@ -40,12 +40,13 @@ class UserController{
 
             const user = users.find(u => {
                 if(email){
-                    return u.email === email && hashedPassword === u.password
+                    return u.email == email && hashedPassword == u.password
                 }
                 else{
                     return false
                 }
             })
+
 
             if(user){
                 const authToken = generateAuthToken()
@@ -53,7 +54,7 @@ class UserController{
                 response.locals.authTokens = {}
                 response.locals.authTokens[authToken] = user
 
-                response.status(200).cookie('AuthToken', authToken).json({ message: 'O usuário está logado.' })
+                response.header('AuthToken', authToken).json({ message: 'O usuário está logado.' }).status(200)
 
                 next()
             }

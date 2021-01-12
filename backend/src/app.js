@@ -11,9 +11,10 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 app.use(errors())
-app.use(cors())
+app.use(cors({
+    exposedHeaders: 'AuthToken',
+}))
 
 app.use('/', routes)
-
 
 app.listen(process.env.PORT || 3333, () => console.log(`App is running...`))
