@@ -11,8 +11,6 @@ import { debounceEvent } from '../../utils/index'
 import './styles.css'
 
 const Combination = props => {
-    const isThereUserLogged = sessionStorage.getItem('user')
-
     const { id } = useParams()
     
     const [ games, setGames ] = useState([])
@@ -181,7 +179,7 @@ const Combination = props => {
 
     return (
         <div className="Combination">
-            {isThereUserLogged ? (
+            {user ? (
                 <>
                 <header className="combination-header">
                     <h2>{id ? 'Editar combinação: ' : 'Criar uma combinação: '}</h2>
