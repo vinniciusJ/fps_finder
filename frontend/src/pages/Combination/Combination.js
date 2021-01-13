@@ -211,6 +211,7 @@ const Combination = props => {
                     </footer>
                 </form>
             </main>
+            
             </>
             ) : (
                 <Redirect to={{ pathname: '/login/', state: { from: props.location }}} />

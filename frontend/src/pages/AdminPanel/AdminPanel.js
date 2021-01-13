@@ -3,6 +3,7 @@ import { Plus, AlertCircle } from 'react-feather'
 import { Link, Redirect } from 'react-router-dom'
 
 import CombinationBox from '../../components/CombinationBox/CombinationBox'
+import DeletePopUp from '../../components/DeletePopUp/DeletePopUp'
 
 import api from '../../services/api'
 import { debounceEvent } from '../../utils/index'
@@ -16,9 +17,9 @@ const AdminPanel = props => {
     const [ combinations, setCombinations ] = useState([])
     const [ totalCombinations, setTotalCombinations ] = useState(0)
     const [ isThereAnyCombination, setIsThereAnyCombination ] = useState(true)
-
+    
     const handleKeyUp = ({ target: { value } }) => 
-        api.get('/combinations', { params: { name: value } }).then(response => setCombinations(response.data))
+        api.get('/combinations', { params: { name: value }}).then(response => setCombinations(response.data))
 
     useEffect(() => {
         api.get('/combinations').then(response => {
@@ -51,7 +52,13 @@ const AdminPanel = props => {
                     {
                         isThereAnyCombination ? (
                             <>
-                                {combinations.map(combination => <CombinationBox combination={combination} games={games} key={combination.id}/>)}
+                                {combinations.map(combination => 
+                                    <CombinationBox 
+                                        combination={combination} 
+                                        games={games} 
+                                        key={combination.id} 
+                                    />
+                                )}
                             </>
                         ) : (
                             <div className="no-combination-found">
@@ -63,6 +70,7 @@ const AdminPanel = props => {
                         )
                     }
                 </main>
+                
                 </>
             ) : (
                 <Redirect to={{ pathname: '/login/', state: { from: props.location }}} />
@@ -72,3 +80,9 @@ const AdminPanel = props => {
 }
 
 export default AdminPanel
+
+/**
+ * {isDeletePopupVisible && 
+                    <DeletePopUp id={1} name={''}/>
+                }
+ */

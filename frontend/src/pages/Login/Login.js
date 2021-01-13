@@ -24,7 +24,7 @@ const Login = props => {
 
                 return
             }
-            
+                    
             sessionStorage.setItem('user', response.headers['authtoken'])
             history.push(state.from.pathname)
         })

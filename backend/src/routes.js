@@ -16,6 +16,16 @@ const userController = new UserController()
 
 let authTokens = { }
 
+router.use((request, response, next) => {
+    const auth = request.headers['user']
+
+    if(Object.entries(authTokens).length){
+        response.locals.user = authTokens[auth]
+    }
+
+    next()
+})
+
 const games = {
     post: [
         requireAuth,
@@ -49,6 +59,13 @@ const games = {
 }
 
 const combinations = {
+    delete: [
+        requireAuth,
+        celebrate({
+            [Segments.BODY]: Joi.object().keys({ id: Joi.number().required() })
+        }),
+        combinationsController.delete
+    ],
     post: [
         requireAuth,
         celebrate({
@@ -83,13 +100,6 @@ const combinations = {
             })
         }),
         gamesController.update
-    ],
-    delete: [
-        requireAuth,
-        celebrate({
-            [Segments.BODY]: Joi.object().keys({ id: Joi.number().required() })
-        }),
-        combinationsController.delete
     ]
 }
 
@@ -114,18 +124,11 @@ const user = {
         }),
         userController.login,
         (request, response) => authTokens = response.locals.authTokens
+
+            
+        
     ]
 }
-
-router.use((request, response, next) => {
-    const auth = request.cookies['AuthToken']
-
-    if(Object.entries(authTokens).length){
-        request.user = authTokens[auth]
-    }
-
-    next()
-})
 
 router.route('/games')
     .post(games.post)
@@ -133,14 +136,15 @@ router.route('/games')
     .get(games.get)
 
 router.route('/combinations')
+    .delete(combinations.delete)
     .post(combinations.post)
     .get(combinations.get)
     .put(combinations.put)
-    .delete(combinations.delete)
+    
 
 router.route('/user')
     .post(user.post)
     //.post(user.post)
-    
+
 
 module.exports = router

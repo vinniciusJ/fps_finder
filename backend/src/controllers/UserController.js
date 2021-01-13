@@ -54,7 +54,7 @@ class UserController{
                 response.locals.authTokens = {}
                 response.locals.authTokens[authToken] = user
 
-                response.header('AuthToken', authToken).json({ message: 'O usuário está logado.' }).status(200)
+                response.header('authtoken', authToken).json({ message: 'O usuário está logado.' }).status(200)
 
                 next()
             }

@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(errors())
 app.use(cors({
-    exposedHeaders: 'AuthToken',
+    exposedHeaders: 'authtoken',
 }))
 
 app.use('/', routes)

@@ -1,0 +1,81 @@
+.delete-popup{
+    width: 100vw;
+    height: 100vh;
+
+    position: absolute;
+    right: 0%;
+    
+
+    z-index: 10;
+
+    background: rgba(0, 0, 0, .1);
+    padding: 0%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.delete-popup-inner{
+    background: var(--secondary-color);
+
+    width: 92rem;
+    height: 56rem;
+
+    padding: 8rem 12rem;
+}
+
+.delete-popup-inner .delete-popup-header{
+    margin-bottom: 6rem;
+}
+
+.delete-popup-inner .delete-popup-header h2{
+    font-size: 2.4rem;
+    margin-bottom: 2.5rem;
+}
+
+.delete-popup-inner .delete-popup-header p{
+    font-weight: 800;
+    letter-spacing: .2rem;
+
+    font-size: 1.8rem;
+
+    display: flex;
+    align-items: center;
+}
+
+.delete-popup-inner .delete-popup-header p svg{
+    margin-right: 1rem;
+}
+
+.delete-popup-inner .delete-input-name{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8rem;
+}
+
+.delete-popup-inner .delete-input-name input{
+    width: 100%;
+    height: 6rem; 
+
+    padding: 1rem 2rem;
+    margin-bottom: 1.5rem;
+
+    border: none;
+    outline: none;
+}
+
+.delete-popup-inner .delete-input-name input:focus{
+    border: 3px solid var(--main-color-variation);
+}
+
+.delete-popup-inner .delete-input-name p{
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.delete-popup-inner .delete-popup-footer{
+    display: flex;
+    column-gap: 3rem;
+}

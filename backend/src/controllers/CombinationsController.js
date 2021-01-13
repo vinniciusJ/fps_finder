@@ -110,14 +110,14 @@ class CombinationsController {
     }
     async delete(request, response){
         const { id } = request.body
-
+        console.log('Entrei no delete')
         try{
-            const deletedCombination = await db('combinations').where('id', id).delete()
+            //const deletedCombination = await db('combinations').select('id').where('id', id).delete()
 
-            return response.status(200).json({ deletedCombination })
+            return response.status(200).send()
         }
-        catch{
-            return response.status(400).json({ message: 'Ocorreu um erro na exclusão da combinação. Por favor, tente novamente.' })
+        catch(error){
+            return response.json({ message: 'Ocorreu um erro na exclusão da combinação. Por favor, tente novamente.' })
         }
     }
 }

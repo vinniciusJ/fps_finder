@@ -15,8 +15,6 @@
     align-items: center;
 
     column-gap: 3rem;
-
-   
 }
 
 .fps-input select{
@@ -27,10 +25,15 @@
     border: 3px solid var(--secondary-color);
     outline: none;
 
-    width: 220%;
+    min-width: 220%;
+    min-width: 24rem;
     height: 5.4rem;
     color: #5C5C5C;
     padding: 0 2rem;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .fps-input .delete-fps-average{
@@ -49,6 +52,7 @@
 
     outline: none;
 }
+
 
 .fps-input:focus-within select,
 .fps-input:focus-within div input,
@@ -87,4 +91,19 @@
 
 .fps-input.duplicated .delete-fps-average svg{
     stroke: var(--main-color);
+}
+
+@media screen and (max-width: 886px){
+    .fps-input{
+        column-gap: 1.5rem;
+    }
+    
+    .fps-input div input{
+        width: 100%;
+        min-width: 6rem;
+    }
+}
+
+@media screen and (max-width: 416px){
+
 }

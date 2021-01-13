@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MoreHorizontal, Edit3, X } from 'react-feather'
 import { Link } from 'react-router-dom'
 
 import GameContainer from '../GameContainer/GameContainer'
+import DeletePopUp from '../DeletePopUp/DeletePopUp'
 
 import './styles.css'
 
 const CombinationBox = props => {
     const { combination, games } = props
+
     const [ isMoreOptionVisible, setIsMoreOptionVisible ] = useState(false)
+    const [ isDeletePopupVisible, setIsDeletePopupVisible ] = useState(false)
    
     const componentsText = { 
         graphic_card: 'Placa de Vídeo',
@@ -19,11 +22,18 @@ const CombinationBox = props => {
     
     const handleMoreOptions = () => setIsMoreOptionVisible(!isMoreOptionVisible)
     
+    const handleDeletePopupVisibility = () => {
+        document.body.style.overflow = 'initial'
+
+        setIsDeletePopupVisible(!isDeletePopupVisible)
+        setIsMoreOptionVisible(!isMoreOptionVisible)
+    }
+
 
     return (
         <>
         <section className="combination-container">
-            <header>
+            <header className="combination-container-header">
                 <h2>{combination.name}:</h2>
                 <button className="more-options" onClick={handleMoreOptions}>
                     <MoreHorizontal width={32} height={32} fill='none' strokeWidth={1}/>
@@ -32,7 +42,7 @@ const CombinationBox = props => {
                 {isMoreOptionVisible && 
                     <div className="combination-options">
                         <Link to={`/combination/${combination.id}`} className='edit-combination'><Edit3 width={16}/>Editar</Link>
-                        <button className='delete-combination' data-id={combination.id}><X width={16}/>Apagar</button>
+                        <button className='delete-combination' data-id={combination.id} onClick={handleDeletePopupVisibility}><X width={16}/>Apagar</button>
                      </div>
                 }
             </header>
@@ -56,6 +66,10 @@ const CombinationBox = props => {
                     })}
                 </aside>
             </main>
+            {isDeletePopupVisible && 
+                <DeletePopUp id={combination.id} name={combination.name} handlePopupVisibility={handleDeletePopupVisibility}/>
+            }
+
         </section>
         </>
     )

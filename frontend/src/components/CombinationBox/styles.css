@@ -3,7 +3,7 @@
     margin-bottom: 6rem;
 }
 
-.combination-container header{
+.combination-container .combination-container-header{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,22 +12,22 @@
     position: relative;
 }
 
-.combination-container header h2{
+.combination-container .combination-container-header h2{
     font-size: 2.4rem;
 }
 
-.combination-container header .more-options{
+.combination-container .combination-container-header .more-options{
     border: none;
     background: transparent;
     outline: none;
     transition: .4s ease;
 }
 
-.combination-container header .more-options:active svg{
+.combination-container .combination-container-header .more-options:active svg{
     stroke: var(--main-color);
 }
 
-.combination-container header .combination-options{
+.combination-container .combination-container-header .combination-options{
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -39,8 +39,8 @@
     background: #FFF;
 }
 
-.combination-container header .combination-options button,
-.combination-container header .combination-options a{
+.combination-container .combination-container-header .combination-options button,
+.combination-container .combination-container-header .combination-options a{
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -59,21 +59,21 @@
     font-size: 1.6rem;
 }
 
-.combination-container header .combination-options button:first-child{
+.combination-container .combination-container-header .combination-options button:first-child{
     border-bottom:
     1.5px solid var(--secondary-color); ;
 }
 
-.combination-container header .combination-options button:active{
+.combination-container .combination-container-header .combination-options button:active{
     color: var(--main-color);
 }
 
-.combination-container header .combination-options button:active svg{
+.combination-container .combination-container-header .combination-options button:active svg{
     stroke: var(--main-color)
 }
 
-.combination-container header .combination-options button svg,
-.combination-container header .combination-options a svg{
+.combination-container .combination-container-header .combination-options button svg,
+.combination-container .combination-container-header .combination-options a svg{
     margin-right: 1rem;
 }
 
@@ -128,7 +128,7 @@
     .combination-container{
        width: 72vw;
     }
-    .combination-container header .combination-options{
+    .combination-container .combination-container-header .combination-options{
         right: 0;
         top: 36px;
     }
@@ -146,7 +146,7 @@
         height: 48rem;
     }
     
-    .combination-container header .combination-options{
+    .combination-container .combination-container-header .combination-options{
         right: 0;
         top: 36px;
     }
@@ -168,7 +168,7 @@
     .combination-container{
         width: 88vw;
     }
-    .combination-container header .combination-options{
+    .combination-container .combination-container-header .combination-options{
         right: 0;
         top: 36px;
     }
