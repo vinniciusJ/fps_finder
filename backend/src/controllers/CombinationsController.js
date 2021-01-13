@@ -17,12 +17,15 @@ class CombinationsController {
                 await trx('fps_averages').insert({ fps_average, id_combination, id_game })
             })
 
-            const [ createdCombination ] = await trx('combinations').select('*').where('combinations.id', id_combination)
-            const createdCombinationFPSs = await trx('fps_averages').select('*').where('id_combination', id_combination)
+            //const [ createdCombination ] = 
+            //const createdCombinationFPSs = 
+
+            await trx('combinations').select('*').where('combinations.id', id_combination)
+            await trx('fps_averages').select('*').where('id_combination', id_combination)
 
             await trx.commit()
 
-            return response.status(201).json({ ...createdCombination, fpsAverages: [ ...createdCombinationFPSs ] })
+            return response.status(201).send()
         }
         catch{
             await trx.rollback()
@@ -80,29 +83,32 @@ class CombinationsController {
             }           
         }
         catch(error){
-            console.log(error)
             return response.status(400).json({ message: "Ocorreu um erro na listagem das combinações" })
         }
 
         return response.status(200).json(combinations)
     }
     async update(request, response){
-        const { id, name, graphic_card, processor, ram_memory, motherboard, FPSAverages } = request.body
+        const { id, name, graphic_card, processor, ram_memory, motherboard, fps_averages } = request.body
 
         const trx = await db.transaction()
 
         try{
-            FPSAverages.forEach(async FPSAverageItem => 
-                await trx('fps_averages').where('id', FPSAverageItem.id).update('fps_average', FPSAverageItem.fps_average)
-            )
+            fps_averages.forEach(async FPSAverageItem => {
+                const { id, fps_average } = FPSAverageItem
 
-            await trx('combinations').where({ id }).update({ id, name, graphic_card, processor, ram_memory, motherboard })
+                console.log(FPSAverageItem)
+            
+                await trx('fps_averages').where({ id }).update({ fps_average })
+            })
+
+            await trx('combinations').where({ id }).update({ name, graphic_card, processor, ram_memory, motherboard })
             
             trx.commit()
 
-            return response.status(200).json({ })
+            return response.status(200).json({ message: 'Foi' })
         }
-        catch{
+        catch(error){
             trx.rollback()
 
             return response.status(400).json({ message: 'Ocorreu um erro na atualização dos dados da combinação. Por favor, tente novamente.' })
@@ -110,9 +116,9 @@ class CombinationsController {
     }
     async delete(request, response){
         const { id } = request.body
-        console.log('Entrei no delete')
+        
         try{
-            //const deletedCombination = await db('combinations').select('id').where('id', id).delete()
+            await db('combinations').select('id').where('id', id).delete()
 
             return response.status(200).send()
         }

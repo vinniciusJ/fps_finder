@@ -1,10 +1,9 @@
 .delete-popup{
     width: 100vw;
-    height: 100vh;
+    height: 100%;
 
     position: absolute;
-    right: 0%;
-    
+    right: 0;
 
     z-index: 10;
 
@@ -78,4 +77,22 @@
 .delete-popup-inner .delete-popup-footer{
     display: flex;
     column-gap: 3rem;
+}
+
+@media screen and (max-width: 768px){
+    .delete-popup-inner{
+        width: 78rem;
+        overflow: hidden;
+    }
+}
+
+@media screen and (max-width: 416px){
+    .delete-popup{
+        background: var(--secondary-color);
+        overflow: hidden;
+    }
+    .delete-popup-inner{
+        width: 64rem;
+        height: 62rem;
+    }
 }

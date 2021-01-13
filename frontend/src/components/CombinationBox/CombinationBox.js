@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { MoreHorizontal, Edit3, X } from 'react-feather'
 import { Link } from 'react-router-dom'
 
@@ -26,7 +26,7 @@ const CombinationBox = props => {
         document.body.style.overflow = 'initial'
 
         setIsDeletePopupVisible(!isDeletePopupVisible)
-        setIsMoreOptionVisible(!isMoreOptionVisible)
+        setIsMoreOptionVisible(false)
     }
 
 

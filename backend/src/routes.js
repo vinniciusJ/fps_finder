@@ -99,7 +99,7 @@ const combinations = {
                 motherboard: Joi.string().required(), fps_averages: Joi.array().required()
             })
         }),
-        gamesController.update
+        combinationsController.update
     ]
 }
 

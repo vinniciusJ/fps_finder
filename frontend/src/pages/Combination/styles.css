@@ -60,4 +60,7 @@
     .combination-header, .combination-data-container{
         width: 80vw;
     }
+    .edit-add-buttons button{
+        min-width: 16rem;
+    }
 }

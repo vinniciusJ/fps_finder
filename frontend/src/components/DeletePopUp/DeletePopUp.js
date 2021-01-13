@@ -15,7 +15,7 @@ const DeletePopUp = props => {
     useEffect(() => document.body.style.overflow = 'hidden', [ ])
 
     const deleteCombination = () => {
-        if(inputName.current.value !== name) setIsNameIncorrect(true)
+        if(inputName.current.value !== name) return setIsNameIncorrect(true)
 
         api.delete('/combinations', {  headers: { user: sessionStorage.getItem('user') }, data: { id } }).then(response => 
             response.status === 200 && handlePopupVisibility()

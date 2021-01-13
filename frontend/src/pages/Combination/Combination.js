@@ -23,15 +23,18 @@ const Combination = props => {
 
     const history = useHistory()
 
-    useEffect(() => api.get('/games').then(response => setGames(response.data)), [ ])
+    const user = sessionStorage.getItem('user')
+
+    useEffect(() => api.get('/games', { headers: { user } }).then(response => setGames(response.data)), [ user ])
     useEffect(() => {
-        id && api.get('/combinations', { params: { id } }).then(response => {
+        id && api.get('/combinations', { params: { id }, headers: { user } }).then(response => {
             const [ selectedCombination ] = response.data
             const { FPSAverages, name, graphic_card, processor, ram_memory, motherboard } = selectedCombination
 
             const FPSInputValues = FPSAverages.map((average, index) => {
                 return {
                     key: index,
+                    id: average.id,
                     gameValue: average.id_game,
                     fpsValue: average.fps_average,
                     isDuplicated: false
@@ -42,7 +45,7 @@ const Combination = props => {
             setComponents({ name, graphic_card, processor, ram_memory, motherboard })
             setFPSInputs(FPSInputValues)
         })
-    }, [ id ])
+    }, [ id, user ])
     
     const addFPSInput = () => {
         const newKey = FPSInputs[FPSInputs.length - 1].key + 1
@@ -107,11 +110,11 @@ const Combination = props => {
 
         const modifiedFPSInputs = FPSInputs.map(input => {
             if(input.key === Number(inputID)){
-                let { key, gameValue, fpsValue, isDuplicated } = input
+                let { key, id, gameValue, fpsValue, isDuplicated } = input
 
                 fpsValue = Number(value)
 
-                return { key, gameValue, fpsValue, isDuplicated}
+                return id ? { key, id, gameValue, fpsValue, isDuplicated} : { key, gameValue, fpsValue, isDuplicated}
             }
 
             return input
@@ -148,14 +151,26 @@ const Combination = props => {
         if(gamesValues.includes(0)) return alert('Por favor, em todos os campos de seleção você deve selecionar um jogo.')
 
         const fps_averages = FPSInputs.map(input => {
-            const { gameValue, fpsValue } = input
+            const { id, gameValue, fpsValue } = input
 
-            return { fps_average: fpsValue, id_game: gameValue }
+            return id ? { id, fps_average: fpsValue, id_game: gameValue } : { fps_average: fpsValue, id_game: gameValue } 
         })
 
-        const newCombination = { ...components, fps_averages }
+        const newCombination = { id, ...components, fps_averages }
 
-        console.log(newCombination)
+        !id && api.post('/combinations', { ...newCombination }, { headers: { user } }).then(response => {
+            if(response.status === 400) return alert(response.data.message)
+
+            history.push('/admin')
+        })
+
+        id && api.put('/combinations', { ...newCombination }, { headers: { user } }).then(response => {
+            if(response.status === 400) return alert(response.data.message)
+            console.log(response)
+
+            history.push('/admin')
+        })
+
     }
 
     const cancelOperation = event => {
