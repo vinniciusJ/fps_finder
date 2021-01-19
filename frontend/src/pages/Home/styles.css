@@ -1,6 +1,3 @@
-
-
-
 .main-header{
     display: flex;
     flex-direction: column;
@@ -15,7 +12,7 @@
     justify-content: center;
     align-items: center;
 
-    width: 98.8vw;
+    width: 100vw;
 
     padding: 2rem;
 
@@ -24,7 +21,8 @@
 }
 
 .main-header .nav-bar img{
-    width: clamp(6rem, 16rem, 10rem);
+    width: 16rem;
+    height: 10rem;
 }
 
 .main-header .presentation{
@@ -74,7 +72,7 @@
 
 .operations-buttons{
     display: flex;
-    justify-content: space-between;
+    column-gap: 3rem;
 
     gap: clamp(1.2rem, 1.8rem, 2rem);
     width: 100%;
@@ -152,14 +150,20 @@
     margin-bottom: 6rem;
 }
 
-@media screen and (min-width: 1024px){
+@media screen and (min-width: 496px){
+    .label-section{
+        position: relative;
+    }
+}
+
+@media screen and (min-width: 608px){
     .main-header{
         align-items: center;
     }
     
     .presentation{
         padding: 0;
-        max-width: 68vw;
+        width: 68vw;
        
         margin-bottom: 3rem;
     }

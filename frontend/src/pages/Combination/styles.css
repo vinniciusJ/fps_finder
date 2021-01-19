@@ -56,7 +56,7 @@
     width: 36rem;
 }
 
-@media screen and (max-width: 416px){
+@media screen and (max-width: 556px){
     .combination-header, .combination-data-container{
         width: 80vw;
     }

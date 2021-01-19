@@ -1,23 +1,18 @@
-@media screen and (min-width: 1024px){
-    .fps-footer{
-        justify-content: space-evenly;
 
-    }
-    .footer-info{
-        min-height: 34rem;
-    }
-    
-}
 
 .fps-footer{
     display: flex;
-    flex-wrap: wrap;
-    
-    /*align-items: center;*/
-
-    padding: 2.4rem;
-    
+    justify-content: center;
+    width: 100vw;
     background: var(--secondary-color);
+}
+
+.fps-footer .fps-footer-div{
+    display: flex;
+    width: 66vw;
+    justify-content: space-between;
+
+    padding: 2.8rem 0;
 }
 
 .fps-footer .footer-info{
@@ -26,34 +21,34 @@
     justify-content: space-between;
 
     width: 40rem;
-    height: 20rem;
+    height: 36rem;
 
     margin-bottom: 6rem;
 }
 
 .fps-footer .footer-info .fps-info-email h1{
-    font-size: 3rem;
-    margin-bottom: 2rem;
+    font-size: 3.6rem;
+    margin-bottom: 2.4rem;
 }
 
 .fps-footer .footer-info .fps-info-email p{
     display: flex;
     align-items: center;
     gap: 1rem;
-    font-size: 1.6rem;
+    font-size: 2rem;
 }
 
 
 .fps-footer .footer-info .devs-info-email h1{
-    font-size: 1.6rem;
-    margin-bottom: 2rem;
+    font-size: 2.4rem;
+    margin-bottom: 2.4rem;
 }
 
 .fps-footer .footer-info .devs-info-email p{
     display: flex;
     align-items: center;
     gap: 1rem;
-    font-size: 1.6rem;
+    font-size: 2rem;
 }
 
 .fps-footer .footer-email{
@@ -112,4 +107,39 @@
     color: white;
 }
 
+@media screen and (max-width: 1024px){
+    .fps-footer .fps-footer-div{
+        flex-direction: column;
+    }
+    .fps-footer .fps-footer-div .footer-info, .fps-footer .fps-footer-div .footer-email{
+        width: 68vw;
+    }
 
+    .fps-footer .fps-footer-div .footer-info{
+        height: 26rem;
+    }
+}
+
+@media screen and (max-width: 738px){
+    .fps-footer .fps-footer-div{
+        justify-content: center;
+        
+    }
+    .fps-footer .fps-footer-div .footer-info, .fps-footer .fps-footer-div .footer-email{
+        width: 68vw;
+    }
+    
+}
+
+@media screen and (max-width: 608px){
+    .fps-footer .fps-footer-div{
+        justify-content: center;
+        padding: 2.4rem;
+        width: 100%;
+    }
+
+    .fps-footer .footer-email form{
+        width: 90vw;
+    }
+
+}

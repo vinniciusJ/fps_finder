@@ -103,40 +103,43 @@
     margin-bottom: 2rem;
 }
 
-@media screen and (max-width: 1152px){
+@media screen and (max-width: 1392px){
     .admin-header{
         height: 10.8vh;
     }
     .admin-header div, .combinations .combinations-registered{
         width: 72vw;
     }
+
 }
 
 @media screen and (max-width: 980px){
     .admin-header{
-        height: 16.8vh;  
+        height: 20vh;  
     }
     .admin-header div{
         display: grid;
         
         grid-template-rows: 1fr 1fr;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 72vw;
         grid-template-areas: 'paragraph paragraph'
                              'search-bar add-button';
         
         padding: 2rem 0;
+        row-gap: 2rem;
+        column-gap: 4vw;
     }
 
     .admin-header div p{
         grid-area: paragraph;
         font-size: 1.8rem;
-        align-self: flex-end;
+        align-self: center;
     }
 
     .admin-header div input{
         grid-area: search-bar;
-        width: 56rem;
-       
+        
+        width: 62vw;
     }
 
     .admin-header div button{
@@ -146,6 +149,23 @@
 
 }
 
+@media screen and (max-width: 766px){
+    .admin-header div{
+        width: 88vw;
+    }
+
+    .admin-header div input{
+        grid-area: search-bar;
+        
+        width: 74vw;
+    }
+
+    .admin-header div, .combinations .combinations-registered{
+        width: 88vw;
+    }
+}
+
+/*
 @media screen and (max-width: 766px){
     .admin-header{
         height: 16.8vh;
@@ -159,10 +179,13 @@
         display: grid;
         
         grid-template-rows: 1fr 1fr;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 72vw;
         grid-template-areas: 'paragraph paragraph'
                              'search-bar add-button';
-        row-gap: 4rem;
+        
+        padding: 2rem 0;
+        row-gap: 2rem;
+        column-gap: 4vw;
     }
 
     .admin-header div p{
@@ -193,3 +216,4 @@
         height: 26rem;
     }
 }
+*/

@@ -9,6 +9,10 @@
     --contrast-color: #FFD382;
 }
 
+body{
+    overflow-x: hidden;
+}
+
 *{
     margin: 0;
     padding: 0;

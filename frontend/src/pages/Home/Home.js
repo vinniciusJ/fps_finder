@@ -83,18 +83,24 @@ const Home = () => {
     const handleCurrentPopUpVisibility = event => {
         const status = !currentPopUp.isVisible
         const id = event.target.id
-        
-        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-            setIsAMobileDevice(true)
-            document.body.style.overflow = status ? 'hidden' : 'initial'
-        }
-
+    
         if(!status && id !== currentPopUp.id){
             setCurrentPopUp({ id, isVisible: true })
         }
         else {
             setCurrentPopUp({ id, isVisible: status })
-        }  
+        }
+
+        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+            setIsAMobileDevice(true)
+            
+            let overflow = document.body.style.overflow 
+
+            document.body.style.overflow = overflow === 'hidden' ? 'initial' : 'hidden'
+        }
+
+          
+        return <Link to={id} smooth/>
     }
 
     const clearSelectFields = () => {
@@ -103,15 +109,12 @@ const Home = () => {
         setSelectedRamMemory(0)
     }
 
-    const handleCalculateAgain = () => {
-        const link = document.createElement('a')
-        link.href = '#calculate'
-
-        link.click()
-        
+    const handleCalculateAgain = () => {        
         setResultContainer(false)
         setFilteredCombination({})
-        clearSelectFields()  
+        clearSelectFields() 
+        
+        return <Link to='#calculate' smooth/>
     }
 
     const handleProcessorChange = event => {
@@ -142,10 +145,8 @@ const Home = () => {
         if(!isValid(selectedGraphicCard) || !isValid(selectedProcessor) || !isValid(selectedRamMemory)) return
 
         setResultContainer(true)
-
-        const link = document.createElement('a')
-        link.href = `#result`
-        link.click()  
+        
+        return <Link to='#result' smooth/>
     }
 
     return (

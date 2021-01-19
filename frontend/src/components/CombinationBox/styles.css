@@ -84,9 +84,9 @@
     flex-wrap: wrap;
 
     background: #E7E6E6;
-    padding: 2.8rem 3.8rem;
+    padding: 4rem 3.8rem;
 
-    height: 28rem;
+    height: 32rem;
 }
 
 .combination-container .combinations-data .combinations-components ul{
@@ -126,8 +126,8 @@
 
 @media screen and (max-width: 1392px){
     .combination-container{
-       width: 72vw;
-    }
+        width: 72vw;
+     }
     .combination-container .combination-container-header .combination-options{
         right: 0;
         top: 36px;
@@ -185,7 +185,7 @@
     .combination-container .combinations-data .combinations-game{
         padding: 0;
         overflow-y: scroll;
-        height: 28rem;
+        height: 32rem;
     }
 
     .combination-container .combinations-data .combinations-game::-webkit-scrollbar{

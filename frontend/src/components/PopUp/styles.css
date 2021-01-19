@@ -16,8 +16,6 @@
     padding: 4.8rem;
 
     height: 80vh;
-
-    
 }
 
 .popup .popup-inner header{
@@ -49,11 +47,10 @@
     line-height: 1.8;
 }
 
-@media screen and (min-width: 1024px){
+@media screen and (min-width: 448px){
     .popup{
         width: 40rem;
         height: 21rem;
-
         
         top: 38px;
         right: 0;

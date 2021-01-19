@@ -164,8 +164,7 @@ const Combination = props => {
 
         id && api.put('/combinations', { ...newCombination }, { headers: { user } }).then(response => {
             if(response.status === 400) return alert(response.data.message)
-            console.log(response)
-
+           
             history.push('/admin')
         })
 

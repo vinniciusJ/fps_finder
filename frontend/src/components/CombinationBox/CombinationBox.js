@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { MoreHorizontal, Edit3, X } from 'react-feather'
 import { Link } from 'react-router-dom'
+import { HashLink as InternalLink } from 'react-router-hash-link'
 
 import GameContainer from '../GameContainer/GameContainer'
 import DeletePopUp from '../DeletePopUp/DeletePopUp'
@@ -23,10 +24,10 @@ const CombinationBox = props => {
     const handleMoreOptions = () => setIsMoreOptionVisible(!isMoreOptionVisible)
     
     const handleDeletePopupVisibility = () => {
-        document.body.style.overflow = 'initial'
-
         setIsDeletePopupVisible(!isDeletePopupVisible)
         setIsMoreOptionVisible(false)
+       
+        return <InternalLink smooth to='#delete' />
     }
 
 

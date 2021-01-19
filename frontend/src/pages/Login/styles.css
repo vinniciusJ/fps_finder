@@ -11,7 +11,8 @@
     background: var(--secondary-color);
 
     width: 40vw;
-    height: 60vh;
+    min-width: 56rem;
+    min-height: 40rem;
 
     display: flex;
     justify-content: center;
@@ -49,6 +50,16 @@
 }
 
 @media screen and (max-width: 1024px){
+    .login-section{
+        height: 40vh;
+        width: 60vw;
+
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 420px){
     .login-section{
         height: 100vh;
         width: 100vw;

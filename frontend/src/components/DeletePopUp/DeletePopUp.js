@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { AlertCircle } from "react-feather"
 
 import './styles.css'
@@ -10,9 +10,7 @@ const DeletePopUp = props => {
     const top = window.pageYOffset
 
     const inputName = useRef('')
-    const [ isNameIncorrect, setIsNameIncorrect ] = useState(false)
-
-    useEffect(() => document.body.style.overflow = 'hidden', [ ])
+    const [ isNameIncorrect, setIsNameIncorrect ] = useState(false) 
 
     const deleteCombination = () => {
         if(inputName.current.value !== name) return setIsNameIncorrect(true)
@@ -23,7 +21,7 @@ const DeletePopUp = props => {
     }
 
     return (
-        <div className="delete-popup" style={{ top }}>
+        <div className="delete-popup" id="#delete" style={{ top }}>
             <div className="delete-popup-inner">
                 <header className="delete-popup-header">
                     <h2>Tem certeza que deseja apagar a combinação "{name}"?</h2>
