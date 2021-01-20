@@ -9,7 +9,7 @@
     --contrast-color: #FFD382;
 }
 
-body{
+html, body{
     overflow-x: hidden;
 }
 

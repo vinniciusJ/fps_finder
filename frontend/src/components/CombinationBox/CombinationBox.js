@@ -26,6 +26,17 @@ const CombinationBox = props => {
     const handleDeletePopupVisibility = () => {
         setIsDeletePopupVisible(!isDeletePopupVisible)
         setIsMoreOptionVisible(false)
+
+        const maxWidthQuery = window.matchMedia('max-width: 416px')
+
+        const changeOverflowY = element => {
+            const { overflowY } = element.style
+
+            element.style.overflowY = overflowY === 'hidden' ? 'initial' : 'hidden'
+        }
+
+        maxWidthQuery && changeOverflowY(document.documentElement)
+        maxWidthQuery || changeOverflowY(document.body)
        
         return <InternalLink smooth to='#delete' />
     }

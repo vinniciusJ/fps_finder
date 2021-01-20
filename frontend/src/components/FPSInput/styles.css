@@ -26,7 +26,7 @@
     outline: none;
 
     width: 220%;
-    min-width: 24rem;
+    min-width: 18rem;
     height: 5.4rem;
     color: #5C5C5C;
     padding: 0 2rem;
@@ -100,10 +100,6 @@
     
     .fps-input div input{
         width: 100%;
-        min-width: 6rem;
+        min-width: 10rem;
     }
-}
-
-@media screen and (max-width: 416px){
-
 }

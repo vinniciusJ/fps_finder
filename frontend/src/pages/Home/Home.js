@@ -65,8 +65,6 @@ const Home = () => {
                 const [ combination ] = response.data
 
                 setFilteredCombination(combination)
-
-                console.log(combination)
             })
         }
         else {
@@ -184,8 +182,8 @@ const Home = () => {
                             id="component-graphic_card"
                         >
                             <section className="popup-title">
-                                <img src={graphicCardImage} alt="Placa Gráfica"/>
-                                <h2>Placa Gráfica</h2>
+                                <img src={graphicCardImage} alt="Placa de Vídeo"/>
+                                <h2>Placa de Vídeo</h2>
                             </section>
                             <main>
                                 <p>

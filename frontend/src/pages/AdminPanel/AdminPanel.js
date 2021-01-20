@@ -81,9 +81,3 @@ const AdminPanel = props => {
 }
 
 export default AdminPanel
-
-/**
- * {isDeletePopupVisible && 
-                    <DeletePopUp id={1} name={''}/>
-                }
- */

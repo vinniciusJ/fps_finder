@@ -12,6 +12,7 @@ const DeletePopUp = props => {
     const inputName = useRef('')
     const [ isNameIncorrect, setIsNameIncorrect ] = useState(false) 
 
+
     const deleteCombination = () => {
         if(inputName.current.value !== name) return setIsNameIncorrect(true)
 

@@ -90,18 +90,23 @@
 }
 
 @media screen and (max-width: 416px){
-    body{
-        overflow-y: hidden;
-    }
     .delete-popup{
         background: var(--secondary-color);
         position: absolute;
         top: 0;
         right: 0;
         z-index: 10;
+
+        width: 100vw;
+        height: 100vh;
     }
     .delete-popup-inner{
-        width: 64rem;
+        width: 72rem;
         height: 62rem;
+
+        padding: 4rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 }

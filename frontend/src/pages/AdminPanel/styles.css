@@ -2,11 +2,9 @@
     width: 100%;
     height: 12.8vh;
     background: var(--secondary-color);
-
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
 
 .admin-header div{
@@ -14,7 +12,6 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-
     width: 76vw;
 }
 
@@ -26,11 +23,9 @@
 .admin-header div input{
     height: 5.4rem;
     width: 40rem;
-    
     background: var(--secondary-color) url(../../assets/images/search.svg) 1rem no-repeat;
     font-size: 1.4rem;
     padding-left: 4.8rem;
-
     border: 2px solid #FFF;
     border-radius: none;
     outline: none;
@@ -44,12 +39,10 @@
 .admin-header div .add-new-combination{
     height: 5.4rem;
     width: 6.4rem;
-
     background: transparent;
     border: 2px solid #FFF;
     outline: none;
     text-decoration: none;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -69,7 +62,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
     padding: 6rem 0 14rem;
 }
 
@@ -91,11 +83,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
     align-items: center;
     font-size: 2.8rem;
     color: #E7E6E6;
-
     text-align: center;
 }
 
@@ -110,7 +100,6 @@
     .admin-header div, .combinations .combinations-registered{
         width: 72vw;
     }
-
 }
 
 @media screen and (max-width: 980px){
@@ -119,12 +108,10 @@
     }
     .admin-header div{
         display: grid;
-        
         grid-template-rows: 1fr 1fr;
         grid-template-columns: 1fr 72vw;
         grid-template-areas: 'paragraph paragraph'
                              'search-bar add-button';
-        
         padding: 2rem 0;
         row-gap: 2rem;
         column-gap: 4vw;
@@ -138,7 +125,6 @@
 
     .admin-header div input{
         grid-area: search-bar;
-        
         width: 62vw;
     }
 
@@ -156,64 +142,16 @@
 
     .admin-header div input{
         grid-area: search-bar;
-        
-        width: 74vw;
+        max-width: 74vw;
+        min-width: 70.8vw;
     }
 
     .admin-header div, .combinations .combinations-registered{
         width: 88vw;
     }
-}
-
-/*
-@media screen and (max-width: 766px){
-    .admin-header{
-        height: 16.8vh;
-    }
-
-    .admin-header div{
-        width: 88vw;
-    }
-    
-    .admin-header div{
-        display: grid;
-        
-        grid-template-rows: 1fr 1fr;
-        grid-template-columns: 1fr 72vw;
-        grid-template-areas: 'paragraph paragraph'
-                             'search-bar add-button';
-        
-        padding: 2rem 0;
-        row-gap: 2rem;
-        column-gap: 4vw;
-    }
-
-    .admin-header div p{
-        grid-area: paragraph;
-        font-size: 1.8rem;
-        align-self: flex-end;
-    }
-
-    .admin-header div input{
-        grid-area: search-bar;
-        width: 28rem;
-    }
-
-    .admin-header div button{
-        grid-area: add-button;
-        justify-self: end;
-    }
 
     .combinations{
         padding-bottom: 6rem;
     }
-
-    .combinations .combinations-registered{
-        width: 88vw;
-    }
-
-    .combinations .no-combination-found{
-        height: 26rem;
-    }
 }
-*/
+
