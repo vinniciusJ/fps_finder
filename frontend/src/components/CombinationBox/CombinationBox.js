@@ -71,7 +71,7 @@ const CombinationBox = props => {
                         const [ currentGame ] = games.filter(game => game.id === FPSAverage.id_game)
 
                         if(currentGame){
-                            return <GameContainer name={currentGame.name} FPSAverage={FPSAverage.fps_average} URLLogo={currentGame.url_logo} background='#FFF' key={index}/>
+                            return <GameContainer name={currentGame.name} FPSAverage={FPSAverage.fps_average} logo={currentGame.url_logo} background='#FFF' key={index}/>
                         }
 
                         return <></>

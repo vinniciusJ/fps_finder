@@ -141,6 +141,11 @@
     margin-bottom: 4rem;
 }
 
+.games-list .game-container .game-logo p{
+    width: 34rem;
+    max-width: 34rem;
+}
+
 .btn-again{
     padding: 2.4rem 0; 
 }

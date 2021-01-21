@@ -47,7 +47,6 @@ class UserController{
                 }
             })
 
-
             if(user){
                 const authToken = generateAuthToken()
                 

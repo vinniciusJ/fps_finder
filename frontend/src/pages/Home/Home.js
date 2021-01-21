@@ -52,7 +52,7 @@ const Home = () => {
 
     useEffect(() => {
         const filterOption = {}
-        const components = [{graphic_card: selectedGraphicCard}, {processor: selectedProcessor}, {ram_memory: selectedRamMemory}]
+        const components = [{ graphic_card: selectedGraphicCard }, { processor: selectedProcessor }, { ram_memory: selectedRamMemory }]
 
         components.forEach(component => {
             const [ key ] = Object.keys(component)
@@ -92,12 +92,11 @@ const Home = () => {
         if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
             setIsAMobileDevice(true)
             
-            let overflow = document.body.style.overflow 
-
-            document.body.style.overflow = overflow === 'hidden' ? 'initial' : 'hidden'
+            let { overflowY } = document.documentElement.style 
+           
+            document.documentElement.style.overflowY = overflowY === 'hidden' ? 'initial' : 'hidden'
         }
-
-          
+  
         return <Link to={id} smooth/>
     }
 
@@ -119,7 +118,6 @@ const Home = () => {
         const processor = event.target.value
 
         setSelectedProcessor(processor)
-
         isValid(event.target.value) && setProcessorOptions([event.target.value])
     }
 
@@ -127,7 +125,6 @@ const Home = () => {
         const ramMemory = event.target.value
 
         setSelectedRamMemory(ramMemory)
-        
         isValid(event.target.value) && setRamMemoryOptions([event.target.value])
     }
 
@@ -135,7 +132,6 @@ const Home = () => {
         const graphicCard = event.target.value
         
         setSelectedGraphicCard(graphicCard)
-
         isValid(event.target.value) && setGraphicCardOptions([event.target.value])
     }
 
@@ -290,7 +286,7 @@ const Home = () => {
                                 const [ game ] = games.filter(game => game.id === item.id_game)
 
                                 return (
-                                    <GameContainer name={game.name} URLLogo={game.url_logo} FPSAverage={item.fps_average} key={game.id}/>
+                                    <GameContainer name={game.name} logo={game.url_logo} FPSAverage={item.fps_average} key={game.id}/>
                                 )
                             })}
                         </div>

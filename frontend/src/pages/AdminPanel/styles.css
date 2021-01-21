@@ -97,9 +97,7 @@
     .admin-header{
         height: 10.8vh;
     }
-    .admin-header div, .combinations .combinations-registered{
-        width: 72vw;
-    }
+    
 }
 
 @media screen and (max-width: 980px){

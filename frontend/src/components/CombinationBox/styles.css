@@ -91,7 +91,7 @@
 
 .combination-container .combinations-data .combinations-components ul{
     list-style: none;
-    height: 100%;
+    height: 94%;
 
     display: flex;
     flex-direction: column;
@@ -105,10 +105,16 @@
 }
 
 .combination-container .combinations-data .combinations-game{
-    padding: 0 4rem;
+    padding-right: 4rem;
     overflow-y: scroll;
     overflow-x: hidden;
     height: 100%;
+    
+    max-width: 72rem;
+}
+
+.combination-container .combinations-data .combinations-game .game-container .game-logo p{
+    width: 24rem;
 }
 
 .combination-container .combinations-data .combinations-game::-webkit-scrollbar{
@@ -124,10 +130,8 @@
     margin-bottom: 2rem;
 }
 
-@media screen and (max-width: 1392px){
-    .combination-container{
-        width: 72vw;
-     }
+@media screen and (max-width: 1436px){
+    
     .combination-container .combination-container-header .combination-options{
         right: 0;
         top: 36px;
@@ -139,11 +143,25 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+    .combination-container .combinations-data .combinations-game{
+        padding-right: 2rem;
+    }
+
+    .combination-container .combinations-data .combinations-game .game-container .game-logo p{
+        width: 18rem;
+    }
 }
 
-@media screen and (max-width: 1152px){
+@media screen and (max-width: 1330px){
+    .combination-container .combinations-data .combinations-game .game-container .game-logo p{
+        width: 14rem;
+    }
+}
+
+@media screen and (max-width: 1308px){
     .combination-container .combinations-data{
-        height: 48rem;
+        height: 52rem;
     }
     
     .combination-container .combination-container-header .combination-options{
@@ -156,11 +174,18 @@
         margin-bottom: 1.8rem;
     }
 
+    .combination-container .combinations-data .combinations-components{
+        padding-bottom: 3rem;
+        border-bottom: 1px solid var(--secondary-color);
+        margin-bottom: 3rem;
+    }
+
     .combination-container .combinations-data .combinations-game{
-        width: 100%;
-        height: 26rem;
+        min-width: 100%;
+        height: 24rem;
         padding: 0;
-        padding-right: 2rem;
+       
+        padding-right: 4rem;
     }
 }
 

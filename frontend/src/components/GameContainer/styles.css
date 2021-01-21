@@ -28,9 +28,6 @@
 .game-container .game-logo p{
     font-size: 1.4rem;
     
-    width: 12rem;
-    max-width: 20rem;
-
     margin-right: 1rem;
     
     white-space: nowrap;
@@ -51,6 +48,6 @@
 
 @media screen and (max-width: 766px){
     .game-container .game-logo p{
-        width: 8rem;
+        width: 20rem;
     }
 }

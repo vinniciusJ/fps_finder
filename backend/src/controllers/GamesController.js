@@ -23,23 +23,14 @@ class GamesController{
         return response.status(201).json({ name, url_logo })
     }
     async index(request, response){
-        let { name } = request.query
-        let games = []
-
         try{
-            if(name){
-                games = [...await db('games').select('*').where('name', 'like', `%${name}%`)]
-            }
-            else {
-                console.log('Im here')
-                games = [...await db('games').select('*')]
-            }
+            const games = [...await db('games').select('*')]
+
+            return response.status(200).json(games)
         }
         catch{
             return response.status(400).json({ message: 'Ocorreu um erro na listagem de games' })
         }
-        
-        return response.status(200).json(games)
     }
     async update(request, response){
         const { id, name, url_logo } = request.body

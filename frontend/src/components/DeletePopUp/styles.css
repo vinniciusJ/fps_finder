@@ -52,7 +52,7 @@
 .delete-popup-inner .delete-input-name{
     display: flex;
     flex-direction: column;
-    margin-bottom: 8rem;
+    margin-bottom: 6rem;
 }
 
 .delete-popup-inner .delete-input-name input{
@@ -107,6 +107,6 @@
         padding: 4rem;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
     }
 }

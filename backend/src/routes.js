@@ -28,7 +28,7 @@ router.use((request, response, next) => {
 
 const games = {
     post: [
-        requireAuth,
+        //requireAuth,
         celebrate({
             [Segments.BODY]: Joi.object().keys({
                 name: Joi.string().required(),
@@ -38,7 +38,7 @@ const games = {
         gamesController.create
     ],
     put: [
-        requireAuth,
+        //requireAuth,
         celebrate({
             [Segments.BODY]: Joi.object().keys({
                 id: Joi.number().required(),
@@ -129,6 +129,7 @@ const user = {
         
     ]
 }
+
 
 router.route('/games')
     .post(games.post)
