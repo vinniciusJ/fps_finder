@@ -6,25 +6,13 @@ const GamesController = require('./controllers/GamesController')
 const CombinationsController = require('./controllers/CombinationsController')
 const UserController = require('./controllers/UserController')
 
-const requireAuth = require('./utils/requireAuth')
-
 const router = express.Router()
 
 const gamesController = new GamesController()
 const combinationsController = new CombinationsController()
 const userController = new UserController()
 
-let authTokens = { }
-
-router.use((request, response, next) => {
-    const auth = request.headers['user']
-
-    if(Object.entries(authTokens).length){
-        response.locals.user = authTokens[auth]
-    }
-
-    next()
-})
+router.use(userController.setAuthorization.bind(userController))
 
 const games = {
     post: [
@@ -60,14 +48,14 @@ const games = {
 
 const combinations = {
     delete: [
-        requireAuth,
+        userController.authorize.bind(userController),
         celebrate({
             [Segments.BODY]: Joi.object().keys({ id: Joi.number().required() })
         }),
         combinationsController.delete
     ],
     post: [
-        requireAuth,
+        userController.authorize.bind(userController),
         celebrate({
             [Segments.BODY]: Joi.object().keys({
                 name: Joi.string().required(), graphic_card: Joi.string().required(),
@@ -79,19 +67,20 @@ const combinations = {
     ],
     get: [
         celebrate({
-            [Segments.BODY]: Joi.object().keys({
-                components: Joi.object().keys({
-                    graphic_card: Joi.string(),
-                    processor: Joi.string(),
-                    ram_memory: Joi.string()
-                }),
-                name: Joi.string()
+            [Segments.QUERY]: Joi.object().keys({
+                name: Joi.string(),
+                graphic_card: Joi.string(),
+                processor: Joi.string(),
+                ram_memory: Joi.string()
+            }),
+            [Segments.PARAMS]: Joi.object().keys({
+                id: Joi.number()
             })
         }),
         combinationsController.index
     ],
     put: [
-        requireAuth,
+        userController.authorize.bind(userController),
         celebrate({
             [Segments.BODY]: Joi.object().keys({
                 id: Joi.number().required(), name: Joi.string().required(), graphic_card: Joi.string().required(),
@@ -103,8 +92,20 @@ const combinations = {
     ]
 }
 
+const signup = {
+    post: [
+        celebrate({
+            [Segments.BODY]: Joi.object().keys({
+                credential: Joi.string(),
+                password: Joi.string().required()
+            })
+        }),
+        userController.login.bind(userController)
+    ]
+}
+
 const user = {
-    /*post: [
+    post: [
         celebrate({
             [Segments.BODY]: Joi.object().keys({
                 email: Joi.string().required(),
@@ -113,39 +114,26 @@ const user = {
                 confirmPassword: Joi.string().required()
             })
         }),
-        userController.create
-    ],*/
-    post: [
-        celebrate({
-            [Segments.BODY]: Joi.object().keys({
-                email: Joi.string(),
-                password: Joi.string().required()
-            })
-        }),
-        userController.login,
-        (request, response) => authTokens = response.locals.authTokens
-
-            
-        
-    ]
+        userController.create.bind(userController)
+    ] 
 }
-
 
 router.route('/games')
     .post(games.post)
     .put(games.put)
     .get(games.get)
 
+
 router.route('/combinations')
     .delete(combinations.delete)
     .post(combinations.post)
     .get(combinations.get)
     .put(combinations.put)
-    
 
-router.route('/user')
-    .post(user.post)
-    //.post(user.post)
+router.get('/combinations/:id', combinations.get)
+    
+router.post('/signup', signup.post)
+router.post('/user', user.post)
 
 
 module.exports = router

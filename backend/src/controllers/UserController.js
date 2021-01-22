@@ -1,10 +1,14 @@
+'use strict'
+
 const getHashedCode = require('../utils/getHashedCode')
 const generateAuthToken = require('../utils/generateAuthToken')
 
 const db = require('../database/connection')
 
 class UserController{
-
+    authTokens = {}
+    user = {}
+    
     async create(request, response){
         const { email, username, password, confirmPassword } = request.body
 
@@ -32,15 +36,15 @@ class UserController{
 
     }
     async login(request, response, next){
-        const { email, password } = request.body
+        const { credential, password } = request.body
         const hashedPassword = getHashedCode(password)
-
+        
         try{
             const users = [... await db('users').select('*')]
 
             const user = users.find(u => {
-                if(email){
-                    return u.email == email && hashedPassword == u.password
+                if(credential){
+                    return (u.email == credential || u.username == credential) && hashedPassword == u.password
                 }
                 else{
                     return false
@@ -49,9 +53,9 @@ class UserController{
 
             if(user){
                 const authToken = generateAuthToken()
-                
-                response.locals.authTokens = {}
-                response.locals.authTokens[authToken] = user
+                /*response.locals.authTokens = {}
+                response.locals.authTokens[authToken] = user*/
+                this.authTokens[authToken] = user
 
                 response.header('authtoken', authToken).json({ message: 'O usuário está logado.' }).status(200)
 
@@ -62,12 +66,37 @@ class UserController{
             }
         }
         catch(error){
-            console.log(error)
-
             return response.status(400).json({ })
         }
     }
-     
+
+    setAuthorization(request, response, next){
+        const auth = request.headers['user']
+
+        if(Object.entries(this.authTokens).length)
+            this.user = this.authTokens[auth]
+        
+        next()
+    }
+
+    authorize(request, response, next){
+        if(!this.user) return response.status(401).json({ message: 'You must be logged in' })
+
+        next()
+    }
 }
+
+/* 
+(request, response) => authTokens = response.locals.authTokens
+
+router.use((request, response, next) => {
+    const auth = request.headers['user']
+
+    if(Object.entries(authTokens).length){
+        response.locals.user = authTokens[auth]
+    }
+
+    next()
+})*/
 
 module.exports = UserController

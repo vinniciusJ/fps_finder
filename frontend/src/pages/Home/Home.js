@@ -35,7 +35,7 @@ const Home = () => {
     const isValid = (value) => Number(value) !== 0 
 
     useEffect(() => {
-        api.get('combinations', { params: { components: {} } }).then(response => {
+        api.get('combinations', { params: {} }).then(response => {
             const combination = response.data
 
             setGraphicCardOptions(combination['graphic_card'])
@@ -61,14 +61,14 @@ const Home = () => {
         })
 
         if(Object.keys(filterOption).length === 3){
-            api.get('combinations', { params: { components: { ...filterOption } } }).then(response => {
+            api.get('combinations', { params: { ...filterOption } }).then(response => {
                 const [ combination ] = response.data
 
                 setFilteredCombination(combination)
             })
         }
         else {
-            api.get('combinations', { params: { components: { ...filterOption } } }).then(response => {
+            api.get('combinations', { params: {  ...filterOption } }).then(response => {
                 const { graphic_card, processor, ram_memory } = response.data
 
                 if(isValid(graphic_card.length)) setGraphicCardOptions(graphic_card)

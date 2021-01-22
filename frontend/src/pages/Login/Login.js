@@ -6,7 +6,7 @@ import api from '../../services/api'
 import './styles.css'
 
 const Login = props => {
-    const emailInput = useRef('')
+    const userInput = useRef('')
     const passwordInput = useRef('')
     const history = useHistory()
 
@@ -15,10 +15,10 @@ const Login = props => {
     const handleLogIn = event => {
         event.preventDefault()
 
-        const email = emailInput.current.value
-        const password = passwordInput.current.value
+        const { value: credential } = userInput.current
+        const { value: password } = passwordInput.current
 
-        api.post('/user', { email, password }).then(response => {
+        api.post('/signup', { credential, password }).then(response => {
             if(response.status === 400){
                 alert(response.data.message)
 
@@ -36,7 +36,7 @@ const Login = props => {
                 <form className="login-form">
                     <div>
                         <label htmlFor="username">Usuário:</label>
-                        <input required type="email" name="username" placeholder="Digite seu username" ref={emailInput}/>
+                        <input required  name="username" placeholder="Digite seu username" ref={userInput}/>
                     </div>
                     <div>
                         <label htmlFor="password">Senha:</label>

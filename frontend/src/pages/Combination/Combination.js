@@ -16,7 +16,7 @@ const Combination = props => {
     const [ games, setGames ] = useState([])
     const [ combination, setCombination ] = useState({})
 
-    const [ FPSInputs, setFPSInputs ] = useState([!id && { key: 0, gameValue: 0, fpsValue: 0, isDuplicated: false }])
+    const [ FPSInputs, setFPSInputs ] = useState([id || { key: 0, gameValue: 0, fpsValue: 0, isDuplicated: false }])
     const [ components, setComponents ] = useState({ graphic_card: '', processor: '', ram_memory: '', motherboard: '' })
 
     const history = useHistory()
@@ -24,8 +24,9 @@ const Combination = props => {
     const user = sessionStorage.getItem('user')
 
     useEffect(() => api.get('/games', { headers: { user } }).then(response => setGames(response.data)), [ user ])
+    
     useEffect(() => {
-        id && api.get('/combinations', { params: { id }, headers: { user } }).then(response => {
+        id && api.get(`/combinations/${id}`, { headers: { user } }).then(response => {
             const [ selectedCombination ] = response.data
             const { FPSAverages, name, graphic_card, processor, ram_memory, motherboard } = selectedCombination
 
@@ -38,6 +39,8 @@ const Combination = props => {
                     isDuplicated: false
                 }
             })
+
+            console.log(FPSInputValues)
 
             setCombination(selectedCombination)
             setComponents({ name, graphic_card, processor, ram_memory, motherboard })
@@ -70,6 +73,7 @@ const Combination = props => {
                 if(input.key === Number(inputID)){
                     return { 
                         key: input.key, 
+                        id: input.id,
                         gameValue: Number(gameID), 
                         fpsValue: input.fpsValue, 
                         isDuplicated: Number(gameID) === 0 ? false : true
@@ -86,9 +90,9 @@ const Combination = props => {
 
         const modifiedFPSInputs = FPSInputs.map((input, index) => {
             if(index === Number(inputID)){
-                const { key, gameValue, fpsValue, isDuplicated } = input
+                const { key, id: FPSId, gameValue, fpsValue, isDuplicated } = input
             
-                const newInput = { key, gameValue, fpsValue, isDuplicated }
+                const newInput = { key, id: FPSId, gameValue, fpsValue, isDuplicated }
                 
                 if(gameValue !== Number(gameID)) newInput.gameValue = Number(gameID)
                 if(input.isDuplicated) newInput.isDuplicated = false
@@ -111,7 +115,7 @@ const Combination = props => {
                 let { key, id, gameValue, fpsValue, isDuplicated } = input
 
                 fpsValue = Number(value)
-
+        
                 return id ? { key, id, gameValue, fpsValue, isDuplicated} : { key, gameValue, fpsValue, isDuplicated}
             }
 
@@ -143,6 +147,7 @@ const Combination = props => {
         const { name, graphic_card, processor, ram_memory, motherboard } = components
         const gamesValues = FPSInputs.map(input => input.gameValue) 
 
+
         if(!(name && graphic_card && processor && ram_memory && motherboard)) 
             return alert('Por favor, você deve preencher todos os campos de componentes.')
 
@@ -154,19 +159,24 @@ const Combination = props => {
             return id ? { id, fps_average: fpsValue, id_game: gameValue } : { fps_average: fpsValue, id_game: gameValue } 
         })
 
-        const newCombination = { id, ...components, fps_averages }
+        const newCombination = { ...components, fps_averages }
 
-        !id && api.post('/combinations', { ...newCombination }, { headers: { user } }).then(response => {
+        id || api.post('/combinations', { ...newCombination }, { headers: { user } }).then(response => {
             if(response.status === 400) return alert(response.data.message)
 
             history.push('/admin')
         })
 
-        id && api.put('/combinations', { ...newCombination }, { headers: { user } }).then(response => {
-            if(response.status === 400) return alert(response.data.message)
-           
-            history.push('/admin')
-        })
+        id && (() => {
+            console.log({id, ...newCombination})
+
+            api.put('/combinations', { id, ...newCombination }, { headers: { user } }).then(response => {
+            
+                if(response.status === 400) return alert(response.data.message)
+               
+                history.push('/admin')
+            })
+        })()
 
     }
 

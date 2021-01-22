@@ -4,7 +4,7 @@ const db = require('../database/connection')
 const filterByComponents = async components => {
     const getComponentKeys  = component => Object.keys(component)
 
-    const componentsLength = Object.keys(components).length
+    const { length: componentsLength } = Object.keys(components)
 
     if(componentsLength === 3){
         const [ key1, key2, key3 ] = getComponentKeys(components)

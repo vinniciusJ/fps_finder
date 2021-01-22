@@ -1,11 +1,10 @@
-const { join } = require('../database/connection')
 const db = require('../database/connection')
 const filterByComponents = require('../utils/filterByComponents')
 
 class CombinationsController {
     async create(request, response){
         const { name, graphic_card, processor, ram_memory, motherboard, fps_averages } = request.body
-
+        
         const trx = await db.transaction()
 
         try {
@@ -15,13 +14,10 @@ class CombinationsController {
                 const { fps_average, id_game } = fps_average_item
 
                 await trx('fps_averages').insert({ fps_average, id_combination, id_game })
-            })
+            }) 
 
-            //const [ createdCombination ] = 
-            //const createdCombinationFPSs = 
-
-            await trx('combinations').select('*').where('combinations.id', id_combination)
-            await trx('fps_averages').select('*').where('id_combination', id_combination)
+            //await trx('combinations').select('*').where('combinations.id', id_combination)
+            console.log(await trx('fps_averages').select('*').where('id_combination', id_combination))
 
             await trx.commit()
 
@@ -34,22 +30,21 @@ class CombinationsController {
         }
     }
     async index(request, response){
-        const joinWithFPS = async combinations => {
-            const getFPSAverages = combination => FPSAverages.filter(FPSAverage => combination.id === FPSAverage.id_combination)
+        const joinWithFPS = async combinations => {  
             const FPSAverages = [... await db('fps_averages').select('*') ]
-
+            const getFPSAverages = combination => FPSAverages.filter(FPSAverage => combination.id === FPSAverage.id_combination)
+            
             return combinations.map(combination => ({...combination, FPSAverages: getFPSAverages(combination)}))
         }
+        
+        const { name,  ...components } = request.query
+        const { id } = request.params
 
-        let { components, name, id } = request.query
-
-        let combinations = { 'graphic_card': [] , 'processor': [], 'ram_memory': [] }
-        let status = true
-
-        if(components) components = JSON.parse(components)
-
+        let status = true, combinations = { 'graphic_card': [] , 'processor': [], 'ram_memory': [] }
+    
         try{
-            if(components){
+            if(components && !name && !id){
+                
                 const filteredComponents = [...await filterByComponents(components)]
 
                 filteredComponents.every(component => {
@@ -70,13 +65,11 @@ class CombinationsController {
                 
                 if(!status) combinations = filteredComponents
             }
-            else if(name){              
-                combinations = await joinWithFPS(await db('combinations').select('*').where('name', 'like', `%${name}%`))
+            else if(name){         
+                combinations = await joinWithFPS(await db('combinations').select('*').where('name', 'like', `%${name === ' ' ? '' : name}%`))      
             }
             else if(id){
-               
                 combinations = await joinWithFPS(await db('combinations').select('*'). where('id', id))
-
             }
             else {                  
                 combinations = await joinWithFPS([... await db('combinations').select('*')] )
@@ -86,7 +79,7 @@ class CombinationsController {
             return response.status(400).json({ message: "Ocorreu um erro na listagem das combinações" })
         }
 
-        return response.status(200).json(combinations)
+        return response.status(200).json(combinations)    
     }
     async update(request, response){
         const { id, name, graphic_card, processor, ram_memory, motherboard, fps_averages } = request.body
@@ -94,12 +87,23 @@ class CombinationsController {
         const trx = await db.transaction()
 
         try{
-            fps_averages.forEach(async FPSAverageItem => {
-                const { id, fps_average } = FPSAverageItem
-
-                console.log(FPSAverageItem)
+            const previousFPSIds = [ ...await trx('fps_averages').select('id').where('id_combination', id) ].map(item => item.id)
             
-                await trx('fps_averages').where({ id }).update({ fps_average })
+            const currentFPSIds = fps_averages.map(item => item.id)
+
+            previousFPSIds.forEach(async FPSId => 
+                currentFPSIds.includes(FPSId) || await db('fps_averages').where('id', FPSId).delete()
+            )
+
+            fps_averages.forEach(async FPSAverageItem => {
+                const { id: FPSId, fps_average, id_game } = FPSAverageItem
+            
+                if(FPSId) {
+                    await trx('fps_averages').where({ id: FPSId }).update({ fps_average, id_game })
+                }
+                else {
+                    await trx('fps_averages').insert({ fps_average, id_combination: id, id_game })
+                }
             })
 
             await trx('combinations').where({ id }).update({ name, graphic_card, processor, ram_memory, motherboard })
@@ -110,7 +114,7 @@ class CombinationsController {
         }
         catch(error){
             trx.rollback()
-
+            
             return response.status(400).json({ message: 'Ocorreu um erro na atualização dos dados da combinação. Por favor, tente novamente.' })
         }
     }

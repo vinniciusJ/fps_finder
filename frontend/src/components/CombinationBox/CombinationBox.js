@@ -41,7 +41,6 @@ const CombinationBox = props => {
         return <InternalLink smooth to='#delete' />
     }
 
-
     return (
         <>
         <section className="combination-container">

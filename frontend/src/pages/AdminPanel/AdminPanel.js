@@ -20,10 +20,11 @@ const AdminPanel = props => {
     const user = sessionStorage.getItem('user')
 
     const handleKeyUp = ({ target: { value } }) => 
-        api.get('/combinations', { params: { name: value }, headers: { user }}).then(response => setCombinations(response.data))
+        api.get('/combinations', { params: { name: value || ' ' }, headers: { user }}).then(response => setCombinations(response.data))
 
     useEffect(() => {
-        api.get('/combinations', { headers: { user } }).then(response => {
+        api.get('/combinations', { params: { name: ' ' }, headers: { user } }).then(response => { 
+            console.log(response.data)
             setCombinations(response.data)
             setTotalCombinations(response.data.length)
         }).catch(() => setIsThereAnyCombination(false))
@@ -74,7 +75,7 @@ const AdminPanel = props => {
                 
                 </>
             ) : (
-                <Redirect to={{ pathname: '/login/', state: { from: props.location }}} />
+                <Redirect to={{ pathname: '/signup', state: { from: props.location }}} />
             )}
         </div>
     )
