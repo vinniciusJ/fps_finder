@@ -80,7 +80,6 @@ const CombinationBox = props => {
             {isDeletePopupVisible && 
                 <DeletePopUp id={combination.id} name={combination.name} handlePopupVisibility={handleDeletePopupVisibility}/>
             }
-
         </section>
         </>
     )

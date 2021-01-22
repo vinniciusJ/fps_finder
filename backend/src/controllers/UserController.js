@@ -1,5 +1,3 @@
-'use strict'
-
 const getHashedCode = require('../utils/getHashedCode')
 const generateAuthToken = require('../utils/generateAuthToken')
 
@@ -29,11 +27,10 @@ class UserController{
             }
         }
         catch(error){
-            console.log(error)
-
             return response.status(400).json({ })
         }
 
+        return response.status(200).send()
     }
     async login(request, response, next){
         const { credential, password } = request.body
@@ -53,8 +50,7 @@ class UserController{
 
             if(user){
                 const authToken = generateAuthToken()
-                /*response.locals.authTokens = {}
-                response.locals.authTokens[authToken] = user*/
+            
                 this.authTokens[authToken] = user
 
                 response.header('authtoken', authToken).json({ message: 'O usuário está logado.' }).status(200)
@@ -85,18 +81,5 @@ class UserController{
         next()
     }
 }
-
-/* 
-(request, response) => authTokens = response.locals.authTokens
-
-router.use((request, response, next) => {
-    const auth = request.headers['user']
-
-    if(Object.entries(authTokens).length){
-        response.locals.user = authTokens[auth]
-    }
-
-    next()
-})*/
 
 module.exports = UserController

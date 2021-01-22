@@ -73,6 +73,7 @@
     outline: none;
 
     margin-bottom: 1.8rem;
+    color: white;
 }
 
 .fps-footer .footer-email form textarea{
@@ -83,6 +84,7 @@
     outline: none;
 
     height: 20rem;
+    color: white;
 
     margin-bottom: 1.8rem;
 }
