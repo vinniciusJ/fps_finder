@@ -84,6 +84,8 @@ class CombinationsController {
     async update(request, response){
         const { id, name, graphic_card, processor, ram_memory, motherboard, fps_averages } = request.body
 
+        console.log(request.body)
+
         const trx = await db.transaction()
 
         try{

@@ -30,14 +30,14 @@ const Footer = () => {
                     </div>
                     <div className="devs-info-email">
                         <h1>DESENVOLVEDORES</h1>
-                        <p><Mail width={24} strokeWidth={1}/>equilibrio.perfeito@gmail.com</p>
+                        <p><Mail width={24} strokeWidth={1}/>ep@gmail.com</p>
                     </div>
                 </section>
                 <section className="footer-email">
                     <h1>Fale conosco</h1>
                     <form className="contact-us">
-                        <input name="e-mail" id="subject" required="required"placeholder="Assunto" ref={subjectInput}/>
-                        <textarea  cols="30" rows="10" ref={messageInput} placeholder="Mensagem..."></textarea>
+                        <input name="e-mail" autoComplete="false" id="subject" required placeholder="Assunto" ref={subjectInput}/>
+                        <textarea required cols="30" rows="10" ref={messageInput} placeholder="Mensagem..."></textarea>
 
                         <button className="btn main" onClick={handleMailSubmit}><span><Send width={24}/><strong>Enviar</strong></span></button>
                     </form>

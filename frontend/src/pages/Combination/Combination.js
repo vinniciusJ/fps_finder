@@ -40,8 +40,6 @@ const Combination = props => {
                 }
             })
 
-            console.log(FPSInputValues)
-
             setCombination(selectedCombination)
             setComponents({ name, graphic_card, processor, ram_memory, motherboard })
             setFPSInputs(FPSInputValues)
@@ -236,7 +234,7 @@ const Combination = props => {
             
             </>
             ) : (
-                <Redirect to={{ pathname: '/login/', state: { from: props.location }}} />
+                <Redirect to={{ pathname: '/login', state: { from: props.location }}} />
             )}
         </div>
     )

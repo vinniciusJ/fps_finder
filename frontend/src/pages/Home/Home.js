@@ -17,7 +17,7 @@ import motherboardImage from '../../assets/images/motherboard.svg'
 import './styles.css'
 
 const Home = () => {
-    const [ currentPopUp, setCurrentPopUp ] = useState({ id: 0, isVisible: false })
+    const [ currentPopUp, setCurrentPopUp ] = useState({ id: '#', isVisible: false })
     const [ isAMobileDevice, setIsAMobileDevice ] = useState(false)
     const [ resultContainer, setResultContainer ] = useState(false)
     const [ games, setGames ] = useState([])
@@ -48,6 +48,9 @@ const Home = () => {
 
             setGames(receveidGames)
         })
+
+        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+            setIsAMobileDevice(true)
     }, [  ])
 
     useEffect(() => {
@@ -89,15 +92,11 @@ const Home = () => {
             setCurrentPopUp({ id, isVisible: status })
         }
 
-        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-            setIsAMobileDevice(true)
-            
-            let { overflowY } = document.documentElement.style 
+        if(isAMobileDevice){
+            const { overflowY } = document.documentElement.style 
            
             document.documentElement.style.overflowY = overflowY === 'hidden' ? 'initial' : 'hidden'
         }
-  
-        return <Link to={id} smooth/>
     }
 
     const clearSelectFields = () => {
@@ -172,10 +171,11 @@ const Home = () => {
                     />
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'graphic-card') &&
-                        
                         <PopUp 
-                            closePopUp={handleCurrentPopUpVisibility} isVisible={currentPopUp.isVisible}
-                            id="component-graphic_card"
+                            closePopUp={handleCurrentPopUpVisibility} 
+                            isVisible={currentPopUp.isVisible}
+                            isAMobileDevice={isAMobileDevice}
+                            id="component-graphic-card"
                         >
                             <section className="popup-title">
                                 <img src={graphicCardImage} alt="Placa de Vídeo"/>
@@ -202,8 +202,10 @@ const Home = () => {
                     {(currentPopUp.isVisible && currentPopUp.id === 'processor') &&
                         
                         <PopUp 
-                        closePopUp={handleCurrentPopUpVisibility} isVisible={currentPopUp.isVisible}
-                        id="component-processor"
+                            closePopUp={handleCurrentPopUpVisibility} 
+                            isVisible={currentPopUp.isVisible}
+                            isAMobileDevice={isAMobileDevice}
+                            id="component-processor"
                         >
                             <section className="popup-title">
                                 <img src={processorImage} alt="Processador"/>
@@ -213,6 +215,7 @@ const Home = () => {
                                 <p>O processador é basicamente o cérebro de sua máquina. A função dele é acelerar, enviar, resolver ou preparar dados para os outros componentes do computador. </p> 
                             </main>
                         </PopUp>
+                        
                     }
                 </div>
                 <div className="label-section">
@@ -229,8 +232,10 @@ const Home = () => {
                     {(currentPopUp.isVisible && currentPopUp.id === 'ram-memory') &&
                         
                         <PopUp 
-                        closePopUp={handleCurrentPopUpVisibility} isVisible={currentPopUp.isVisible}
-                        id="component-ram-memory"
+                            closePopUp={handleCurrentPopUpVisibility} 
+                            isVisible={currentPopUp.isVisible}
+                            isAMobileDevice={isAMobileDevice}
+                            id="component-ram-memory"
                         >
                             <section className="popup-title">
                                 <img src={ramMemoryImage} alt="Memória RAM"/>
@@ -241,13 +246,12 @@ const Home = () => {
                             </main>
                         </PopUp>
                     }
+
                     <section className="operations-buttons">
                     <Link className="btn main" onClick={handleResultContainerView} smooth to={`#result`}>Calcular</Link>
                     <button className="btn" onClick={clearSelectFields}>Limpar campos</button>
                 </section>
                 </div>
-
-                
             </main>
 
             {resultContainer &&

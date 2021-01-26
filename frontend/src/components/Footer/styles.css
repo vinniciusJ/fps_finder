@@ -44,10 +44,11 @@
     margin-bottom: 2.4rem;
 }
 
-.fps-footer .footer-info .devs-info-email p{
+.fps-footer .footer-info .devs-info-email p, .fps-footer .footer-info .fps-info-email p{
     display: flex;
     align-items: center;
     gap: 1rem;
+
     font-size: 2rem;
 }
 
@@ -87,6 +88,7 @@
     color: white;
 
     margin-bottom: 1.8rem;
+    resize: none;
 }
 
 .fps-footer .footer-email form .btn{

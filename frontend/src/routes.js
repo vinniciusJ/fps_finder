@@ -9,7 +9,7 @@ import Combination from './pages/Combination/Combination'
 const Routes = () => (
     <BrowserRouter>
         <Route path='/' exact component={Home} />
-        <Route path='/signup' component={Login} />
+        <Route path='/login' component={Login} />
         <Route path='/admin' component={AdminPanel} />
         <Route path='/combination/:id?' component={Combination}/>
     </BrowserRouter>

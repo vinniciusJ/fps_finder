@@ -66,7 +66,7 @@ const AdminPanel = props => {
                             <div className="no-combination-found">
                                 <AlertCircle width={96} height={96} color='#E7E6E6'/>
                                 <p>   
-                                    Nenhuma combinação com esse nome foi encontrada
+                                    Nenhuma combinação foi encontrada
                                 </p>
                             </div>
                         )
@@ -75,7 +75,7 @@ const AdminPanel = props => {
                 
                 </>
             ) : (
-                <Redirect to={{ pathname: '/signup', state: { from: props.location }}} />
+                <Redirect to={{ pathname: '/login', state: { from: props.location }}} />
             )}
         </div>
     )

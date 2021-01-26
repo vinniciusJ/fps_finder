@@ -12,9 +12,9 @@ const SelectInput = (props) => {
         <div className="select-container">
             <section className="select-header">
                 <h2>{label}</h2>
-                <Link onClick={handlePopUp} smooth to={isAMobileDevice ? `#component-${popUpID}` : ``}>
+                <button onClick={handlePopUp}>
                     <img src={helpIcon} alt={label} id={popUpID}/>
-                </Link>
+                </button>
             </section>
             <section className="select-input">
                 <select value={selectedOption} onChange={handleSelectChange}>
