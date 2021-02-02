@@ -141,9 +141,20 @@
     margin-bottom: 4rem;
 }
 
+.games-container .games-list{
+    margin-bottom: 4rem;
+}
+
 .games-list .game-container .game-logo p{
-    width: 20rem;
     max-width: 34rem;
+}
+
+.games-container-info{
+    font-size: 1.8rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
 }
 
 .btn-again{
@@ -156,15 +167,13 @@
 }
 
 
-
 @media screen and (min-width: 496px){
     .label-section{
         position: relative;
     }
-
 }
 
-@media screen and (min-width: 608px){
+@media screen and (min-width: 512px){
     .main-header{
         align-items: center;
     }
@@ -201,9 +210,9 @@
         margin-bottom: 4rem;
     }
 
-    .game-container .game-logo p{
+    /*.game-container .game-logo p{
         width: 34rem;
-    }
+    }*/
     
 }
 

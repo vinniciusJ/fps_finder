@@ -19,6 +19,8 @@ const DeletePopUp = props => {
         api.delete('/combinations', {  headers: { user: sessionStorage.getItem('user') }, data: { id } }).then(response => 
             response.status === 200 && handlePopupVisibility()
         )
+
+        window.location.reload()
     }
 
     return (

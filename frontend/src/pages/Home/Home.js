@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { HashLink as Link } from 'react-router-hash-link'
+import { AlertCircle } from 'react-feather'
 
 import api from '../../services/api'
 
@@ -294,6 +295,11 @@ const Home = () => {
                                 )
                             })}
                         </div>
+
+                        <p className="games-container-info">
+                            <AlertCircle color='black' strokeWidth={1.5} width={24} height={24}/>
+                            Todos os testes foram realizados na qualidade média
+                        </p>
                     </section>
 
                     <section className="btn-again">

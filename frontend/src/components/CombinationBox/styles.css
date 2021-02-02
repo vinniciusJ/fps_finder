@@ -121,10 +121,6 @@
     max-width: 72rem;
 }
 
-.combination-container .combinations-data .combinations-game .game-container .game-logo p{
-    width: 24rem;
-}
-
 .combination-container .combinations-data .combinations-game::-webkit-scrollbar{
     width: 1rem;
 }
@@ -154,19 +150,11 @@
     .combination-container .combinations-data .combinations-game{
         padding-right: 2rem;
     }
-
-    .combination-container .combinations-data .combinations-game .game-container .game-logo p{
-        width: 18rem;
-    }
+    
+    
 }
 
-@media screen and (max-width: 1330px){
-    .combination-container .combinations-data .combinations-game .game-container .game-logo p{
-        width: 14rem;
-    }
-}
-
-@media screen and (max-width: 1308px){
+@media screen and (max-width: 1316px){
     .combination-container .combinations-data{
         height: 52rem;
     }
@@ -191,9 +179,8 @@
         min-width: 100%;
         height: 24rem;
         padding: 0;
-       
         padding-right: 4rem;
-    }
+    }    
 }
 
 @media screen and (max-width: 766px){
@@ -224,3 +211,9 @@
         display: none;
     }
 }
+/*
+@media screen and (max-width: 480px){
+    .combination-container .combinations-data .combinations-game .game-container .game-logo p{
+        width: 12rem;
+    }
+}*/

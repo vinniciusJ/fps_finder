@@ -25,7 +25,7 @@ const GameContainer = props => {
                 <p>{props.name}</p>
             </div>
             <div className="game-fps">
-                <p><span style={isWhite ? spanStyle : {}}>Média de FPS: </span>{props.FPSAverage}</p>
+                <p><span style={isWhite ? spanStyle : {}}>Média FPS: </span>{props.FPSAverage}</p>
             </div>
         </div>
     )

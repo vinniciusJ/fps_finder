@@ -165,17 +165,11 @@ const Combination = props => {
             history.push('/admin')
         })
 
-        id && (() => {
-            console.log({id, ...newCombination})
-
-            api.put('/combinations', { id, ...newCombination }, { headers: { user } }).then(response => {
+        id && api.put('/combinations', { id, ...newCombination }, { headers: { user } }).then(response => {
+            if(response.status === 400) return alert(response.data.message)
             
-                if(response.status === 400) return alert(response.data.message)
-               
-                history.push('/admin')
-            })
-        })()
-
+            history.push('/admin')
+        })
     }
 
     const cancelOperation = event => {
