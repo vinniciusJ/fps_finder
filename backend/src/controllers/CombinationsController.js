@@ -16,9 +16,6 @@ class CombinationsController {
                 await trx('fps_averages').insert({ fps_average, id_combination, id_game })
             }) 
 
-            //await trx('combinations').select('*').where('combinations.id', id_combination)
-            console.log(await trx('fps_averages').select('*').where('id_combination', id_combination))
-
             await trx.commit()
 
             return response.status(201).send()
@@ -40,7 +37,7 @@ class CombinationsController {
         const { name,  ...components } = request.query
         const { id } = request.params
 
-        let status = true, combinations = { 'graphic_card': [] , 'processor': [], 'ram_memory': [] }
+        let status = true, combinations = { graphic_card: [] , processor: [], ram_memory: [] }
     
         try{
             if(components && !name && !id){
@@ -83,9 +80,7 @@ class CombinationsController {
     }
     async update(request, response){
         const { id, name, graphic_card, processor, ram_memory, motherboard, fps_averages } = request.body
-
-        console.log(request.body)
-
+        
         const trx = await db.transaction()
 
         try{

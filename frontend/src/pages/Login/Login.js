@@ -18,7 +18,7 @@ const Login = props => {
         const { value: credential } = userInput.current
         const { value: password } = passwordInput.current
 
-        api.post('/signup', { credential, password }).then(response => {
+        api.post('/login', { credential, password }).then(response => {
             if(response.status === 400){
                 alert(response.data.message)
 

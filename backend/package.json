@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "fps_finder_server",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -16,7 +16,8 @@
     "express": "^4.17.1",
     "fix": "^0.0.6",
     "knex": "^0.21.12",
-    "sqlite3": "^5.0.0"
+    "sqlite3": "^5.0.0",
+    "vercel": "^21.2.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

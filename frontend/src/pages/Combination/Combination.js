@@ -12,14 +12,13 @@ import './styles.css'
 
 const Combination = props => {
     const { id } = useParams()
-    
+    const history = useHistory()
+
     const [ games, setGames ] = useState([])
     const [ combination, setCombination ] = useState({})
 
     const [ FPSInputs, setFPSInputs ] = useState([id || { key: 0, gameValue: 0, fpsValue: 0, isDuplicated: false }])
     const [ components, setComponents ] = useState({ graphic_card: '', processor: '', ram_memory: '', motherboard: '' })
-
-    const history = useHistory()
 
     const user = sessionStorage.getItem('user')
 
@@ -30,15 +29,15 @@ const Combination = props => {
             const [ selectedCombination ] = response.data
             const { FPSAverages, name, graphic_card, processor, ram_memory, motherboard } = selectedCombination
 
-            const FPSInputValues = FPSAverages.map((average, index) => {
-                return {
+            const FPSInputValues = FPSAverages.map((average, index) => (
+                {
                     key: index,
                     id: average.id,
                     gameValue: average.id_game,
                     fpsValue: average.fps_average,
                     isDuplicated: false
                 }
-            })
+            ))
 
             setCombination(selectedCombination)
             setComponents({ name, graphic_card, processor, ram_memory, motherboard })
@@ -145,7 +144,6 @@ const Combination = props => {
         const { name, graphic_card, processor, ram_memory, motherboard } = components
         const gamesValues = FPSInputs.map(input => input.gameValue) 
 
-
         if(!(name && graphic_card && processor && ram_memory && motherboard)) 
             return alert('Por favor, você deve preencher todos os campos de componentes.')
 
@@ -158,7 +156,7 @@ const Combination = props => {
         })
 
         const newCombination = { ...components, fps_averages }
-
+        
         id || api.post('/combinations', { ...newCombination }, { headers: { user } }).then(response => {
             if(response.status === 400) return alert(response.data.message)
 

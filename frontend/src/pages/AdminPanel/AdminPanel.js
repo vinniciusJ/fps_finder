@@ -24,9 +24,9 @@ const AdminPanel = props => {
 
     useEffect(() => {
         api.get('/combinations', { params: { name: ' ' }, headers: { user } }).then(response => { 
-            console.log(response.data)
             setCombinations(response.data)
             setTotalCombinations(response.data.length)
+            
         }).catch(() => setIsThereAnyCombination(false))
 
         api.get('/games', { headers: { user } }).then(response => setGames(response.data))

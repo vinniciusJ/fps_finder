@@ -83,16 +83,17 @@ const Home = () => {
     }, [ selectedGraphicCard, selectedProcessor, selectedRamMemory ])
 
     const handleCurrentPopUpVisibility = event => {
-        const status = !currentPopUp.isVisible
+        const status = currentPopUp.isVisible
         const id = event.target.id
-    
-        if(!status && id !== currentPopUp.id){
-            setCurrentPopUp({ id, isVisible: true })
-        }
-        else {
-            setCurrentPopUp({ id, isVisible: status })
-        }
 
+        if(!status && id)
+            setCurrentPopUp({ id, isVisible: true })
+        
+        else if(status && id === currentPopUp.id)
+            setCurrentPopUp({ id, isVisible: false })
+        else
+            setCurrentPopUp({ id, isVisible: status })
+        
         if(isAMobileDevice){
             const { overflowY } = document.documentElement.style 
            
