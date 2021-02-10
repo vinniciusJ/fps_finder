@@ -87,7 +87,7 @@ const combinations = {
     ]
 }
 
-const signup = {
+const login = {
     post: [
         celebrate({
             [Segments.BODY]: Joi.object().keys({
@@ -127,7 +127,7 @@ router.route('/combinations')
     .put(combinations.put)
 
 router.get('/combinations/:id', combinations.get)  
-router.post('/signup', signup.post)
+router.post('/login', login.post)
 router.post('/user', user.post)
 
 module.exports = router

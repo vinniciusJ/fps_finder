@@ -134,7 +134,11 @@
     margin-bottom: 2rem;
 }
 
-@media screen and (max-width: 1436px){
+.combination-container .combinations-data .combinations-game .game-container .game-logo p{
+    width: 18rem;
+}
+
+@media screen and (max-width: 1438px){
     .combination-container .combination-container-header .combination-options{
         right: 0;
         top: 36px;
@@ -151,10 +155,9 @@
         padding-right: 2rem;
     }
     
-    
 }
 
-@media screen and (max-width: 1316px){
+@media screen and (max-width: 1330px){
     .combination-container .combinations-data{
         height: 52rem;
     }
@@ -180,7 +183,11 @@
         height: 24rem;
         padding: 0;
         padding-right: 4rem;
-    }    
+    } 
+    
+    .combination-container .combinations-data .combinations-game .game-container .game-logo p{
+        width: 24.8rem;
+    }
 }
 
 @media screen and (max-width: 766px){
@@ -211,9 +218,9 @@
         display: none;
     }
 }
-/*
+
 @media screen and (max-width: 480px){
     .combination-container .combinations-data .combinations-game .game-container .game-logo p{
         width: 12rem;
     }
-}*/
+}

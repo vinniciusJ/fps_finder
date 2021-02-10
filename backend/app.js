@@ -4,16 +4,14 @@ const cors = require('cors')
 
 const { errors } = require('celebrate')
 
-const routes = require('./routes')
+const routes = require('./src/routes')
 
 const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
 app.use(errors())
-app.use(cors({
-    exposedHeaders: 'authtoken',
-}))
+app.use(cors({ exposedHeaders: 'authtoken' }))
 
 app.use('/', routes)
 

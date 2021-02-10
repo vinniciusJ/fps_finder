@@ -35,64 +35,76 @@ const Home = () => {
 
     const isValid = (value) => Number(value) !== 0 
 
+    useEffect(() => console.log(filteredCombination), [ filteredCombination ])
+
     useEffect(() => {
-        api.get('combinations', { params: {} }).then(response => {
-            const combination = response.data
+        (async () => {
+            let combination = { graphic_card: null, processor: null, ram_memory: null }
+            let games = []
 
-            setGraphicCardOptions(combination['graphic_card'])
-            setProcessorOptions(combination['processor'])
-            setRamMemoryOptions(combination['ram_memory'])        
-        })  
+            try{
+                combination = await (await api.get('combinations', { params: {} })).data
+                games = await (await  api.get('games', { params: { name: "" } })).data
+            }
+            finally{
+                setGraphicCardOptions(combination['graphic_card'])
+                setProcessorOptions(combination['processor'])
+                setRamMemoryOptions(combination['ram_memory'])
 
-        api.get('games', { params: { name: "" } }).then(response => {
-            const receveidGames = response.data
-
-            setGames(receveidGames)
-        })
+                setGames(games)
+            }
+        })()
 
         if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
             setIsAMobileDevice(true)
+
     }, [  ])
 
     useEffect(() => {
-        const filterOption = {}
-        const components = [{ graphic_card: selectedGraphicCard }, { processor: selectedProcessor }, { ram_memory: selectedRamMemory }]
+        (async() => {
+            const filterOption = {}
+            const components = [{ graphic_card: selectedGraphicCard }, { processor: selectedProcessor }, { ram_memory: selectedRamMemory }]
 
-        components.forEach(component => {
-            const [ key ] = Object.keys(component)
-    
-            if(isValid(component[key])) filterOption[key] = component[key]
-        })
-
-        if(Object.keys(filterOption).length === 3){
-            api.get('combinations', { params: { ...filterOption } }).then(response => {
-                const [ combination ] = response.data
-
-                setFilteredCombination(combination)
+            components.forEach(component => {
+                const [ key ] = Object.keys(component)
+        
+                if(isValid(component[key])) filterOption[key] = component[key]
             })
-        }
-        else {
-            api.get('combinations', { params: {  ...filterOption } }).then(response => {
-                const { graphic_card, processor, ram_memory } = response.data
 
-                if(isValid(graphic_card.length)) setGraphicCardOptions(graphic_card)
-                if(isValid(processor.length)) setProcessorOptions(processor)
-                if(isValid(ram_memory.length)) setRamMemoryOptions(ram_memory)
-            })
-        }
+            if(Object.keys(filterOption).length === 3){
+                try{
+                    const { data: [ combination ] } = await api.get('combinations', { params: { ...filterOption } })
+
+                    setFilteredCombination(combination)
+                }
+                catch{
+                    setResultContainer(false)
+                }
+            }
+            else {
+                try{
+                    const { data: { graphic_card, processor, ram_memory } } = await api.get('combinations', { params: { ...filterOption } })
+
+                    if(isValid(graphic_card.length)) setGraphicCardOptions(graphic_card)
+                    if(isValid(processor.length)) setProcessorOptions(processor)
+                    if(isValid(ram_memory.length)) setRamMemoryOptions(ram_memory)
+                }
+                catch{
+                    setResultContainer(false)
+                }
+            }
+        })()
     }, [ selectedGraphicCard, selectedProcessor, selectedRamMemory ])
 
     const handleCurrentPopUpVisibility = event => {
         const status = !currentPopUp.isVisible
         const id = event.target.id
     
-        if(!status && id !== currentPopUp.id){
+        if(!status && id !== currentPopUp.id)
             setCurrentPopUp({ id, isVisible: true })
-        }
-        else {
+        else 
             setCurrentPopUp({ id, isVisible: status })
-        }
-
+    
         if(isAMobileDevice){
             const { overflowY } = document.documentElement.style 
            

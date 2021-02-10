@@ -34,7 +34,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
-    width: 40rem;
+    
 }
 
 .game-container .game-fps p{
@@ -60,7 +60,7 @@
     }
     
     .game-container .game-logo p{
-        width: 32rem;
+        width: 30rem;
     }
 
     .game-container .game-logo img{
@@ -69,12 +69,12 @@
     }
 }
 
-@media screen and (max-width: 416px){
+@media screen and (max-width: 544px){
     .game-container{
         padding: .6rem;
     }
 
     .game-container .game-logo p{
-        width: 16rem;
+        width: 21rem;
     }
 }

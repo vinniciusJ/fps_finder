@@ -12,22 +12,21 @@ const Login = props => {
 
     const { location: { state = { from: { pathname: '/admin'} }} } = props
 
-    const handleLogIn = event => {
+    const handleLogIn = async event => {
         event.preventDefault()
 
         const { value: credential } = userInput.current
         const { value: password } = passwordInput.current
 
-        api.post('/signup', { credential, password }).then(response => {
-            if(response.status === 400){
-                alert(response.data.message)
+        try{
+            const response = await api.post('/login', { credential, password })
 
-                return
-            }
-                    
             sessionStorage.setItem('user', response.headers['authtoken'])
             history.push(state.from.pathname)
-        })
+        }
+        catch(error){
+            alert('Usuário e/ou senha inválidos')
+        }
     }
      
     return(

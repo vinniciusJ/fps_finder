@@ -1,4 +1,4 @@
-const setOtherComponents = require('./setOthercomponents')
+const setOtherComponents = require('../utils/setOtherComponents')
 const db = require('../database/connection')
 
 const filterByComponents = async components => {
