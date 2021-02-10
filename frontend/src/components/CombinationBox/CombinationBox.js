@@ -8,6 +8,8 @@ import DeletePopUp from '../DeletePopUp/DeletePopUp'
 
 import './styles.css'
 
+let currentKey = 0
+
 const CombinationBox = props => {
     const { combination, games } = props
 
@@ -53,7 +55,13 @@ const CombinationBox = props => {
                 {isMoreOptionVisible && 
                     <div className="combination-options">
                         <Link to={`/combination/${combination.id}`} className='edit-combination'><Edit3 width={16}/>Editar</Link>
-                        <button className='delete-combination' data-id={combination.id} onClick={handleDeletePopupVisibility}><X width={16}/>Apagar</button>
+                        <button 
+                            className='delete-combination' 
+                            data-id={combination.id} 
+                            onClick={handleDeletePopupVisibility}
+                        >
+                            <X width={16}/>Apagar
+                        </button>
                      </div>
                 }
             </header>
@@ -68,9 +76,9 @@ const CombinationBox = props => {
                 <aside className="combinations-game">
                     {combination.FPSAverages.map((FPSAverage, index) => {
                         const [ currentGame ] = games.filter(game => game.id === FPSAverage.id_game)
-
+                
                         if(currentGame){
-                            return <GameContainer name={currentGame.name} FPSAverage={FPSAverage.fps_average} logo={currentGame.url_logo} background='#FFF' key={index}/>
+                            return <GameContainer name={currentGame.name} FPSAverage={FPSAverage.fps_average} logo={currentGame.url_logo} background='#FFF' key={`${currentGame.name}0#0${currentKey}`}/>
                         }
 
                         return <></>

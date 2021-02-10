@@ -1,12 +1,11 @@
 import React from 'react'
-import { HashLink as Link } from 'react-router-hash-link'
 
 import helpIcon from '../../assets/images/help.svg'
 
 import './styles.css'
 
 const SelectInput = (props) => {
-    const { label, selectedOption, options, handleSelectChange, handlePopUp, popUpID, isAMobileDevice } = props
+    const { label, selectedOption, options, handleSelectChange, handlePopUp, popUpID } = props
 
     return (
         <div className="select-container">
