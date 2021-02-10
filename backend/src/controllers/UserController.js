@@ -76,7 +76,7 @@ class UserController{
     }
 
     authorize(request, response, next){
-        if(!this.user) return response.status(401).json({ message: 'You must be logged in' })
+        if(!this.user) return response.status(401).json({ message: 'Você deve estar logado' })
 
         next()
     }

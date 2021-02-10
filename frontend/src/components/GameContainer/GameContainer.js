@@ -6,26 +6,23 @@ const GameContainer = props => {
     
     const [ logo, setLogo ] = useState('')
 
-    const containerStyle = {
-        background: '#FFF'
+    const style = {
+        div: { background: '#FFF' },
+        span: { color: 'var(--main-color)' }
     }
-
-    const spanStyle = {
-        color: 'var(--main-color)'
-    }
-
+    
     const isWhite = background === '#FFF'
 
     useEffect(() => import(`../../assets/icons/${props.logo}`).then(response => setLogo(response.default)), [ props.logo ])
     
     return  (
-        <div className="game-container" style={isWhite ? containerStyle : {}}>
+        <div className="game-container" style={isWhite ? style.div : {}}>
             <div className="game-logo">
                 <img src={logo} alt={props.name}/>
                 <p>{props.name}</p>
             </div>
             <div className="game-fps">
-                <p><span style={isWhite ? spanStyle : {}}>Média FPS: </span>{props.FPSAverage}</p>
+                <p><span style={isWhite ? style.span : {}}>Média FPS: </span>{props.FPSAverage}</p>
             </div>
         </div>
     )

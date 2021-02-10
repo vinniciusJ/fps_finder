@@ -93,11 +93,22 @@
     margin-bottom: 2rem;
 }
 
+.combinations-components{
+    width: 46rem;
+}
+
+
 @media screen and (max-width: 1392px){
     .admin-header{
         height: 10.8vh;
+    }   
+}
+
+
+@media screen and (max-width: 1316px){
+    .combinations-components{
+        width: 100%;
     }
-    
 }
 
 @media screen and (max-width: 980px){

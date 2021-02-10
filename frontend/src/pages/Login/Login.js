@@ -18,8 +18,14 @@ const Login = props => {
         const { value: credential } = userInput.current
         const { value: password } = passwordInput.current
 
+<<<<<<< HEAD
         try{
             const response = await api.post('/login', { credential, password })
+=======
+        api.post('/login', { credential, password }).then(response => {
+            if(response.status === 400){
+                alert(response.data.message)
+>>>>>>> 63a7b2c1dea978f542ec99121ea793076098d8e3
 
             sessionStorage.setItem('user', response.headers['authtoken'])
             history.push(state.from.pathname)
