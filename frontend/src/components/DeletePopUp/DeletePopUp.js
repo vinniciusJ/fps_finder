@@ -13,13 +13,18 @@ const DeletePopUp = props => {
     const [ isNameIncorrect, setIsNameIncorrect ] = useState(false) 
 
 
-    const deleteCombination = () => {
+    const deleteCombination = async () => {
         if(inputName.current.value !== name) return setIsNameIncorrect(true)
 
-        api.delete('/combinations', {  headers: { user: sessionStorage.getItem('user') }, data: { id } }).then(response => 
-            response.status === 200 && handlePopupVisibility()
-        )
+        try{
+            const response = api.delete('/combinations', {  headers: { user: sessionStorage.getItem('user') }, data: { id } })
 
+            response.status === 200 && handlePopupVisibility()
+        }
+        catch(error){
+            console.log(error)
+        }
+       
         window.location.reload()
     }
 
