@@ -194,7 +194,11 @@ const Combination = props => {
         const source = axios.CancelToken.source()
 
         try{
-            id || await api.post('/combinations', { ...newCombination }, { headers: { user }, cancelToken: source.token })
+            id || await api.post('/combinations', { ...newCombination }, { 
+                headers: { 'Access-Control-Allow-Origin': '*', user }, 
+                cancelToken: source.token,
+            })
+
             id && await api.put('/combinations', { id, ...newCombination }, { headers: { user }, cancelToken: source.token })
         }
         catch{

@@ -12,7 +12,6 @@ class CombinationsController {
         try {
             const [ id_combination ] = await trx('combinations').insert({ name, graphic_card, processor, ram_memory, motherboard })
 
-            fps_averages.forEach(item => console.log(item))
             fps_averages.forEach(async fps_average_item => {
                 const { fps_average, id_game } = fps_average_item
 
@@ -28,6 +27,7 @@ class CombinationsController {
 
             return response.status(400).json({ message: 'Aconteceu um erro na criação de uma combinação. Por favor, tente novamente.' })
         }
+
     }
     async index(request, response){
         const joinWithFPS = async combinations => {  
