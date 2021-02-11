@@ -4,30 +4,27 @@ const filterByComponents = require('../utils/filterByComponents')
 class CombinationsController {
     async create(request, response){
         const { name, graphic_card, processor, ram_memory, motherboard, fps_averages } = request.body
-        
-        console.log(request.body)
 
         const trx = await db.transaction()
 
-        try {
+        try{
             const [ id_combination ] = await trx('combinations').insert({ name, graphic_card, processor, ram_memory, motherboard })
-
-            fps_averages.forEach(async fps_average_item => {
-                const { fps_average, id_game } = fps_average_item
+    
+            for(let index = 0; index < [...fps_averages].length; index++){
+                const { fps_average, id_game } = fps_averages[index]
 
                 await trx('fps_averages').insert({ fps_average, id_combination, id_game })
-            }) 
-
+            }
+    
             await trx.commit()
             
             return response.status(201).send()
         }
-        catch{
+        catch(error){
             await trx.rollback()
 
-            return response.status(400).json({ message: 'Aconteceu um erro na criação de uma combinação. Por favor, tente novamente.' })
+            return response.status(400).send()
         }
-
     }
     async index(request, response){
         const joinWithFPS = async combinations => {  

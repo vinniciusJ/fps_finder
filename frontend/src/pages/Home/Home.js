@@ -58,7 +58,9 @@ const Home = () => {
             return () => source.cancel("Requisição Cancelada")
         })()
 
-        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+        const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+
+        if(mobile.test(navigator.userAgent) && window.matchMedia('(max-width: 414px)'))
             setIsAMobileDevice(true)
     }, 
     [  ])

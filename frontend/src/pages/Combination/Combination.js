@@ -199,7 +199,10 @@ const Combination = props => {
                 cancelToken: source.token,
             })
 
-            id && await api.put('/combinations', { id, ...newCombination }, { headers: { user }, cancelToken: source.token })
+            id && await api.put('/combinations', { id, ...newCombination }, { 
+                headers: { user }, 
+                cancelToken: source.token 
+            })
         }
         catch{
             alert(`Houve um problema na ${id ? 'edição' : 'criação'} da combinação, por favor tente mais tarde novamente.`)
