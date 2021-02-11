@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import { Redirect, useParams, useHistory } from 'react-router-dom'
 import { Plus } from 'react-feather'
 
@@ -22,29 +23,62 @@ const Combination = props => {
 
     const user = sessionStorage.getItem('user')
 
-    useEffect(() => api.get('/games', { headers: { user } }).then(response => setGames(response.data)), [ user ])
+    useEffect(() => 
+        (async() => {
+            const source = axios.CancelToken.source()
+
+            try{ 
+                const { data } = await api.get('/games', { 
+                    headers: { user },
+                    cancelToken: source.token
+                })
+
+                setGames(data)
+            }
+            catch(error){
+                return error
+            }
+
+            return () => source.cancel("Requisição Cancelada")
+        })(), 
+        [ user ]
+    )
     
     useEffect(() => {
-        id && api.get(`/combinations/${id}`, { headers: { user } }).then(response => {
-            const [ selectedCombination ] = response.data
-            const { FPSAverages, name, graphic_card, processor, ram_memory, motherboard } = selectedCombination
+        const source = axios.CancelToken.source()
+    
+        id && (async () => {      
+            try{
+                const { data: [ selectedCombination ] } =  await api.get(`/combinations/${id}`, { 
+                    headers: { user }, 
+                    cancelToken: source.token 
+                })
 
-            const FPSInputValues = FPSAverages.map((average, index) => (
-                {
+                const { FPSAverages, name, graphic_card, processor, ram_memory, motherboard } = selectedCombination
+
+                const FPSInputValues = FPSAverages.map((average, index) => ({
                     key: index,
                     id: average.id,
                     gameValue: average.id_game,
                     fpsValue: average.fps_average,
                     isDuplicated: false
-                }
-            ))
+                }))
 
-            setCombination(selectedCombination)
-            setComponents({ name, graphic_card, processor, ram_memory, motherboard })
-            setFPSInputs(FPSInputValues)
-        })
-    }, [ id, user ])
-    
+                setCombination(selectedCombination)
+                setComponents({ name, graphic_card, processor, ram_memory, motherboard })
+                setFPSInputs(FPSInputValues)
+            }
+            catch(error){
+                alert('Houve um problema para buscar os dados, por favor espere um pouco e tente novamente.')
+
+                history.goBack()
+            }
+        })()
+
+        return () => source.cancel("Requisição Cancelada")
+
+    }, [ id, user, history ])
+
     const addFPSInput = () => {
         const newKey = FPSInputs[FPSInputs.length - 1].key + 1
 
@@ -138,7 +172,7 @@ const Combination = props => {
         { value: combination.motherboard ?? '', label: 'Placa Mãe', name: 'motherboard', isRequired: true, onKeyUp: handleComponentInput }
     ]
 
-    const saveCombination = event => {
+    const saveCombination = async event => {
         event.preventDefault()
 
         const { name, graphic_card, processor, ram_memory, motherboard } = components
@@ -157,17 +191,19 @@ const Combination = props => {
 
         const newCombination = { ...components, fps_averages }
         
-        id || api.post('/combinations', { ...newCombination }, { headers: { user } }).then(response => {
-            if(response.status === 400) return alert(response.data.message)
+        const source = axios.CancelToken.source()
 
-            history.push('/admin')
-        })
+        try{
+            id || await api.post('/combinations', { ...newCombination }, { headers: { user }, cancelToken: source.token })
+            id && await api.put('/combinations', { id, ...newCombination }, { headers: { user }, cancelToken: source.token })
+        }
+        catch{
+            alert(`Houve um problema na ${id ? 'edição' : 'criação'} da combinação, por favor tente mais tarde novamente.`)
+        }
+         
+        history.push('/admin')
 
-        id && api.put('/combinations', { id, ...newCombination }, { headers: { user } }).then(response => {
-            if(response.status === 400) return alert(response.data.message)
-            
-            history.push('/admin')
-        })
+        return () => source.cancel()
     }
 
     const cancelOperation = event => {

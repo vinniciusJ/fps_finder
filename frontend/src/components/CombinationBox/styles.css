@@ -135,10 +135,12 @@
 }
 
 .combination-container .combinations-data .combinations-game .game-container .game-logo p{
-    width: 18rem;
+    min-width: 20rem;
+    width: 22rem;
+    max-width: 26rem;
 }
 
-@media screen and (max-width: 1438px){
+@media screen and (max-width: 1440px){
     .combination-container .combination-container-header .combination-options{
         right: 0;
         top: 36px;
@@ -157,7 +159,7 @@
     
 }
 
-@media screen and (max-width: 1330px){
+@media screen and (max-width: 1342px){
     .combination-container .combinations-data{
         height: 52rem;
     }

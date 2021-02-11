@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Plus, AlertCircle } from 'react-feather'
 import { Link, Redirect } from 'react-router-dom'
+import axios from 'axios'
 
 import CombinationBox from '../../components/CombinationBox/CombinationBox'
 
@@ -23,14 +24,34 @@ const AdminPanel = props => {
         api.get('/combinations', { params: { name: value || ' ' }, headers: { user }}).then(response => setCombinations(response.data))
 
     useEffect(() => {
-        api.get('/combinations', { params: { name: ' ' }, headers: { user } }).then(response => { 
-            setCombinations(response.data)
-            setTotalCombinations(response.data.length)
-            
-        }).catch(() => setIsThereAnyCombination(false))
+        (async() => {
+            const source = axios.CancelToken.source()
 
-        api.get('/games', { headers: { user } }).then(response => setGames(response.data))
-    }, [ user ])
+            try{
+                const { data: receveidCombinations } = await api.get('/combinations', { 
+                    params: { name: ' ' }, 
+                    headers: { user },
+                    cancelToken: source.token
+                })
+
+                const { data: receveidGames } = await api.get('/games', { headers: { user } })
+
+                setCombinations(receveidCombinations)
+                setTotalCombinations(receveidCombinations.length)
+                setGames(receveidGames)
+            }
+            catch(error){
+                setIsThereAnyCombination(false)
+
+                if (axios.isCancel(error)) return "Requisição cancelada"
+                   
+                return error
+            }
+
+            return () => source.cancel("Requisição Cancelada")
+        })()
+    },  
+    [ user ])
 
     useEffect(() => setIsThereAnyCombination(combinations.length !== 0), [ combinations ])
 

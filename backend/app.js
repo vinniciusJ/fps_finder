@@ -15,4 +15,6 @@ app.use(cors({ exposedHeaders: 'authtoken' }))
 
 app.use('/', routes)
 
+console.log('output')
+
 app.listen(process.env.PORT || 3333, () => console.log(`App is running...`))

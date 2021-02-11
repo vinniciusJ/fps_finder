@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import axios from 'axios'
 import { AlertCircle } from "react-feather"
 
 import './styles.css'
@@ -12,13 +13,18 @@ const DeletePopUp = props => {
     const inputName = useRef('')
     const [ isNameIncorrect, setIsNameIncorrect ] = useState(false) 
 
-
     const deleteCombination = async () => {
+        const source = axios.CancelToken.source()
+
         if(inputName.current.value !== name) return setIsNameIncorrect(true)
-
+        
         try{
-            const response = api.delete('/combinations', {  headers: { user: sessionStorage.getItem('user') }, data: { id } })
-
+            const response = await api.delete('/combinations', {  
+                headers: { user: sessionStorage.getItem('user') }, 
+                data: { id },
+                cancelToken: source.token
+            })
+          
             response.status === 200 && handlePopupVisibility()
         }
         catch(error){
@@ -26,6 +32,8 @@ const DeletePopUp = props => {
         }
        
         window.location.reload()
+
+        return () => source.cancel('Ocorreu uma problema no processo de deletar a combinação.')
     }
 
     return (

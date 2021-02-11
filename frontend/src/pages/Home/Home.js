@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { HashLink as Link } from 'react-router-hash-link'
 import { AlertCircle } from 'react-feather'
+import axios from 'axios'
 
 import api from '../../services/api'
 
@@ -35,16 +36,16 @@ const Home = () => {
 
     const isValid = (value) => Number(value) !== 0 
 
-    useEffect(() => console.log(filteredCombination), [ filteredCombination ])
-
     useEffect(() => {
         (async () => {
+            const source = axios.CancelToken.source()
+
             let combination = { graphic_card: null, processor: null, ram_memory: null }
             let games = []
 
             try{
-                combination = await (await api.get('combinations', { params: {} })).data
-                games = await (await  api.get('games', { params: { name: "" } })).data
+                combination = await (await api.get('combinations', { params: {}, cancelToken: source.token })).data
+                games = await (await  api.get('games', { params: { name: "" }, cancelToken: source.token })).data
             }
             finally{
                 setGraphicCardOptions(combination['graphic_card'])
@@ -53,15 +54,19 @@ const Home = () => {
 
                 setGames(games)
             }
+
+            return () => source.cancel("Requisição Cancelada")
         })()
 
         if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
             setIsAMobileDevice(true)
-
-    }, [  ])
+    }, 
+    [  ])
 
     useEffect(() => {
         (async() => {
+            const source = axios.CancelToken.source()
+
             const filterOption = {}
             const components = [{ graphic_card: selectedGraphicCard }, { processor: selectedProcessor }, { ram_memory: selectedRamMemory }]
 
@@ -73,7 +78,10 @@ const Home = () => {
 
             if(Object.keys(filterOption).length === 3){
                 try{
-                    const { data: [ combination ] } = await api.get('combinations', { params: { ...filterOption } })
+                    const { data: [ combination ] } = await api.get('combinations', { 
+                        params: { ...filterOption },
+                        cancelToken: source.token 
+                    })
 
                     setFilteredCombination(combination)
                 }
@@ -83,7 +91,10 @@ const Home = () => {
             }
             else {
                 try{
-                    const { data: { graphic_card, processor, ram_memory } } = await api.get('combinations', { params: { ...filterOption } })
+                    const { data: { graphic_card, processor, ram_memory } } = await api.get('combinations', { 
+                        params: { ...filterOption },
+                        cancelToken: source.token  
+                    })
 
                     if(isValid(graphic_card.length)) setGraphicCardOptions(graphic_card)
                     if(isValid(processor.length)) setProcessorOptions(processor)
@@ -93,6 +104,8 @@ const Home = () => {
                     setResultContainer(false)
                 }
             }
+
+            return () => source.cancel("Requisição Cancelada")
         })()
     }, [ selectedGraphicCard, selectedProcessor, selectedRamMemory ])
 

@@ -5,11 +5,14 @@ class CombinationsController {
     async create(request, response){
         const { name, graphic_card, processor, ram_memory, motherboard, fps_averages } = request.body
         
+        console.log(request.body)
+
         const trx = await db.transaction()
 
         try {
             const [ id_combination ] = await trx('combinations').insert({ name, graphic_card, processor, ram_memory, motherboard })
 
+            fps_averages.forEach(item => console.log(item))
             fps_averages.forEach(async fps_average_item => {
                 const { fps_average, id_game } = fps_average_item
 
@@ -17,7 +20,7 @@ class CombinationsController {
             }) 
 
             await trx.commit()
-
+            
             return response.status(201).send()
         }
         catch{
@@ -119,8 +122,9 @@ class CombinationsController {
         const { id } = request.body
         
         try{
-            await db('combinations').select('id').where('id', id).delete()
+            await db('combinations').delete().where('id', id)
 
+            console.log(await db('combinations').select('*'))
             return response.status(200).send()
         }
         catch(error){
