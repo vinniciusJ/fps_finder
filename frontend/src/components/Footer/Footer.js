@@ -30,7 +30,7 @@ const Footer = () => {
                     </div>
                     <div className="devs-info-email">
                         <h1>DESENVOLVEDORES</h1>
-                        <p><Mail width={24} strokeWidth={1}/>ep@gmail.com</p>
+                        <p><Mail width={24} strokeWidth={1}/>devmaia.contato@gmail.com</p>
                     </div>
                 </section>
                 <section className="footer-email">

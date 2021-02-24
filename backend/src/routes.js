@@ -127,6 +127,7 @@ router.route('/combinations')
     .put(combinations.put)
 
 router.get('/combinations/:id', combinations.get)  
+
 router.post('/login', login.post)
 router.post('/user', user.post)
 

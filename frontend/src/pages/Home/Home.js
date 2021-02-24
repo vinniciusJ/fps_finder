@@ -61,7 +61,7 @@ const Home = () => {
         const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 
         if(mobile.test(navigator.userAgent) && window.matchMedia('(max-width: 414px)').matches)
-            setIsAMobileDevice(true)       
+            setIsAMobileDevice(true)      
     }, 
     [  ])
 
@@ -141,7 +141,7 @@ const Home = () => {
         setFilteredCombination({})
         clearSelectFields() 
         
-        return <Link to='#calculate' smooth/>
+        return <Link to="#" smooth/>
     }
 
     const handleProcessorChange = event => {
