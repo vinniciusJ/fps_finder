@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { HashLink as Link } from 'react-router-hash-link'
 import { AlertCircle } from 'react-feather'
+import { AdSense } from 'react-adsense'
 import axios from 'axios'
 
 import api from '../../services/api'
@@ -17,6 +18,8 @@ import ramMemoryImage from '../../assets/images/ram-memory.svg'
 import motherboardImage from '../../assets/images/motherboard.svg'
 
 import './styles.css'
+
+const ADSENSE_CLIENT_ID = 'ca-pub-3196337069319172'
 
 const Home = () => {
     const [ currentPopUp, setCurrentPopUp ] = useState({ id: '#', isVisible: false })
