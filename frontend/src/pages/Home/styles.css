@@ -190,7 +190,7 @@
     }
 
     .input-section > div{
-        max-width: 66vw;
+        width: 66vw;
     }
 
     .result-container-div{

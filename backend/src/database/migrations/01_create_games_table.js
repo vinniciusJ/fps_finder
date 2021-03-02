@@ -1,5 +1,5 @@
 exports.up = knex => {
-    return knex.schema.createTableIfNotExists('games', table => {
+    return knex.schema.createTable('games', table => {
         table.increments('id').primary()
         table.string('name').notNullable()
         table.string('url_logo').notNullable()

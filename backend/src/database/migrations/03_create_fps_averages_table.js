@@ -1,5 +1,5 @@
 exports.up = knex => {
-    return knex.schema.createTableIfNotExists('fps_averages', table => {
+    return knex.schema.createTable('fps_averages', table => {
         table.increments('id').primary()
         table.integer('fps_average').notNullable()
         table.integer('id_combination').notNullable().references('id').inTable('combinations').onUpdate('CASCADE').onDelete('CASCADE')

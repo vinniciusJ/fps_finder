@@ -1,5 +1,5 @@
 exports.up = knex => {
-    return knex.schema.createTableIfNotExists('combinations', table => {
+    return knex.schema.createTable('combinations', table => {
         table.increments('id').primary()
         table.string('name').notNullable()
         table.string('graphic_card').notNullable()

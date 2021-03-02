@@ -8,11 +8,9 @@ class CombinationsController {
         const trx = await db.transaction()
 
         try{
-            const [ id_combination ] = await trx('combinations').insert({ name, graphic_card, processor, ram_memory, motherboard })
+            const [ id_combination ] = await trx('combinations').returning('id').insert({ name, graphic_card, processor, ram_memory, motherboard })
     
-            for(let index = 0; index < [...fps_averages].length; index++){
-                const { fps_average, id_game } = fps_averages[index]
-
+            for(let { fps_average, id_game } of fps_averages){
                 await trx('fps_averages').insert({ fps_average, id_combination, id_game })
             }
     
@@ -21,10 +19,13 @@ class CombinationsController {
             return response.status(201).send()
         }
         catch(error){
+            console.error(error)
+
             await trx.rollback()
 
             return response.status(400).send()
         }
+
     }
     async index(request, response){
         const joinWithFPS = async combinations => {  
