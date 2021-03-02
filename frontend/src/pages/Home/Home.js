@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { HashLink as Link } from 'react-router-hash-link'
 import { AlertCircle } from 'react-feather'
-import { AdSense } from 'react-adsense'
 import axios from 'axios'
 
 import api from '../../services/api'
