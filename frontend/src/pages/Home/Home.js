@@ -18,8 +18,6 @@ import motherboardImage from '../../assets/images/motherboard.svg'
 
 import './styles.css'
 
-const ADSENSE_CLIENT_ID = 'ca-pub-3196337069319172'
-
 const Home = () => {
     const [ currentPopUp, setCurrentPopUp ] = useState({ id: '#', isVisible: false })
     const [ isAMobileDevice, setIsAMobileDevice ] = useState(false)
