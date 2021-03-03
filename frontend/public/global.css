@@ -38,6 +38,7 @@ h2{
     font-family: 'Gameplay';
     font-style: normal;
     font-weight: 400;
+    font-display: swap;
     src: url('./Gameplay.ttf');
 }
 
