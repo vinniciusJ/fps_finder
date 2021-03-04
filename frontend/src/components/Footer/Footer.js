@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import { Mail, Send } from 'react-feather'
-import LazyLoad from 'react-lazy-load'
 
 import './styles.css'
 
