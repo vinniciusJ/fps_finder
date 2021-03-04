@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { Mail, Send } from 'react-feather'
+import LazyLoad from 'react-lazy-load'
 
 import './styles.css'
 
@@ -26,11 +27,11 @@ const Footer = () => {
                 <section className="footer-info">
                     <div className="fps-info-email">
                         <h1>FPS FINDER</h1>
-                        <p><Mail width={24} strokeWidth={1}/>fpsfinder@gmail.com</p>
+                        <p><Mail width={24} height={24} strokeWidth={1}/>fpsfinder@gmail.com</p>
                     </div>
                     <div className="devs-info-email">
                         <h1>DESENVOLVEDORES</h1>
-                        <p><Mail width={24} strokeWidth={1}/>devmaia.contato@gmail.com</p>
+                        <p><Mail width={24} height={24} strokeWidth={1}/>devmaia.contato@gmail.com</p>
                     </div>
                 </section>
                 <section className="footer-email">

@@ -9,7 +9,6 @@ import api from '../../services/api'
 //import PopUp from '../../components/PopUp/PopUp'
 import SelectInput from '../../components/SelectInput/SelectInput'
 //import GameContainer from '../../components/GameContainer/GameContainer'
-import Footer from '../../components/Footer/Footer'
 
 import FPSFinderLogo from '../../assets/images/logo.svg'
 import graphicCardImage from '../../assets/images/graphic-card.svg'
@@ -21,6 +20,7 @@ import './styles.css'
 
 const PopUp = lazy(() => import('../../components/PopUp/PopUp'))
 const GameContainer = lazy(() => import('../../components/GameContainer/GameContainer'))
+const Footer = lazy(() => import('../../components/Footer/Footer'))
 
 const Home = () => {
     const [ currentPopUp, setCurrentPopUp ] = useState({ id: '#', isVisible: false })
@@ -327,7 +327,7 @@ const Home = () => {
                             <LazyLoad>
                                 <img src={motherboardImage} width={32} height={32} alt="Placa Mãe recomendada"/>
                             </LazyLoad>
-                            
+
                             <p>{filteredCombination.motherboard}</p>
                         </div>
                     </section>
@@ -348,7 +348,9 @@ const Home = () => {
                         </div>
 
                         <p className="games-container-info">
-                            <AlertCircle color='black' strokeWidth={1.5} width={24} height={24}/>
+                            <LazyLoad>
+                                <AlertCircle color='black' strokeWidth={1.5} width={24} height={24}/>
+                            </LazyLoad>
                             Todos os testes foram realizados na qualidade média
                         </p>
                     </section>
@@ -360,7 +362,9 @@ const Home = () => {
                 </>
                     
             }
-            <Footer />
+            <Suspense fallback={<div>Loading...</div>}>
+                <Footer />
+            </Suspense>
         </div>
         
     )
