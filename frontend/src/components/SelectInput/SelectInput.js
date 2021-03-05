@@ -12,7 +12,7 @@ const SelectInput = (props) => {
             <section className="select-header">
                 <h2>{label}</h2>
                 <button onClick={handlePopUp}>
-                    <img width={20.8} height={2.8} src={helpIcon} alt={label} id={popUpID}/>
+                    <img width={20.8} height={20.8} src={helpIcon} alt={label} id={popUpID}/>
                 </button>
             </section>
             <section className="select-input">
