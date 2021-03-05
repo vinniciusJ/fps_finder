@@ -71,10 +71,10 @@
 
 @media screen and (max-width: 544px){
     .game-container{
-        padding: .6rem;
+        padding: .8rem;
     }
 
     .game-container .game-logo p{
-        width: 21rem;
+        width: 18rem;
     }
 }

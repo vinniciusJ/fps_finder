@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react' 
-import LazyLoad from 'react-lazy-load'
 
 import './styles.css'
 
@@ -20,9 +19,7 @@ const GameContainer = props => {
     return  (
         <div className="game-container" style={isWhite ? style.div : {}}>
             <div className="game-logo">
-                <LazyLoad>
-                    <img src={logo} alt={props.name}/>
-                </LazyLoad>
+                <img width={33.6} height={33.6} src={logo} alt={props.name}/>
                 <p>{props.name}</p>
             </div>
             <div className="game-fps">

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import LazyLoad from 'react-lazy-load'
 import { X } from 'react-feather'
 
 import './styles.css'
@@ -13,7 +12,7 @@ const PopUp = props => {
         <div style={position} className="popup" data-isvisible={props.isVisible} id={props.id}>
             <div className="popup-inner">
                 <header onClick={props.closePopUp}>
-                    <LazyLoad><X width={32} height={32}/></LazyLoad>
+                    <X width={32} height={32}/>
                 </header>
                 {props.children}
             </div>

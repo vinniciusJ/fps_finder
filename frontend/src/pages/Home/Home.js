@@ -1,18 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense, lazy } from 'react'
 import { HashLink as Link } from 'react-router-hash-link'
+import { Helmet } from 'react-helmet'
 import { AlertCircle } from 'react-feather'
 import axios from 'axios'
 
 import api from '../../services/api'
-
-import PopUp from '../../components/PopUp/PopUp'
-import SelectInput from '../../components/SelectInput/SelectInput'
-<<<<<<< HEAD
-//import GameContainer from '../../components/GameContainer/GameContainer'
-=======
-import GameContainer from '../../components/GameContainer/GameContainer'
-import Footer from '../../components/Footer/Footer'
->>>>>>> parent of 1baf0f1... trying to boost
 
 import FPSFinderLogo from '../../assets/images/logo.svg'
 import graphicCardImage from '../../assets/images/graphic-card.svg'
@@ -22,13 +14,11 @@ import motherboardImage from '../../assets/images/motherboard.svg'
 
 import './styles.css'
 
-<<<<<<< HEAD
+const SelectInput = lazy(() => import('../../components/SelectInput/SelectInput'))
 const PopUp = lazy(() => import('../../components/PopUp/PopUp'))
 const GameContainer = lazy(() => import('../../components/GameContainer/GameContainer'))
 const Footer = lazy(() => import('../../components/Footer/Footer'))
 
-=======
->>>>>>> parent of 1baf0f1... trying to boost
 const Home = () => {
     const [ currentPopUp, setCurrentPopUp ] = useState({ id: '#', isVisible: false })
     const [ isAMobileDevice, setIsAMobileDevice ] = useState(false)
@@ -72,9 +62,9 @@ const Home = () => {
         const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 
         if(mobile.test(navigator.userAgent) && window.matchMedia('(max-width: 414px)').matches)
-            setIsAMobileDevice(true)      
-    }, 
-    [  ])
+            setIsAMobileDevice(true)  
+            
+    }, [  ])
 
     useEffect(() => {
         (async() => {
@@ -186,9 +176,12 @@ const Home = () => {
 
     return (
         <div className="Home">
+            <Helmet>
+                <title>FPS Finder</title>
+            </Helmet>
             <header className="main-header">
                 <nav className="nav-bar">
-                    <img src={FPSFinderLogo} alt="FPS Finder"/>
+                    <img width={128} height={80} src={FPSFinderLogo} alt="FPS Finder"/>
                 </nav>
                 <section className="presentation">
                     <h2>Calcule agora a média de FPS em jogos que sua máquina é capaz de alcançar! </h2>
@@ -202,91 +195,100 @@ const Home = () => {
 
             <main className="input-section">
                 <div className="label-section">
-                    <SelectInput 
-                        label="Placa de Vídeo"
-                        selectedOption={selectedGraphicCard}
-                        options={graphicCardOptions} 
-                        popUpID="graphic-card"
-                        handlePopUp={handleCurrentPopUpVisibility}
-                        handleSelectChange={handleGraphicCardChange}
-                        isAMobileDevice={isAMobileDevice}
-                    />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <SelectInput 
+                            label="Placa de Vídeo"
+                            selectedOption={selectedGraphicCard}
+                            options={graphicCardOptions} 
+                            popUpID="graphic-card"
+                            handlePopUp={handleCurrentPopUpVisibility}
+                            handleSelectChange={handleGraphicCardChange}
+                            isAMobileDevice={isAMobileDevice}
+                        />
+                    </Suspense>
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'graphic-card') &&
-                        <PopUp 
-                            closePopUp={handleCurrentPopUpVisibility} 
-                            isVisible={currentPopUp.isVisible}
-                            isAMobileDevice={isAMobileDevice}
-                            id="component-graphic-card"
-                        >
-                            <section className="popup-title">
-                                <img src={graphicCardImage} alt="Placa de Vídeo"/>
-                                <h2>Placa de Vídeo</h2>
-                            </section>
-                            <main>
-                                <p>
-                                A placa de vídeo é um dos principais componentes de qualquer pc, principalmente se seu foco é rodar jogos. A placa de vídeo é a peça responsável por gerar as imagens que você vê na tela.</p> 
-                            </main>
-                        </PopUp>
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <PopUp 
+                                closePopUp={handleCurrentPopUpVisibility} 
+                                isVisible={currentPopUp.isVisible}
+                                isAMobileDevice={isAMobileDevice}
+                                id="component-graphic-card"
+                            >
+                                <section className="popup-title">
+                                    <img width={isAMobileDevice ? 76 : 32} height={isAMobileDevice ? 76 : 32} src={graphicCardImage} alt="Placa de Vídeo"/>
+                                    <h2>Placa de Vídeo</h2>
+                                </section>
+                                <main>
+                                    <p>
+                                    A placa de vídeo é um dos principais componentes de qualquer pc, principalmente se seu foco é rodar jogos. A placa de vídeo é a peça responsável por gerar as imagens que você vê na tela.</p> 
+                                </main>
+                            </PopUp>
+                        </Suspense>
                     }
                 </div>
                 <div className="label-section">
-                    <SelectInput 
-                        label="Processador" 
-                        selectedOption={selectedProcessor} 
-                        options={processorOptions} 
-                        popUpID="processor"
-                        handlePopUp={handleCurrentPopUpVisibility}
-                        handleSelectChange={handleProcessorChange}
-                        isAMobileDevice={isAMobileDevice}
-                    />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <SelectInput 
+                            label="Processador" 
+                            selectedOption={selectedProcessor} 
+                            options={processorOptions} 
+                            popUpID="processor"
+                            handlePopUp={handleCurrentPopUpVisibility}
+                            handleSelectChange={handleProcessorChange}
+                            isAMobileDevice={isAMobileDevice}
+                        />
+                    </Suspense>
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'processor') &&
-                        
-                        <PopUp 
-                            closePopUp={handleCurrentPopUpVisibility} 
-                            isVisible={currentPopUp.isVisible}
-                            isAMobileDevice={isAMobileDevice}
-                            id="component-processor"
-                        >
-                            <section className="popup-title">
-                                <img src={processorImage} alt="Processador"/>
-                                <h2>Processador</h2>
-                            </section>
-                            <main>
-                                <p>O processador é basicamente o cérebro de sua máquina. A função dele é acelerar, enviar, resolver ou preparar dados para os outros componentes do computador. </p> 
-                            </main>
-                        </PopUp>
-                        
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <PopUp 
+                                closePopUp={handleCurrentPopUpVisibility} 
+                                isVisible={currentPopUp.isVisible}
+                                isAMobileDevice={isAMobileDevice}
+                                id="component-processor"
+                            >
+                                <section className="popup-title">
+                                    <img width={isAMobileDevice ? 76 : 32} height={isAMobileDevice ? 76 : 32}  src={processorImage} alt="Processador"/>
+                                    <h2>Processador</h2>
+                                </section>
+                                <main>
+                                    <p>O processador é basicamente o cérebro de sua máquina. A função dele é acelerar, enviar, resolver ou preparar dados para os outros componentes do computador. </p> 
+                                </main>
+                            </PopUp>
+                        </Suspense>
                     }
                 </div>
                 <div className="label-section">
-                    <SelectInput 
-                        label="Memória RAM" 
-                        selectedOption={selectedRamMemory} 
-                        options={ramMemoryOptions}
-                        popUpID="ram-memory"
-                        handlePopUp={handleCurrentPopUpVisibility} 
-                        handleSelectChange={handleRamMemoryChange}
-                        isAMobileDevice={isAMobileDevice}
-                    />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <SelectInput 
+                            label="Memória RAM" 
+                            selectedOption={selectedRamMemory} 
+                            options={ramMemoryOptions}
+                            popUpID="ram-memory"
+                            handlePopUp={handleCurrentPopUpVisibility} 
+                            handleSelectChange={handleRamMemoryChange}
+                            isAMobileDevice={isAMobileDevice}
+                        />
+                    </Suspense>
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'ram-memory') &&
-                        
-                        <PopUp 
-                            closePopUp={handleCurrentPopUpVisibility} 
-                            isVisible={currentPopUp.isVisible}
-                            isAMobileDevice={isAMobileDevice}
-                            id="component-ram-memory"
-                        >
-                            <section className="popup-title">
-                                <img src={ramMemoryImage} alt="Memória RAM"/>
-                                <h2>Memória RAM</h2>
-                            </section>
-                            <main>
-                                <p> A memória Ram é um componente que “conversa” com o processador e recebe os dados temporários de sua máquina, diferente do HD, que não é feito para dados temporários e é muito mais lento.</p> 
-                            </main>
-                        </PopUp>
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <PopUp 
+                                closePopUp={handleCurrentPopUpVisibility} 
+                                isVisible={currentPopUp.isVisible}
+                                isAMobileDevice={isAMobileDevice}
+                                id="component-ram-memory"
+                            >
+                                <section className="popup-title">
+                                    <img width={isAMobileDevice ? 76 : 32} height={isAMobileDevice ? 76 : 32}  src={ramMemoryImage} alt="Memória RAM"/>
+                                    <h2>Memória RAM</h2>
+                                </section>
+                                <main>
+                                    <p> A memória Ram é um componente que “conversa” com o processador e recebe os dados temporários de sua máquina, diferente do HD, que não é feito para dados temporários e é muito mais lento.</p> 
+                                </main>
+                            </PopUp>
+                        </Suspense>
                     }
 
                     <section className="operations-buttons">
@@ -319,14 +321,7 @@ const Home = () => {
                         <h2>Placa Mãe recomendada: </h2>
 
                         <div className="motherboard-box">
-
-                            <LazyLoad>
-                                <img src={motherboardImage} width={32} height={32} alt="Placa Mãe recomendada"/>
-                            </LazyLoad>
-
-
-                            <img src={motherboardImage} alt="Placa Mãe recomendada"/>
-
+                            <img src={motherboardImage} width={32} height={32} alt="Placa Mãe recomendada"/>
                             <p>{filteredCombination.motherboard}</p>
                         </div>
                     </section>
@@ -339,15 +334,15 @@ const Home = () => {
                                 const [ game ] = games.filter(game => game.id === item.id_game)
 
                                 return (
-                                    <GameContainer name={game.name} logo={game.url_logo} FPSAverage={item.fps_average} key={game.id}/>
+                                    <Suspense fallback={<div>Loading...</div>}>
+                                        <GameContainer name={game.name} logo={game.url_logo} FPSAverage={item.fps_average} key={game.id}/>
+                                    </Suspense>
                                 )
                             })}
                         </div>
 
                         <p className="games-container-info">
-                            <LazyLoad>
-                                <AlertCircle color='black' strokeWidth={1.5} width={24} height={24}/>
-                            </LazyLoad>
+                            <AlertCircle color='black' strokeWidth={1.5} width={24} height={24}/>
                             Todos os testes foram realizados na qualidade média
                         </p>
                     </section>
@@ -368,5 +363,3 @@ const Home = () => {
 }
 
 export default Home
-
-//
