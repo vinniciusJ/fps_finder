@@ -19,7 +19,9 @@ const GameContainer = props => {
     return  (
         <div className="game-container" style={isWhite ? style.div : {}}>
             <div className="game-logo">
+
                 <img width={33.6} height={33.6} src={logo} alt={props.name}/>
+
                 <p>{props.name}</p>
             </div>
             <div className="game-fps">

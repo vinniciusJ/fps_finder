@@ -216,6 +216,7 @@ const Home = () => {
                                 id="component-graphic-card"
                             >
                                 <section className="popup-title">
+                                    
                                     <img width={isAMobileDevice ? 76 : 32} height={isAMobileDevice ? 76 : 32} src={graphicCardImage} alt="Placa de Vídeo"/>
                                     <h2>Placa de Vídeo</h2>
                                 </section>
@@ -343,7 +344,7 @@ const Home = () => {
 
                         <p className="games-container-info">
                             <AlertCircle color='black' strokeWidth={1.5} width={24} height={24}/>
-                            Todos os testes foram realizados na qualidade média
+                            Todos os testes foram realizados na qualidade média e em 1080p
                         </p>
                     </section>
 
