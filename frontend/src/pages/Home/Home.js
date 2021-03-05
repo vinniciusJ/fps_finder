@@ -1,14 +1,18 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react'
+import React, { useState, useEffect } from 'react'
 import { HashLink as Link } from 'react-router-hash-link'
-import LazyLoad from 'react-lazy-load'
 import { AlertCircle } from 'react-feather'
 import axios from 'axios'
 
 import api from '../../services/api'
 
-//import PopUp from '../../components/PopUp/PopUp'
+import PopUp from '../../components/PopUp/PopUp'
 import SelectInput from '../../components/SelectInput/SelectInput'
+<<<<<<< HEAD
 //import GameContainer from '../../components/GameContainer/GameContainer'
+=======
+import GameContainer from '../../components/GameContainer/GameContainer'
+import Footer from '../../components/Footer/Footer'
+>>>>>>> parent of 1baf0f1... trying to boost
 
 import FPSFinderLogo from '../../assets/images/logo.svg'
 import graphicCardImage from '../../assets/images/graphic-card.svg'
@@ -18,10 +22,13 @@ import motherboardImage from '../../assets/images/motherboard.svg'
 
 import './styles.css'
 
+<<<<<<< HEAD
 const PopUp = lazy(() => import('../../components/PopUp/PopUp'))
 const GameContainer = lazy(() => import('../../components/GameContainer/GameContainer'))
 const Footer = lazy(() => import('../../components/Footer/Footer'))
 
+=======
+>>>>>>> parent of 1baf0f1... trying to boost
 const Home = () => {
     const [ currentPopUp, setCurrentPopUp ] = useState({ id: '#', isVisible: false })
     const [ isAMobileDevice, setIsAMobileDevice ] = useState(false)
@@ -206,26 +213,21 @@ const Home = () => {
                     />
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'graphic-card') &&
-                        <Suspense fallback={<div>Loading...</div>}>
-                            <PopUp 
-                                closePopUp={handleCurrentPopUpVisibility} 
-                                isVisible={currentPopUp.isVisible}
-                                isAMobileDevice={isAMobileDevice}
-                                id="component-graphic-card"
-                            >
-                                <section className="popup-title">
-                                    <LazyLoad>
-                                        <img src={graphicCardImage} width={32} height={32} alt="Placa de Vídeo"/>
-                                    </LazyLoad>
-                                    
-                                    <h2>Placa de Vídeo</h2>
-                                </section>
-                                <main>
-                                    <p>
-                                    A placa de vídeo é um dos principais componentes de qualquer pc, principalmente se seu foco é rodar jogos. A placa de vídeo é a peça responsável por gerar as imagens que você vê na tela.</p> 
-                                </main>
-                            </PopUp>
-                        </Suspense>
+                        <PopUp 
+                            closePopUp={handleCurrentPopUpVisibility} 
+                            isVisible={currentPopUp.isVisible}
+                            isAMobileDevice={isAMobileDevice}
+                            id="component-graphic-card"
+                        >
+                            <section className="popup-title">
+                                <img src={graphicCardImage} alt="Placa de Vídeo"/>
+                                <h2>Placa de Vídeo</h2>
+                            </section>
+                            <main>
+                                <p>
+                                A placa de vídeo é um dos principais componentes de qualquer pc, principalmente se seu foco é rodar jogos. A placa de vídeo é a peça responsável por gerar as imagens que você vê na tela.</p> 
+                            </main>
+                        </PopUp>
                     }
                 </div>
                 <div className="label-section">
@@ -240,25 +242,22 @@ const Home = () => {
                     />
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'processor') &&
-                        <Suspense fallback={<div>Loading...</div>}>
-                            <PopUp 
-                                closePopUp={handleCurrentPopUpVisibility} 
-                                isVisible={currentPopUp.isVisible}
-                                isAMobileDevice={isAMobileDevice}
-                                id="component-processor"
-                            >
-                                <section className="popup-title">
-                                    <LazyLoad>
-                                        <img src={processorImage} width={32} height={32} alt="Processador"/>
-                                    </LazyLoad>
-
-                                    <h2>Processador</h2>
-                                </section>
-                                <main>
-                                    <p>O processador é basicamente o cérebro de sua máquina. A função dele é acelerar, enviar, resolver ou preparar dados para os outros componentes do computador. </p> 
-                                </main>
-                            </PopUp>
-                        </Suspense>
+                        
+                        <PopUp 
+                            closePopUp={handleCurrentPopUpVisibility} 
+                            isVisible={currentPopUp.isVisible}
+                            isAMobileDevice={isAMobileDevice}
+                            id="component-processor"
+                        >
+                            <section className="popup-title">
+                                <img src={processorImage} alt="Processador"/>
+                                <h2>Processador</h2>
+                            </section>
+                            <main>
+                                <p>O processador é basicamente o cérebro de sua máquina. A função dele é acelerar, enviar, resolver ou preparar dados para os outros componentes do computador. </p> 
+                            </main>
+                        </PopUp>
+                        
                     }
                 </div>
                 <div className="label-section">
@@ -274,24 +273,20 @@ const Home = () => {
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'ram-memory') &&
                         
-                        <Suspense fallback={<div>Loading...</div>}>
-                            <PopUp 
-                                closePopUp={handleCurrentPopUpVisibility} 
-                                isVisible={currentPopUp.isVisible}
-                                isAMobileDevice={isAMobileDevice}
-                                id="component-ram-memory"
-                            >
-                                <section className="popup-title">
-                                    <LazyLoad>
-                                        <img src={ramMemoryImage} width={32} height={32} alt="Memória RAM"/>
-                                    </LazyLoad>
-                                    <h2>Memória RAM</h2>
-                                </section>
-                                <main>
-                                    <p> A memória Ram é um componente que “conversa” com o processador e recebe os dados temporários de sua máquina, diferente do HD, que não é feito para dados temporários e é muito mais lento.</p> 
-                                </main>
-                            </PopUp>
-                        </Suspense>
+                        <PopUp 
+                            closePopUp={handleCurrentPopUpVisibility} 
+                            isVisible={currentPopUp.isVisible}
+                            isAMobileDevice={isAMobileDevice}
+                            id="component-ram-memory"
+                        >
+                            <section className="popup-title">
+                                <img src={ramMemoryImage} alt="Memória RAM"/>
+                                <h2>Memória RAM</h2>
+                            </section>
+                            <main>
+                                <p> A memória Ram é um componente que “conversa” com o processador e recebe os dados temporários de sua máquina, diferente do HD, que não é feito para dados temporários e é muito mais lento.</p> 
+                            </main>
+                        </PopUp>
                     }
 
                     <section className="operations-buttons">
@@ -324,10 +319,14 @@ const Home = () => {
                         <h2>Placa Mãe recomendada: </h2>
 
                         <div className="motherboard-box">
+<<<<<<< HEAD
                             <LazyLoad>
                                 <img src={motherboardImage} width={32} height={32} alt="Placa Mãe recomendada"/>
                             </LazyLoad>
 
+=======
+                            <img src={motherboardImage} alt="Placa Mãe recomendada"/>
+>>>>>>> parent of 1baf0f1... trying to boost
                             <p>{filteredCombination.motherboard}</p>
                         </div>
                     </section>
@@ -340,9 +339,7 @@ const Home = () => {
                                 const [ game ] = games.filter(game => game.id === item.id_game)
 
                                 return (
-                                    <Suspense fallback={<div>Loading...</div>}>
-                                        <GameContainer name={game.name} logo={game.url_logo} FPSAverage={item.fps_average} key={game.id}/>
-                                    </Suspense>
+                                    <GameContainer name={game.name} logo={game.url_logo} FPSAverage={item.fps_average} key={game.id}/>
                                 )
                             })}
                         </div>
