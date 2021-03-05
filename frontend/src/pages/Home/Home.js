@@ -319,14 +319,14 @@ const Home = () => {
                         <h2>Placa Mãe recomendada: </h2>
 
                         <div className="motherboard-box">
-<<<<<<< HEAD
+
                             <LazyLoad>
                                 <img src={motherboardImage} width={32} height={32} alt="Placa Mãe recomendada"/>
                             </LazyLoad>
 
-=======
+
                             <img src={motherboardImage} alt="Placa Mãe recomendada"/>
->>>>>>> parent of 1baf0f1... trying to boost
+
                             <p>{filteredCombination.motherboard}</p>
                         </div>
                     </section>
