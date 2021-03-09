@@ -195,7 +195,7 @@ const Home = () => {
 
             <main className="input-section">
                 <div className="label-section">
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<div></div>}>
                         <SelectInput 
                             label="Placa de Vídeo"
                             selectedOption={selectedGraphicCard}
@@ -208,7 +208,7 @@ const Home = () => {
                     </Suspense>
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'graphic-card') &&
-                        <Suspense fallback={<div>Loading...</div>}>
+                        <Suspense fallback={<div></div>}>
                             <PopUp 
                                 closePopUp={handleCurrentPopUpVisibility} 
                                 isVisible={currentPopUp.isVisible}
@@ -229,7 +229,7 @@ const Home = () => {
                     }
                 </div>
                 <div className="label-section">
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<div></div>}>
                         <SelectInput 
                             label="Processador" 
                             selectedOption={selectedProcessor} 
@@ -242,7 +242,7 @@ const Home = () => {
                     </Suspense>
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'processor') &&
-                        <Suspense fallback={<div>Loading...</div>}>
+                        <Suspense fallback={<div></div>}>
                             <PopUp 
                                 closePopUp={handleCurrentPopUpVisibility} 
                                 isVisible={currentPopUp.isVisible}
@@ -261,7 +261,7 @@ const Home = () => {
                     }
                 </div>
                 <div className="label-section">
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<div></div>}>
                         <SelectInput 
                             label="Memória RAM" 
                             selectedOption={selectedRamMemory} 
@@ -274,7 +274,7 @@ const Home = () => {
                     </Suspense>
 
                     {(currentPopUp.isVisible && currentPopUp.id === 'ram-memory') &&
-                        <Suspense fallback={<div>Loading...</div>}>
+                        <Suspense fallback={<div></div>}>
                             <PopUp 
                                 closePopUp={handleCurrentPopUpVisibility} 
                                 isVisible={currentPopUp.isVisible}
@@ -335,7 +335,7 @@ const Home = () => {
                                 const [ game ] = games.filter(game => game.id === item.id_game)
 
                                 return (
-                                    <Suspense fallback={<div>Loading...</div>}>
+                                    <Suspense fallback={<div></div>}>
                                         <GameContainer name={game.name} logo={game.url_logo} FPSAverage={item.fps_average} key={game.id}/>
                                     </Suspense>
                                 )
@@ -355,7 +355,7 @@ const Home = () => {
                 </>
                     
             }
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div></div>}>
                 <Footer />
             </Suspense>
         </div>
