@@ -36,8 +36,12 @@ const Footer = () => {
                 <section className="footer-email">
                     <h1>Fale conosco</h1>
                     <form className="contact-us">
-                        <input name="e-mail" autoComplete="false" id="subject" required placeholder="Assunto" ref={subjectInput}/>
-                        <textarea required cols="30" rows="10" ref={messageInput} placeholder="Mensagem..."></textarea>
+                        <label htmlFor="subject">
+                            <input name="e-mail" id="subject" required placeholder="Assunto" ref={subjectInput}/>
+                        </label>
+                        <label htmlFor="message">
+                            <textarea id="message" required cols="30" rows="10" ref={messageInput} placeholder="Mensagem..."></textarea>
+                        </label>
 
                         <button className="btn main" onClick={handleMailSubmit}><span><Send width={24}/><strong>Enviar</strong></span></button>
                     </form>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react'
 import { HashLink as Link } from 'react-router-hash-link'
-import { Helmet } from 'react-helmet'
 import { AlertCircle } from 'react-feather'
 import axios from 'axios'
 
@@ -41,8 +40,7 @@ const Home = () => {
         (async () => {
             const source = axios.CancelToken.source()
 
-            let combination = { graphic_card: null, processor: null, ram_memory: null }
-            let games = []
+            let combination = { graphic_card: [], processor: [], ram_memory: [] }, games = []
 
             try{
                 combination = await (await api.get('combinations', { params: {}, cancelToken: source.token })).data
@@ -176,9 +174,6 @@ const Home = () => {
 
     return (
         <div className="Home">
-            <Helmet>
-                <title>FPS Finder</title>
-            </Helmet>
             <header className="main-header">
                 <nav className="nav-bar">
                     <img width={128} height={80} src={FPSFinderLogo} alt="FPS Finder"/>
@@ -335,8 +330,8 @@ const Home = () => {
                                 const [ game ] = games.filter(game => game.id === item.id_game)
 
                                 return (
-                                    <Suspense fallback={<div></div>}>
-                                        <GameContainer name={game.name} logo={game.url_logo} FPSAverage={item.fps_average} key={game.id}/>
+                                    <Suspense key={game.id} fallback={<div></div>}>
+                                        <GameContainer name={game.name} logo={game.url_logo} FPSAverage={item.fps_average}/>
                                     </Suspense>
                                 )
                             })}

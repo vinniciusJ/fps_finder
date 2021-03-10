@@ -10,13 +10,13 @@ const SelectInput = (props) => {
     return (
         <div className="select-container">
             <section className="select-header">
-                <h2>{label}</h2>
+                <h2><label htmlFor={label}>{label}</label></h2>
                 <button onClick={handlePopUp}>
                     <img width={22} height={22} src={helpIcon} alt={label} id={popUpID}/>
                 </button>
             </section>
             <section className="select-input">
-                <select value={selectedOption} onChange={handleSelectChange}>
+                <select id={label} value={selectedOption} onChange={handleSelectChange}>
                     <option key={0} value={0}>Selecione</option>
                     {options.map((option,index) => <option key={index + 1} value={option}>{option}</option>)}
                 </select>
