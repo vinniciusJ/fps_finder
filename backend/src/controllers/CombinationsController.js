@@ -74,8 +74,11 @@ class CombinationsController {
             }           
         }
         catch(error){
+            console.error(error)
             return response.status(400).json({ message: "Ocorreu um erro na listagem das combinações" })
         }
+
+        console.log(combinations)
 
         return response.status(200).json(combinations)    
     }
@@ -107,10 +110,12 @@ class CombinationsController {
             await trx('combinations').where({ id }).update({ name, graphic_card, processor, ram_memory, motherboard })
             
             trx.commit()
+            
 
             return response.status(200).json({ message: 'Foi' })
         }
         catch(error){
+            console.error(error)
             trx.rollback()
             
             return response.status(400).json({ message: 'Ocorreu um erro na atualização dos dados da combinação. Por favor, tente novamente.' })
@@ -126,6 +131,8 @@ class CombinationsController {
             return response.status(200).send()
         }
         catch(error){
+            console.error(error)
+
             return response.json({ message: 'Ocorreu um erro na exclusão da combinação. Por favor, tente novamente.' })
         }
     }

@@ -43,8 +43,9 @@ const Home = () => {
             let combination = { graphic_card: [], processor: [], ram_memory: [] }, games = []
 
             try{
-                combination = await (await api.get('combinations', { params: {}, cancelToken: source.token })).data
-                games = await (await  api.get('games', { params: { name: "" }, cancelToken: source.token })).data
+                combination = await (await api.get('combinations', { params: {}, cancelToken: source.token,  })).data
+
+                games = await (await  api.get('games', { params: { name: "" }, cancelToken: source.token,  })).data
             }
             finally{
                 setGraphicCardOptions(combination['graphic_card'])
@@ -81,9 +82,10 @@ const Home = () => {
                 try{
                     const { data: [ combination ] } = await api.get('combinations', { 
                         params: { ...filterOption },
-                        cancelToken: source.token 
+                        cancelToken: source.token,
+                        
                     })
-
+                    console.log(combination)
                     setFilteredCombination(combination)
                 }
                 catch{
@@ -94,7 +96,8 @@ const Home = () => {
                 try{
                     const { data: { graphic_card, processor, ram_memory } } = await api.get('combinations', { 
                         params: { ...filterOption },
-                        cancelToken: source.token  
+                        cancelToken: source.token,
+                        
                     })
 
                     if(isValid(graphic_card.length)) setGraphicCardOptions(graphic_card)
