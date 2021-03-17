@@ -45,9 +45,15 @@ INSTALLED_APPS = [
     'rest_framework',
     
     # Local
-    'calculator',
     'blog',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
