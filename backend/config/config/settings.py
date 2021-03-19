@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     
     # 3rd-party apps
     'rest_framework',
+    'drf_yasg',
     
     # Local
     'blog',
