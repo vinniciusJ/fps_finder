@@ -1,14 +1,24 @@
 const db = require('../database/connection')
-const filterByComponents = require('../utils/filterByComponents')
 
 class CombinationsController {
     async create(request, response){
-        const { name, graphic_card, processor, ram_memory, motherboard, fps_averages } = request.body
+        const { name, graphic_card, processor, ram_memory, motherboard, fps_averages, components_links } = request.body
+        const { graphic_card_link, processor_link, ram_memory_link, motherboard_link } = components_links
 
         const trx = await db.transaction()
 
         try{
-            const [ id_combination ] = await trx('combinations').returning('id').insert({ name, graphic_card, processor, ram_memory, motherboard })
+            const [ id_combination ] = await trx('combinations').returning('id').insert({
+                name, 
+                graphic_card, 
+                processor, 
+                ram_memory, 
+                motherboard,
+                graphic_card_link,
+                processor_link,
+                ram_memory_link,
+                motherboard_link
+            })
     
             for(let { fps_average, id_game } of fps_averages){
                 await trx('fps_averages').insert({ fps_average, id_combination, id_game })
@@ -28,62 +38,52 @@ class CombinationsController {
 
     }
     async index(request, response){
-        const joinWithFPS = async combinations => {  
-            const FPSAverages = [... await db('fps_averages').select('*') ]
-            const getFPSAverages = combination => FPSAverages.filter(FPSAverage => combination.id === FPSAverage.id_combination)
-            
-            return combinations.map(combination => ({...combination, FPSAverages: getFPSAverages(combination)}))
-        }
-        
-        const { name,  ...components } = request.query
-        const { id } = request.params
+        const { ...components } = request.query, { id } = request.params
 
-        let status = true, combinations = { graphic_card: [] , processor: [], ram_memory: [] }
-    
+        const joinFPS = async ({ combination }) => ({
+            ...combination,
+            fps_averages:  await db('fps_averages').where('id_combination', combination.id).select('*')
+        })
+
+        console.log(components)
+
         try{
-            if(components && !name && !id){
+            if(Object.entries(components).length){
+                const { graphic_card, processor, ram_memory } = components                                    
                 
-                const filteredComponents = [...await filterByComponents(components)]
+                const combination = await joinFPS({
+                    combination: 
+                        [...await db('combinations').where({ graphic_card }).where({ processor }).where({ ram_memory }) .select('*')][0]
+                })
 
-                filteredComponents.every(component => {
-                    const [ key1, key2, key3 ] = Object.keys(component)
-
-                    if(key1 === 'id'){
-                        status = false
-
-                        return status
-                    }
-                    
-                    if(key1) combinations[key1] = [... new Set([...combinations[key1], component[key1]])]
-                    if(key2) combinations[key2] = [... new Set([...combinations[key2], component[key2]])]
-                    if(key3) combinations[key3] = [... new Set([...combinations[key3], component[key3]])]
-
-                    return true
-                })   
-                
-                if(!status) combinations = filteredComponents
-            }
-            else if(name){         
-                combinations = await joinWithFPS(await db('combinations').select('*').where('name', 'like', `%${name === ' ' ? '' : name}%`))      
+                return response.status(200).json(combination)
             }
             else if(id){
-                combinations = await joinWithFPS(await db('combinations').select('*'). where('id', id))
+                const combination = await joinFPS({
+                    combination: [...await db('combinations').select('*').where({ id })][0]
+                })
+
+                return response.status(200).json(combination)
             }
-            else {                  
-                combinations = await joinWithFPS([... await db('combinations').select('*')] )
-            }           
+            else{
+                const combinations = [...await db('combinations').select('*')], combinationsWithFPS = []
+                
+                for(let combination of combinations)
+                    combinationsWithFPS.push(await joinFPS({ combination }))
+
+                return response.status(200).json(combinationsWithFPS) 
+            }
         }
         catch(error){
             console.error(error)
+
             return response.status(400).json({ message: "Ocorreu um erro na listagem das combinações" })
-        }
-
-        console.log(combinations)
-
-        return response.status(200).json(combinations)    
+        }  
     }
+     b
     async update(request, response){
-        const { id, name, graphic_card, processor, ram_memory, motherboard, fps_averages } = request.body
+        const { id, name, graphic_card, processor, ram_memory, motherboard, fps_averages, components_links } = request.body
+        const { graphic_card_link, processor_link, ram_memory_link, motherboard_link } = components_links
         
         const trx = await db.transaction()
 
@@ -107,10 +107,19 @@ class CombinationsController {
                 }
             })
 
-            await trx('combinations').where({ id }).update({ name, graphic_card, processor, ram_memory, motherboard })
+            await trx('combinations').where({ id }).update({
+                name, 
+                graphic_card, 
+                processor, 
+                ram_memory, 
+                motherboard,
+                graphic_card_link,
+                processor_link,
+                ram_memory_link,
+                motherboard_link
+            })
             
             trx.commit()
-            
 
             return response.status(200).json({ message: 'Foi' })
         }
@@ -127,7 +136,6 @@ class CombinationsController {
         try{
             await db('combinations').delete().where('id', id)
 
-            console.log(await db('combinations').select('*'))
             return response.status(200).send()
         }
         catch(error){

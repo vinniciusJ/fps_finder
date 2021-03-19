@@ -5,7 +5,7 @@ import helpIcon from '../../assets/images/help.svg'
 import './styles.css'
 
 const SelectInput = (props) => {
-    const { label, selectedOption, options, handleSelectChange, handlePopUp, popUpID } = props
+    const { label, selectedOption, options, handleSelectChange, handlePopUp, popUpID, id } = props
 
     return (
         <div className="select-container">
@@ -16,7 +16,8 @@ const SelectInput = (props) => {
                 </button>
             </section>
             <section className="select-input">
-                <select id={label} value={selectedOption} onChange={handleSelectChange}>
+
+                <select id={id} value={selectedOption ?? 0} onChange={handleSelectChange}>
                     <option key={0} value={0}>Selecione</option>
                     {options.map((option,index) => <option key={index + 1} value={option}>{option}</option>)}
                 </select>

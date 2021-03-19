@@ -9,16 +9,13 @@ const filterByComponents = async components => {
     if(componentsLength === 3){
         const [ key1, key2, key3 ] = getComponentKeys(components)
         
-        const [ combination ] = await db('combinations')
+        const combination = await db('combinations')
                                         .where(key1, components[key1])
                                         .where(key2, components[key2])
                                         .where(key3, components[key3])
                                         .select('*')
-        
-        const combinationFPSs = await db('fps_averages').select('*').where('id_combination', combination.id)
-                                        
 
-        return ([{ ...combination, FPSAverages: [...combinationFPSs] }])
+        return combination
     }
     else if(componentsLength === 2){
         const [ key1, key2 ] = getComponentKeys(components)
@@ -43,7 +40,7 @@ const filterByComponents = async components => {
     }
     else {
         const filteredCombinations = await db('combinations').select('graphic_card', 'processor', 'ram_memory')
-
+        
         return filteredCombinations
     }
 }

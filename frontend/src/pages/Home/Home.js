@@ -20,39 +20,40 @@ const Footer = lazy(() => import('../../components/Footer/Footer'))
 
 const Home = () => {
     const [ currentPopUp, setCurrentPopUp ] = useState({ id: '#', isVisible: false })
-    const [ isAMobileDevice, setIsAMobileDevice ] = useState(false)
     const [ resultContainer, setResultContainer ] = useState(false)
-    const [ games, setGames ] = useState([])
+    const [ isAMobileDevice, setIsAMobileDevice ] = useState(false)
 
+    const [ components, setComponents ] = useState([{ graphic_card: null, processor: null, ram_memory: null }])
+    const [ selectComponents, setSelectComponents ] = useState({ graphic_card: [], processor: [], ram_memory: [] })
+
+    const [ selectedComponents, setSelectedComponents ] = useState({ graphic_card: null, processor: null, ram_memory: null })
+
+    /*const [ selectedGraphicCard, setSelectedGraphicCard ] = useState(null)
+    const [ selectedProcessor, setSelectedProcessor ] = useState(null)
+    const [ selectedRamMemory, setSelectedRamMemory ] = useState(null)*/
+
+    const [ games, setGames ] = useState([])
     const [ filteredCombination, setFilteredCombination ] = useState({})
 
-    const [ selectedGraphicCard, setSelectedGraphicCard ] = useState(0)
-    const [ selectedProcessor, setSelectedProcessor ] = useState(0)
-    const [ selectedRamMemory, setSelectedRamMemory ] = useState(0)
-
-    const [ graphicCardOptions, setGraphicCardOptions ] = useState([])
-    const [ processorOptions, setProcessorOptions ] = useState([])
-    const [ ramMemoryOptions, setRamMemoryOptions ] = useState([])
-
-    const isValid = (value) => Number(value) !== 0 
 
     useEffect(() => {
         (async () => {
             const source = axios.CancelToken.source()
 
-            let combination = { graphic_card: [], processor: [], ram_memory: [] }, games = []
-
             try{
-                combination = await (await api.get('combinations', { params: {}, cancelToken: source.token,  })).data
+                const receivedComponents = await (await api.get('/components', { cancelToken: source.token })).data
+                const receivedGames = await (await api.get('games', { cancelToken: source.token })).data
+                
+                const filteredComponents = { graphic_card: [], processor: [], ram_memory: [] }
 
-                games = await (await  api.get('games', { params: { name: "" }, cancelToken: source.token,  })).data
+                receivedComponents.forEach(component => Object.keys(component).forEach(key => filteredComponents[key].push(component[key])))
+
+                setComponents(receivedComponents)
+                setSelectComponents(filteredComponents)
+                setGames(receivedGames)
             }
-            finally{
-                setGraphicCardOptions(combination['graphic_card'])
-                setProcessorOptions(combination['processor'])
-                setRamMemoryOptions(combination['ram_memory'])
-
-                setGames(games)
+            catch(error){
+                alert(error.message)
             }
 
             return () => source.cancel("Requisição Cancelada")
@@ -66,56 +67,41 @@ const Home = () => {
     }, [  ])
 
     useEffect(() => {
-        (async() => {
-            const source = axios.CancelToken.source()
+        const isThereASingleValue = ({ key }) => selectComponents[key].length === 1
 
-            const filterOption = {}
-            const components = [{ graphic_card: selectedGraphicCard }, { processor: selectedProcessor }, { ram_memory: selectedRamMemory }]
+        const selectComponentsKeys = Object.keys(selectComponents), newSelectedComponents = { ...selectedComponents }
 
-            components.forEach(component => {
-                const [ key ] = Object.keys(component)
-        
-                if(isValid(component[key])) filterOption[key] = component[key]
-            })
+        selectComponentsKeys.forEach(key => newSelectedComponents[key] = isThereASingleValue({ key }) ? selectComponents[key][0] : null)
 
-            if(Object.keys(filterOption).length === 3){
-                try{
-                    const { data: [ combination ] } = await api.get('combinations', { 
-                        params: { ...filterOption },
-                        cancelToken: source.token,
-                        
-                    })
-                    console.log(combination)
-                    setFilteredCombination(combination)
-                }
-                catch{
-                    setResultContainer(false)
-                }
-            }
-            else {
-                try{
-                    const { data: { graphic_card, processor, ram_memory } } = await api.get('combinations', { 
-                        params: { ...filterOption },
-                        cancelToken: source.token,
-                        
-                    })
+        if(JSON.stringify(selectedComponents) !== JSON.stringify(newSelectedComponents))
+            setSelectedComponents(newSelectedComponents)
 
-                    if(isValid(graphic_card.length)) setGraphicCardOptions(graphic_card)
-                    if(isValid(processor.length)) setProcessorOptions(processor)
-                    if(isValid(ram_memory.length)) setRamMemoryOptions(ram_memory)
-                }
-                catch{
-                    setResultContainer(false)
-                }
-            }
+    }, [ selectComponents, selectedComponents ])
 
-            return () => source.cancel("Requisição Cancelada")
-        })()
-    }, [ selectedGraphicCard, selectedProcessor, selectedRamMemory ])
+    const handleSelectChanges = event => {
+        const splitComponents = ({ key, components }) => components.map(items => items[key])
+        const isTheComponentSelected = ({ key }) => selectedComponents[key]
+
+        const { id: key0, value: selectedComponent } = event.target
+        const [ key1, key2 ] = Object.keys(selectComponents).filter(key => key !== key0)
+
+        const filteredComponents = components.filter(component => component[key0] === selectedComponent)
+
+        const [ component1, component2 ] = [
+            ([ isTheComponentSelected({ key: key1 }) ] || splitComponents({ key: key1, components: filteredComponents })),
+            ([ isTheComponentSelected({ key: key2 }) ] || splitComponents({ key: key2, components: filteredComponents }))
+        ]
+
+        setSelectComponents({ 
+            [key0]: [selectedComponent ? selectedComponent : null],
+            [key1]: component1, 
+            [key2]: component2 
+        })
+    }
 
     const handleCurrentPopUpVisibility = event => {
         const status = currentPopUp.isVisible
-        const id = event.target.id
+        const [ , id ] = event.target.id.split('-')
 
         if(!status && id)
             setCurrentPopUp({ id, isVisible: true })
@@ -133,9 +119,12 @@ const Home = () => {
     }
 
     const clearSelectFields = () => {
-        setSelectedGraphicCard(0)
-        setSelectedProcessor(0)
-        setSelectedRamMemory(0)
+        const restoredSelectComponents = { ...selectComponents }
+        
+        components.forEach(component => Object.keys(component).forEach(key => restoredSelectComponents[key].push(component[key])))
+
+        setSelectedComponents({ graphic_card: null, processor: null, ram_memory: null })
+        setSelectComponents(restoredSelectComponents)
     }
 
     const handleCalculateAgain = () => {        
@@ -146,34 +135,24 @@ const Home = () => {
         return <Link to="#" smooth/>
     }
 
-    const handleProcessorChange = event => {
-        const processor = event.target.value
 
-        setSelectedProcessor(processor)
-        isValid(event.target.value) && setProcessorOptions([event.target.value])
+    const calculateFPSAverage = async () => {
+        if(Object.values(selectedComponents).includes(null)) return
+
+        const source = axios.CancelToken.source()
+
+        try{
+            const combination = await (await api.get('/combinations', { params: { ...selectedComponents } })).data
+
+            console.log(combination)
+        }
+        catch(error){
+            alert(error.message)
+        }
+
+        //setResultContainer(true)
     }
-
-    const handleRamMemoryChange = event => {
-        const ramMemory = event.target.value
-
-        setSelectedRamMemory(ramMemory)
-        isValid(event.target.value) && setRamMemoryOptions([event.target.value])
-    }
-
-    const handleGraphicCardChange = event => {
-        const graphicCard = event.target.value
-        
-        setSelectedGraphicCard(graphicCard)
-        isValid(event.target.value) && setGraphicCardOptions([event.target.value])
-    }
-
-    const handleResultContainerView = () => {
-        if(!isValid(selectedGraphicCard) || !isValid(selectedProcessor) || !isValid(selectedRamMemory)) return
-
-        setResultContainer(true)
-        
-        return <Link to='#result' smooth/>
-    }
+    
 
     return (
         <div className="Home">
@@ -196,12 +175,15 @@ const Home = () => {
                     <Suspense fallback={<div></div>}>
                         <SelectInput 
                             label="Placa de Vídeo"
-                            selectedOption={selectedGraphicCard}
-                            options={graphicCardOptions} 
-                            popUpID="graphic-card"
-                            handlePopUp={handleCurrentPopUpVisibility}
-                            handleSelectChange={handleGraphicCardChange}
+                            id="graphic_card"
+                            popUpID="popup-graphic-card"
+
+                            selectedOption={selectedComponents.graphic_card}
+                            options={selectComponents.graphic_card} 
                             isAMobileDevice={isAMobileDevice}
+
+                            handlePopUp={handleCurrentPopUpVisibility}
+                            handleSelectChange={handleSelectChanges}
                         />
                     </Suspense>
 
@@ -229,13 +211,16 @@ const Home = () => {
                 <div className="label-section">
                     <Suspense fallback={<div></div>}>
                         <SelectInput 
-                            label="Processador" 
-                            selectedOption={selectedProcessor} 
-                            options={processorOptions} 
-                            popUpID="processor"
-                            handlePopUp={handleCurrentPopUpVisibility}
-                            handleSelectChange={handleProcessorChange}
+                            label="Processador"
+                            id="processor" 
+                            popUpID="popup-processor"
+
+                            selectedOption={selectedComponents.processor} 
+                            options={selectComponents.processor} 
                             isAMobileDevice={isAMobileDevice}
+                            
+                            handlePopUp={handleCurrentPopUpVisibility}
+                            handleSelectChange={handleSelectChanges}
                         />
                     </Suspense>
 
@@ -262,12 +247,15 @@ const Home = () => {
                     <Suspense fallback={<div></div>}>
                         <SelectInput 
                             label="Memória RAM" 
-                            selectedOption={selectedRamMemory} 
-                            options={ramMemoryOptions}
-                            popUpID="ram-memory"
-                            handlePopUp={handleCurrentPopUpVisibility} 
-                            handleSelectChange={handleRamMemoryChange}
+                            id="ram_memory"
+                            popUpID="popup-ram-memory"
+
+                            selectedOption={selectedComponents.ram_memory} 
+                            options={selectComponents.ram_memory}
                             isAMobileDevice={isAMobileDevice}
+                            
+                            handlePopUp={handleCurrentPopUpVisibility} 
+                            handleSelectChange={handleSelectChanges}
                         />
                     </Suspense>
 
@@ -291,7 +279,7 @@ const Home = () => {
                     }
 
                     <section className="operations-buttons">
-                    <Link className="btn main" onClick={handleResultContainerView} smooth to={`#result`}>Calcular</Link>
+                    <Link className="btn main" onClick={calculateFPSAverage} smooth to={`#result`}>Calcular</Link>
                     <button className="btn" onClick={clearSelectFields}>Limpar campos</button>
                 </section>
                 </div>
@@ -329,7 +317,8 @@ const Home = () => {
                         <h2>Jogos:</h2>
 
                         <div className="games-list">
-                            {filteredCombination.FPSAverages.map(item => {
+                            {console.log(filteredCombination)}
+                            {filteredCombination.fps_averages.map(item => {
                                 const [ game ] = games.filter(game => game.id === item.id_game)
 
                                 return (

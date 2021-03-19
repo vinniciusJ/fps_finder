@@ -4,12 +4,14 @@ const { Joi, celebrate, Segments } = require('celebrate')
 const GamesController = require('./controllers/GamesController')
 const CombinationsController = require('./controllers/CombinationsController')
 const UserController = require('./controllers/UserController')
+const ComponentsController = require('./controllers/ComponentsController')
 
 const router = express.Router()
 
 const gamesController = new GamesController()
 const combinationsController = new CombinationsController()
 const userController = new UserController()
+const componentsController = new ComponentsController()
 
 const games = {
     post: [
@@ -53,9 +55,13 @@ const combinations = {
         userController.authorize.bind(userController),
         celebrate({
             [Segments.BODY]: Joi.object().keys({
-                name: Joi.string().required(), graphic_card: Joi.string().required(),
-                processor: Joi.string().required(), ram_memory: Joi.string().required(),
-                motherboard: Joi.string().required(), fps_averages: Joi.array().required()
+                name: Joi.string().required(), 
+                graphic_card: Joi.string().required(),
+                processor: Joi.string().required(), 
+                ram_memory: Joi.string().required(),
+                motherboard: Joi.string().required(), 
+                fps_averages: Joi.array().required(),
+                components_links: Joi.object().required()
             })
         }),
         combinationsController.create
@@ -63,7 +69,6 @@ const combinations = {
     get: [
         celebrate({
             [Segments.QUERY]: Joi.object().keys({
-                name: Joi.string(),
                 graphic_card: Joi.string(),
                 processor: Joi.string(),
                 ram_memory: Joi.string()
@@ -78,9 +83,14 @@ const combinations = {
         userController.authorize.bind(userController),
         celebrate({
             [Segments.BODY]: Joi.object().keys({
-                id: Joi.number().required(), name: Joi.string().required(), graphic_card: Joi.string().required(),
-                processor: Joi.string().required(), ram_memory: Joi.string().required(),
-                motherboard: Joi.string().required(), fps_averages: Joi.array().required()
+                id: Joi.number().required(), 
+                name: Joi.string().required(), 
+                graphic_card: Joi.string().required(),
+                processor: Joi.string().required(), 
+                ram_memory: Joi.string().required(),
+                motherboard: Joi.string().required(), 
+                fps_averages: Joi.array().required(),
+                components_links: Joi.object().required()
             })
         }),
         combinationsController.update
@@ -113,6 +123,10 @@ const user = {
     ] 
 }
 
+const components = {
+    get: componentsController.index
+}
+
 router.use(userController.setAuthorization.bind(userController))
 
 router.route('/games')
@@ -126,7 +140,9 @@ router.route('/combinations')
     .get(combinations.get)
     .put(combinations.put)
 
-router.get('/combinations/:id', combinations.get)  
+router.get('/combinations/:id', combinations.get) 
+
+router.get('/components', components.get)
 
 router.post('/login', login.post)
 router.post('/user', user.post)
