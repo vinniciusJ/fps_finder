@@ -27,14 +27,10 @@ const Home = () => {
     const [ selectComponents, setSelectComponents ] = useState({ graphic_card: [], processor: [], ram_memory: [] })
 
     const [ selectedComponents, setSelectedComponents ] = useState({ graphic_card: null, processor: null, ram_memory: null })
-
-    /*const [ selectedGraphicCard, setSelectedGraphicCard ] = useState(null)
-    const [ selectedProcessor, setSelectedProcessor ] = useState(null)
-    const [ selectedRamMemory, setSelectedRamMemory ] = useState(null)*/
+    const [ filteredComponents, setFilteredComponents ] = useState([])
 
     const [ games, setGames ] = useState([])
     const [ filteredCombination, setFilteredCombination ] = useState({})
-
 
     useEffect(() => {
         (async () => {
@@ -48,9 +44,11 @@ const Home = () => {
 
                 receivedComponents.forEach(component => Object.keys(component).forEach(key => filteredComponents[key].push(component[key])))
 
-                setComponents(receivedComponents)
-                setSelectComponents(filteredComponents)
+                Object.keys(filteredComponents).forEach(key => filteredComponents[key] = [ ...new Set(filteredComponents[key])])
+
                 setGames(receivedGames)
+                setSelectComponents(filteredComponents)
+                setComponents(receivedComponents)
             }
             catch(error){
                 alert(error.message)
@@ -71,7 +69,11 @@ const Home = () => {
 
         const selectComponentsKeys = Object.keys(selectComponents), newSelectedComponents = { ...selectedComponents }
 
-        selectComponentsKeys.forEach(key => newSelectedComponents[key] = isThereASingleValue({ key }) ? selectComponents[key][0] : null)
+        selectComponentsKeys.forEach(key => {
+            const value = isThereASingleValue({ key }) ? selectComponents[key][0] : null
+
+            newSelectedComponents[key] = value === '0' ? null : value
+        })
 
         if(JSON.stringify(selectedComponents) !== JSON.stringify(newSelectedComponents))
             setSelectedComponents(newSelectedComponents)
@@ -80,28 +82,37 @@ const Home = () => {
 
     const handleSelectChanges = event => {
         const splitComponents = ({ key, components }) => components.map(items => items[key])
+        const filterComponents = ({ components, param }) => components.filter(component => component[key0] === param)
+
         const isTheComponentSelected = ({ key }) => selectedComponents[key]
 
         const { id: key0, value: selectedComponent } = event.target
         const [ key1, key2 ] = Object.keys(selectComponents).filter(key => key !== key0)
 
-        const filteredComponents = components.filter(component => component[key0] === selectedComponent)
+        let newFilteredComponents = filterComponents({
+            components: (filteredComponents.length ? filteredComponents : components),
+            param: selectedComponent
+        })
+
+        console.log(newFilteredComponents)
 
         const [ component1, component2 ] = [
-            ([ isTheComponentSelected({ key: key1 }) ] || splitComponents({ key: key1, components: filteredComponents })),
-            ([ isTheComponentSelected({ key: key2 }) ] || splitComponents({ key: key2, components: filteredComponents }))
+            (isTheComponentSelected({ key: key1 }) || splitComponents({ key: key1, components: newFilteredComponents })),
+            (isTheComponentSelected({ key: key2 }) || splitComponents({ key: key2, components: newFilteredComponents }))
         ]
+
+        setFilteredComponents(newFilteredComponents)
 
         setSelectComponents({ 
             [key0]: [selectedComponent ? selectedComponent : null],
-            [key1]: component1, 
-            [key2]: component2 
+            [key1]: Array.isArray(component1) ? component1 : [component1], 
+            [key2]: Array.isArray(component2) ? component2 : [component2]
         })
     }
 
     const handleCurrentPopUpVisibility = event => {
         const status = currentPopUp.isVisible
-        const [ , id ] = event.target.id.split('-')
+        const id = event.target.id.split('popup-')[1]
 
         if(!status && id)
             setCurrentPopUp({ id, isVisible: true })
@@ -122,37 +133,39 @@ const Home = () => {
         const restoredSelectComponents = { ...selectComponents }
         
         components.forEach(component => Object.keys(component).forEach(key => restoredSelectComponents[key].push(component[key])))
+        Object.keys(restoredSelectComponents).forEach(key => restoredSelectComponents[key] = [ ...new Set(restoredSelectComponents[key])])
 
-        setSelectedComponents({ graphic_card: null, processor: null, ram_memory: null })
+        setFilteredComponents([])
         setSelectComponents(restoredSelectComponents)
+        setSelectedComponents({ graphic_card: null, processor: null, ram_memory: null })
     }
 
-    const handleCalculateAgain = () => {        
+    const calculateAgain = () => {        
         setResultContainer(false)
         setFilteredCombination({})
+
         clearSelectFields() 
-        
-        return <Link to="#" smooth/>
     }
 
 
     const calculateFPSAverage = async () => {
-        if(Object.values(selectedComponents).includes(null)) return
+        if(Object.values(selectedComponents).includes(null)) return alert('Por favor, selecione todos os inputs.')
 
         const source = axios.CancelToken.source()
 
         try{
-            const combination = await (await api.get('/combinations', { params: { ...selectedComponents } })).data
+            const { data: combination } = await (
+                await api.get('/combinations', { params: { ...selectedComponents }, cancelToken: source.token })
+            )
 
-            console.log(combination)
+            setFilteredCombination(combination)
         }
         catch(error){
             alert(error.message)
         }
 
-        //setResultContainer(true)
+        setResultContainer(true)
     }
-    
 
     return (
         <div className="Home">
@@ -279,9 +292,9 @@ const Home = () => {
                     }
 
                     <section className="operations-buttons">
-                    <Link className="btn main" onClick={calculateFPSAverage} smooth to={`#result`}>Calcular</Link>
-                    <button className="btn" onClick={clearSelectFields}>Limpar campos</button>
-                </section>
+                        <Link className="btn main" onClick={calculateFPSAverage} smooth to={`#result`}>Calcular</Link>
+                        <button className="btn" onClick={clearSelectFields}>Limpar campos</button>
+                    </section>
                 </div>
             </main>
 
@@ -297,9 +310,31 @@ const Home = () => {
 
                         <div className="filter-components">
                             <ul>
-                                <li><span>Placa de Vídeo: </span>{filteredCombination.graphic_card}</li>
-                                <li><span>Processador: </span>{filteredCombination.processor}</li>
-                                <li><span>Memória RAM: </span>{filteredCombination.ram_memory}</li>
+                                <li>
+                                    <div>
+                                        <span>Placa de Vídeo: </span>{filteredCombination.graphic_card}
+                                    </div>
+
+                                    {!filteredCombination.graphic_card_link && (
+                                        <a href={filteredCombination.graphic_card_link || 'https://www.google.com/'}  className="purchase-link" target="_blank" rel="noreferrer">Onde comprar</a>
+                                    )}
+                                </li>
+                                <li>
+                                    <div>
+                                        <span>Processador: </span>{filteredCombination.processor}
+                                    </div>
+
+                                    {!filteredCombination.processor_link && (
+                                        <a href={filteredCombination.processor_link || 'https://www.google.com/'}  className="purchase-link" target="_blank" rel="noreferrer">Onde comprar</a>
+                                    )}
+                                </li>
+                                <li>
+                                    <div><span>Memória RAM: </span>{filteredCombination.ram_memory}</div>
+
+                                    {!filteredCombination.ram_memory_link && (
+                                        <a href={filteredCombination.ram_memory_link || 'https://www.google.com/'}  className="purchase-link" target="_blank" rel="noreferrer">Onde comprar</a>
+                                    )}
+                                </li>
                             </ul>
                         </div>
                     </section>
@@ -308,8 +343,14 @@ const Home = () => {
                         <h2>Placa Mãe recomendada: </h2>
 
                         <div className="motherboard-box">
-                            <img src={motherboardImage} width={32} height={32} alt="Placa Mãe recomendada"/>
-                            <p>{filteredCombination.motherboard}</p>
+                            <div>
+                                <img src={motherboardImage} width={32} height={32} alt="Placa Mãe recomendada"/>
+                                <p>{filteredCombination.motherboard}</p>
+                            </div>
+
+                            {!filteredCombination.motherboard_link && (
+                                <a href={filteredCombination.motherboard_link || 'https://www.google.com/'}  className="purchase-link" target="_blank" rel="noreferrer">Onde comprar</a>
+                            )}
                         </div>
                     </section>
 
@@ -317,7 +358,6 @@ const Home = () => {
                         <h2>Jogos:</h2>
 
                         <div className="games-list">
-                            {console.log(filteredCombination)}
                             {filteredCombination.fps_averages.map(item => {
                                 const [ game ] = games.filter(game => game.id === item.id_game)
 
@@ -336,17 +376,17 @@ const Home = () => {
                     </section>
 
                     <section className="btn-again">
-                        <button className="btn main" onClick={handleCalculateAgain}>Calcular Novamente</button>
+                        <Link className="btn main" onClick={calculateAgain} smooth to={`#calculate`}>Calcular Novamente</Link>
                     </section>
                 </div>
                 </>
                     
             }
+
             <Suspense fallback={<div></div>}>
                 <Footer />
             </Suspense>
         </div>
-        
     )
 }
 

@@ -88,7 +88,7 @@ h2{
     background: #E7E6E6;
     font-weight: 800;
     
-    width: clamp(16rem, 22rem, 30rem);
+    width: clamp(16rem, 28rem, 30rem);
 
     padding: 0 1.4rem;
 
@@ -116,7 +116,7 @@ h2{
 
 .btn.main{
     background: var(--contrast-color);
-    color: #FFF;
+    color: #000;
 }
 
 .btn.main:hover, .btn.main:focus{

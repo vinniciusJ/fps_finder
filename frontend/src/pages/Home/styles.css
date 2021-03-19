@@ -103,6 +103,15 @@
     line-height: 2;
 }
 
+.filter-combination .filter-components ul li{
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter-combination .filter-components ul li:not(:last-child){
+    margin-bottom: 1rem;
+}
+
 .filter-combination .filter-components ul li span{
     color: var(--main-color);
 }
@@ -122,14 +131,33 @@
 
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     font-size: 1.6rem;
     color: #FFF;
 }
 
+.motherboard .motherboard-box div{
+    display: flex;
+    align-items: center;
+}
+
 .motherboard .motherboard-box img{
     width: 4rem;
     margin-right: 1.5rem;
+}
+
+.purchase-link{
+    background: var(--contrast-color);
+    padding: 0 1.4rem;
+    height: 4rem;
+
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+    color: #000;
+    font-weight: 800;
 }
 
 .games-container{
@@ -158,7 +186,8 @@
 }
 
 .btn-again{
-    padding: 2.4rem 0; 
+    padding: 2.4rem 0;
+    margin-bottom: 4.8rem; 
 }
 
 .btn-again button{

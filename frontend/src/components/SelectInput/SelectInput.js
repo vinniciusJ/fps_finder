@@ -10,7 +10,7 @@ const SelectInput = (props) => {
     return (
         <div className="select-container">
             <section className="select-header">
-                <h2><label htmlFor={label}>{label}</label></h2>
+                <h2><label htmlFor={id}>{label}</label></h2>
                 <button onClick={handlePopUp}>
                     <img width={22} height={22} src={helpIcon} alt={label} id={popUpID}/>
                 </button>

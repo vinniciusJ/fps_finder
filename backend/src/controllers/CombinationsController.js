@@ -80,7 +80,7 @@ class CombinationsController {
             return response.status(400).json({ message: "Ocorreu um erro na listagem das combinações" })
         }  
     }
-     b
+     
     async update(request, response){
         const { id, name, graphic_card, processor, ram_memory, motherboard, fps_averages, components_links } = request.body
         const { graphic_card_link, processor_link, ram_memory_link, motherboard_link } = components_links
