@@ -23,45 +23,61 @@
 .nav-bar-main .hamburguer-icon{
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
+    
     position: relative;
-   
-    z-index: 1;
 
     height: 5.6rem;
 }
 
 .nav-bar-main .hamburguer-icon div{
     width: 4.6rem;
-    height: .4rem;
+    height: .5rem;
 
     border-radius: 4rem;
-    margin-bottom: 2rem;
 
     background: #000;
  
-    /*transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
-      background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;*/
-}
-/*
-.nav-bar-main .hamburguer-icon div:first-child{
-    
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+      background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
 }
 
-.nav-bar-main .hamburguer-icon div:nth-last-child(2){
-    
-}*/
+
+.nav-bar-main .hamburguer-icon.x{
+    width:40px;
+    height:40px;
+
+    position:relative;
+    border-radius:6px;
+}
 
 .nav-bar-main .hamburguer-icon.x div{
-    background: red;
+    display: none;
 }
 
-.nav-bar-main .hamburguer-icon.x div:nth-last-child(3){
-    background: blue;
+.nav-bar-main .hamburguer-icon.x:before,
+.nav-bar-main .hamburguer-icon.x:after{
+    content:'';
+    position:absolute;
+
+    width:36px;
+    height:4px;
+
+    background-color:#000;
+    border-radius:2px;
+    top:16px;
 }
 
-.nav-bar-main .hamburguer-icon.x div:nth-last-child(2){
-    background: grred;
+.nav-bar-main .hamburguer-icon.x:before{
+    -webkit-transform:rotate(45deg);
+    -moz-transform:rotate(45deg);
+    transform:rotate(45deg);
+    left:2px;
 }
 
-
-
+.nav-bar-main .hamburguer-icon.x:after{
+    -webkit-transform:rotate(-45deg);
+    -moz-transform:rotate(-45deg);
+    transform:rotate(-45deg);
+    right:2px;
+}
