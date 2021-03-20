@@ -8,6 +8,7 @@ import './styles.css'
 const Menu = props => {
     return (
         <nav className="nav-bar">
+            <div className="nav-bar-inner">
             <div className="nav-bar-logo">
                 <img width={64} height={40} src={FPSFinderLogo} alt="FPS Finder"/>
             </div>
@@ -22,11 +23,12 @@ const Menu = props => {
                         <input name="search-input" type="text"/>
                     </label>
                 </div>
-                <div className="hamburguer-icon x">
+                <div className="hamburguer-icon">
                     <div></div>
                     <div></div>
                     <div></div>
                 </div>
+            </div>
             </div>
         </nav>
     )

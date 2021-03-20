@@ -7,23 +7,7 @@
     margin-bottom: 2.8rem;
 }
 
-.main-header .nav-bar{
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-    width: 100vw;
-
-    padding: 2rem;
-
-    background: var(--contrast-color);
-    margin-bottom: 3rem;
-}
-
-.main-header .nav-bar img{
-    width: 16rem;
-    height: 10rem;
-}
 
 .main-header .presentation{
     display: flex;

@@ -1,14 +1,21 @@
 .nav-bar{
     display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--contrast-color);
+    margin-bottom: 3rem;
+    height: 12rem;
+}
+
+.nav-bar-inner{
+    display: flex;
     justify-content: space-between;
     align-items: center;
 
     width: 100vw;
 
-    padding: 2.4rem;
-
-    background: var(--contrast-color);
-    margin-bottom: 3rem;
+    padding: 0 2.4rem;
 }
 
 .nav-bar img{
@@ -80,4 +87,10 @@
     -moz-transform:rotate(-45deg);
     transform:rotate(-45deg);
     right:2px;
+}
+
+@media screen and (min-width: 512px){
+    .nav-bar .nav-bar-inner{
+        width: 68vw;
+    }
 }
