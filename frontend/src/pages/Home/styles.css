@@ -108,6 +108,10 @@
     justify-content: space-between;
 }
 
+.filter-combination .filter-components ul li div{
+    width: 20.8rem;
+}
+
 .filter-combination .filter-components ul li:not(:last-child){
     margin-bottom: 1rem;
 }
@@ -140,6 +144,7 @@
 .motherboard .motherboard-box div{
     display: flex;
     align-items: center;
+    width: 20.8rem;
 }
 
 .motherboard .motherboard-box img{
@@ -149,7 +154,7 @@
 
 .purchase-link{
     background: var(--contrast-color);
-    padding: 0 1.4rem;
+    padding: 0 1rem;
     height: 4rem;
 
     display: flex;
@@ -241,5 +246,12 @@
 
     .game-container .game-logo p{
         width: 34rem;
+    }
+}
+
+@media screen and (min-width: 690px){
+    .filter-combination .filter-components ul li div,
+    .motherboard .motherboard-box div{
+        width: initial;
     }
 }

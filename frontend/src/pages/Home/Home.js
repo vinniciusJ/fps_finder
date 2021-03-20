@@ -5,7 +5,6 @@ import axios from 'axios'
 
 import api from '../../services/api'
 
-import FPSFinderLogo from '../../assets/images/logo.svg'
 import graphicCardImage from '../../assets/images/graphic-card.svg'
 import processorImage from '../../assets/images/processor.svg'
 import ramMemoryImage from '../../assets/images/ram-memory.svg'
@@ -18,19 +17,24 @@ const PopUp = lazy(() => import('../../components/PopUp/PopUp'))
 const GameContainer = lazy(() => import('../../components/GameContainer/GameContainer'))
 const Footer = lazy(() => import('../../components/Footer/Footer'))
 
+const Menu = lazy(() => import('../../components/Menu/index'))
+
+const componentsInterface = { graphic_card: null, processor: null, ram_memory: null }
+
 const Home = () => {
     const [ currentPopUp, setCurrentPopUp ] = useState({ id: '#', isVisible: false })
     const [ resultContainer, setResultContainer ] = useState(false)
     const [ isAMobileDevice, setIsAMobileDevice ] = useState(false)
 
-    const [ components, setComponents ] = useState([{ graphic_card: null, processor: null, ram_memory: null }])
-    const [ selectComponents, setSelectComponents ] = useState({ graphic_card: [], processor: [], ram_memory: [] })
+    const [ games, setGames ] = useState([])
 
-    const [ selectedComponents, setSelectedComponents ] = useState({ graphic_card: null, processor: null, ram_memory: null })
+    const [ filteredCombination, setFilteredCombination ] = useState({})
     const [ filteredComponents, setFilteredComponents ] = useState([])
 
-    const [ games, setGames ] = useState([])
-    const [ filteredCombination, setFilteredCombination ] = useState({})
+    const [ components, setComponents ] = useState([{ ...componentsInterface }])
+    const [ selectedComponents, setSelectedComponents ] = useState({ ...componentsInterface })
+
+    const [ selectComponents, setSelectComponents ] = useState({ graphic_card: [], processor: [], ram_memory: [] })
 
     useEffect(() => {
         (async () => {
@@ -93,8 +97,6 @@ const Home = () => {
             components: (filteredComponents.length ? filteredComponents : components),
             param: selectedComponent
         })
-
-        console.log(newFilteredComponents)
 
         const [ component1, component2 ] = [
             (isTheComponentSelected({ key: key1 }) || splitComponents({ key: key1, components: newFilteredComponents })),
@@ -169,10 +171,10 @@ const Home = () => {
 
     return (
         <div className="Home">
+            <Suspense fallback={<div></div>}>
+                <Menu />
+            </Suspense>
             <header className="main-header">
-                <nav className="nav-bar">
-                    <img width={128} height={80} src={FPSFinderLogo} alt="FPS Finder"/>
-                </nav>
                 <section className="presentation">
                     <h2>Calcule agora a média de FPS em jogos que sua máquina é capaz de alcançar! </h2>
                     <p>Através de pesquisas e testes a nossa calculadora é capaz de juntar as informações básicas de sua máquina, dadas por você, e calcular a média de FPS em que ela alcança em jogos selecionados.</p>
