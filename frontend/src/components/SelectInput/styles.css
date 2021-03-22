@@ -45,3 +45,9 @@
 
     outline: none;
 }
+
+.select-container .select-input select span{
+    color: #FFF;
+    background: var(--secondary-color);
+    
+}
