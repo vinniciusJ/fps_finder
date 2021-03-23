@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import { Search, Menu as MenuIcon, X } from 'react-feather'
+import { debounceEvent } from '../../utils/index'
 
 import FPSFinderLogo from '../../assets/images/logo.svg'
 
 import './styles.css'
 
-const Menu = props => {
+const Menu = ({ searchInput, onSearch }) => {
     const [ hiddenMenu, setHiddenMenu ] = useState(true)
+    const [ searchButton, setSearchButton ] = useState(false)
 
     const handleMenuVisibility = () => setHiddenMenu(!hiddenMenu)
-
+    const handleSearchButton = ({ status = !searchButton }) => setSearchButton(status)
+        
     return (
         <nav className="nav-bar">
             <div className={`nav-bar-inner ${!hiddenMenu ? 'extended' : ''}`}>
@@ -21,12 +24,30 @@ const Menu = props => {
                         <a href="https://www.google.com/" target="_blank" rel="noreferrer">Blog</a>
                         <a href="https://www.google.com/" target="_blank" rel="noreferrer">Sobre nós</a>
                     </div>
-                    <div className="nav-bar-input">
-                        <Search color="#000" width={32} height={32}/>
-                        <label htmlFor="search-input">
-                            <input name="search-input" type="text" placeholder="Buscar..."/>
-                        </label>
-                    </div>
+
+                    {searchInput.isVisible && (
+                        <div className="nav-bar-input">
+                            <Search  
+                                className={searchButton ? 'clicked' : ''} color="#000" 
+                                width={28} 
+                                height={28} 
+                                onClick={handleSearchButton}
+                            />
+                            <label htmlFor="search-input">
+                                <input 
+                                    name="search-input" 
+                                    id="search-input" 
+                                    type="text" 
+                                    placeholder="Buscar..."
+                                    onKeyUp={event => {
+                                        handleSearchButton({ status: true })
+                                        debounceEvent(onSearch).apply(null, event)
+                                    }}
+                                />
+                            </label>
+                        </div>
+                    )}
+
                 </div>
                 <div className="menu-icon">
                         { hiddenMenu && (

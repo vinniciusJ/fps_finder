@@ -172,7 +172,7 @@ const Home = () => {
     return (
         <div className="Home">
             <Suspense fallback={<div></div>}>
-                <Menu />
+                <Menu searchInput={{ isVisible: false }} onSearch={() => {}}/>
             </Suspense>
             <header className="main-header">
                 <section className="presentation">
@@ -372,7 +372,7 @@ const Home = () => {
                         </div>
 
                         <p className="games-container-info">
-                            <AlertCircle color='black' strokeWidth={1.5} width={24} height={24}/>
+                            <AlertCircle color='black' strokeWidth={1.5} width={isAMobileDevice ? 48 : 32} height={isAMobileDevice ? 48 : 32}/>
                             Todos os testes foram realizados na qualidade média e em 1080p
                         </p>
                     </section>
