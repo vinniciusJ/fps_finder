@@ -96,7 +96,7 @@ h2{
     border-radius: none;
     outline: none;
 
-    transition: background .4s;
+    transition: ease-in .4s;
     text-decoration: none;
 
     display: flex;
@@ -106,23 +106,24 @@ h2{
     font-size: 1.8rem;
 }
 
-.btn:hover, .btn:focus{
-    background: #FAF9F9;
+.btn:hover{
+    border: solid .35rem #000;
+    background: transparent;
 }
 
 .btn:active{
-    background: #8A8888;
+    background: #D2D2D2;
 }
 
 .btn.main{
     background: var(--contrast-color);
-    color: #000;
 }
 
-.btn.main:hover, .btn.main:focus{
-    background: #FFDB98;
+.btn.main:hover{
+    border: solid .35rem var(--contrast-color);
+    background: transparent;
 }
 
 .btn.main:active{
-    background: var(--main-color);
+    background: #FFC55A;
 }

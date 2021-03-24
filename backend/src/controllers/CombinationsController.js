@@ -45,8 +45,6 @@ class CombinationsController {
             fps_averages:  await db('fps_averages').where('id_combination', combination.id).select('*')
         })
 
-        console.log(components)
-
         try{
             if(Object.entries(components).length){
                 const { graphic_card, processor, ram_memory } = components                                    

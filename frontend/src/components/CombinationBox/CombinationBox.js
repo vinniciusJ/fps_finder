@@ -1,14 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, Suspense, lazy } from 'react'
 import { MoreHorizontal, Edit3, X } from 'react-feather'
 import { Link } from 'react-router-dom'
 import { HashLink as InternalLink } from 'react-router-hash-link'
 
-import GameContainer from '../GameContainer/GameContainer'
-import DeletePopUp from '../DeletePopUp/DeletePopUp'
-
 import './styles.css'
 
-let currentKey = 0
+const GameContainer = lazy(() => import('../GameContainer/GameContainer'))
+const DeletePopUp = lazy(() => import('../DeletePopUp/DeletePopUp'))
 
 const CombinationBox = props => {
     const { combination, games } = props
@@ -22,7 +20,7 @@ const CombinationBox = props => {
         ram_memory: 'Memória RAM',
         motherboard: 'Placa Mãe'
     }
-    
+
     const handleMoreOptions = () => setIsMoreOptionVisible(!isMoreOptionVisible)
     
     const handleDeletePopupVisibility = () => {
@@ -74,11 +72,16 @@ const CombinationBox = props => {
                     </ul>
                 </section>
                 <aside className="combinations-game">
-                    {combination.FPSAverages.map((FPSAverage, index) => {
-                        const [ currentGame ] = games.filter(game => game.id === FPSAverage.id_game)
+                    {combination.fps_averages.map((fps_average, index) => {
+                        const [ currentGame ] = games.filter(game => game.id === fps_average.id_game)
                 
                         if(currentGame){
-                            return <GameContainer name={currentGame.name} FPSAverage={FPSAverage.fps_average} logo={currentGame.url_logo} background='#FFF' key={`${currentGame.name}0#0${currentKey}`}/>
+
+                            return (
+                                <Suspense key={`${currentGame.name}#${Math.random() * (100 - 1) + 1}`} fallback={<div></div>}>
+                                    <GameContainer name={currentGame.name} FPSAverage={fps_average.fps_average} logo={currentGame.url_logo} background='#FFF' />
+                                </Suspense>
+                            )
                         }
 
                         return <></>
@@ -86,7 +89,9 @@ const CombinationBox = props => {
                 </aside>
             </main>
             {isDeletePopupVisible && 
-                <DeletePopUp id={combination.id} name={combination.name} handlePopupVisibility={handleDeletePopupVisibility}/>
+                <Suspense fallback={<div></div>}>
+                    <DeletePopUp id={combination.id} name={combination.name} handlePopupVisibility={handleDeletePopupVisibility}/>
+                </Suspense>
             }
         </section>
         </>

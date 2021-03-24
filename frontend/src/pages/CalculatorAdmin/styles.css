@@ -1,0 +1,169 @@
+.admin-header{
+    width: 100%;
+    height: 12.8vh;
+    background: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-header div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 76vw;
+}
+
+.admin-header div .total-combinations{
+    font-size: 2.4rem;
+    color: #FFF;
+}
+
+.admin-header div input{
+    height: 5.4rem;
+    width: 40rem;
+    background: var(--secondary-color) url(../../assets/images/search.svg) 1rem no-repeat;
+    font-size: 1.4rem;
+    padding-left: 4.8rem;
+    border: 2px solid #FFF;
+    border-radius: none;
+    outline: none;
+    color: #FFF;
+}
+
+.admin-header div input::placeholder{
+    color: #FFF;
+}
+
+.admin-header div .add-new-combination{
+    height: 5.4rem;
+    width: 6.4rem;
+    background: transparent;
+    border: 2px solid #FFF;
+    outline: none;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-header div .add-new-combination:active{
+    height: 5.2rem;
+    width: 6.2rem;
+}
+
+.admin-header div .add-new-combination svg{
+    height: 4.2rem;
+    width: 4.2rem;
+}
+
+.combinations{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6rem 0 14rem;
+}
+
+.combinations .combinations-registered{
+    width: 62vw;
+    margin-bottom: 6.2rem;
+}
+
+.combinations .combinations-registered h2{
+    font-size: 4.4rem;
+    font-weight: 500;
+    letter-spacing: initial;
+}
+
+.combinations .no-combination-found{
+    margin-top: 8rem;
+    width: 64vw;
+    min-height: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 2.8rem;
+    color: #E7E6E6;
+    text-align: center;
+}
+
+.combinations .no-combination-found svg{
+    margin-bottom: 2rem;
+}
+
+.combinations-components{
+    width: 46rem;
+}
+
+
+@media screen and (max-width: 1392px){
+    .admin-header{
+        height: 10.8vh;
+    }   
+}
+
+
+@media screen and (max-width: 1342px){
+    .combinations-components{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 980px){
+    .admin-header{
+        height: 20vh;  
+    }
+    .admin-header div{
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr 72vw;
+        grid-template-areas: 'paragraph paragraph'
+                             'search-bar add-button';
+        padding: 2rem 0;
+        row-gap: 2rem;
+        column-gap: 4vw;
+    }
+
+    .admin-header div p{
+        grid-area: paragraph;
+        font-size: 1.8rem;
+        align-self: center;
+    }
+
+    .admin-header div input{
+        grid-area: search-bar;
+        width: 62vw;
+    }
+
+    .admin-header div button{
+        grid-area: add-button;
+        justify-self: end;
+    }
+
+}
+
+@media screen and (max-width: 766px){
+    .admin-header div{
+        width: 88vw;
+    }
+
+    .admin-header div input{
+        grid-area: search-bar;
+        max-width: 74vw;
+        min-width: 70.8vw;
+    }
+
+    .admin-header div, .combinations .combinations-registered{
+        width: 88vw;
+    }
+
+    .combinations{
+        padding-bottom: 6rem;
+    }
+}
+
+@media screen and (max-width: 544px){
+    
+}

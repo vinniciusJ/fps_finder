@@ -46,8 +46,3 @@
     outline: none;
 }
 
-.select-container .select-input select option:checked{
-    color: #FFF;
-    background: var(--secondary-color);
-    
-}

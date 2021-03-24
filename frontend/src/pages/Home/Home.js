@@ -1,8 +1,9 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react'
+
 import { HashLink as Link } from 'react-router-hash-link'
 import { AlertCircle } from 'react-feather'
-import axios from 'axios'
 
+import axios from 'axios'
 import api from '../../services/api'
 
 import graphicCardImage from '../../assets/images/graphic-card.svg'
@@ -16,7 +17,6 @@ const SelectInput = lazy(() => import('../../components/SelectInput/SelectInput'
 const PopUp = lazy(() => import('../../components/PopUp/PopUp'))
 const GameContainer = lazy(() => import('../../components/GameContainer/GameContainer'))
 const Footer = lazy(() => import('../../components/Footer/Footer'))
-
 const Menu = lazy(() => import('../../components/Menu/index'))
 
 const componentsInterface = { graphic_card: null, processor: null, ram_memory: null }
@@ -41,8 +41,8 @@ const Home = () => {
             const source = axios.CancelToken.source()
 
             try{
-                const receivedComponents = await (await api.get('/components', { cancelToken: source.token })).data
-                const receivedGames = await (await api.get('games', { cancelToken: source.token })).data
+                const { data: receivedComponents } = await api.get('/components', { cancelToken: source.token })
+                const { data: receivedGames } = await api.get('games', { cancelToken: source.token })
                 
                 const filteredComponents = { graphic_card: [], processor: [], ram_memory: [] }
 
@@ -93,6 +93,8 @@ const Home = () => {
         const { id: key0, value: selectedComponent } = event.target
         const [ key1, key2 ] = Object.keys(selectComponents).filter(key => key !== key0)
 
+        if(selectedComponent === '0') return   
+
         let newFilteredComponents = filterComponents({
             components: (filteredComponents.length ? filteredComponents : components),
             param: selectedComponent
@@ -110,6 +112,25 @@ const Home = () => {
             [key1]: Array.isArray(component1) ? component1 : [component1], 
             [key2]: Array.isArray(component2) ? component2 : [component2]
         })
+    }
+
+    const calculateFPSAverage = async () => {
+        if(Object.values(selectedComponents).includes(null)) return alert('Por favor, selecione todos os inputs.')
+
+        const source = axios.CancelToken.source()
+
+        try{
+            const { data: combination } = await (
+                await api.get('/combinations', { params: { ...selectedComponents }, cancelToken: source.token })
+            )
+
+            setFilteredCombination(combination)
+        }
+        catch(error){
+            alert(error.message)
+        }
+
+        setResultContainer(true)
     }
 
     const handleCurrentPopUpVisibility = event => {
@@ -131,15 +152,24 @@ const Home = () => {
         }
     }
 
-    const clearSelectFields = () => {
+    const resetSelectComponents = () => {
         const restoredSelectComponents = { ...selectComponents }
         
-        components.forEach(component => Object.keys(component).forEach(key => restoredSelectComponents[key].push(component[key])))
-        Object.keys(restoredSelectComponents).forEach(key => restoredSelectComponents[key] = [ ...new Set(restoredSelectComponents[key])])
+        components.forEach(
+            component => Object.keys(component).forEach(key => restoredSelectComponents[key].push(component[key]))
+        )
 
-        setFilteredComponents([])
+        Object.keys(restoredSelectComponents).forEach(
+            key => restoredSelectComponents[key] = [ ...new Set(restoredSelectComponents[key])]
+        )
+
         setSelectComponents(restoredSelectComponents)
-        setSelectedComponents({ graphic_card: null, processor: null, ram_memory: null })
+    }
+
+    const clearSelectFields = () => {
+        resetSelectComponents()
+        setFilteredComponents([])
+        setSelectedComponents({ ...componentsInterface })
     }
 
     const calculateAgain = () => {        
@@ -147,26 +177,6 @@ const Home = () => {
         setFilteredCombination({})
 
         clearSelectFields() 
-    }
-
-
-    const calculateFPSAverage = async () => {
-        if(Object.values(selectedComponents).includes(null)) return alert('Por favor, selecione todos os inputs.')
-
-        const source = axios.CancelToken.source()
-
-        try{
-            const { data: combination } = await (
-                await api.get('/combinations', { params: { ...selectedComponents }, cancelToken: source.token })
-            )
-
-            setFilteredCombination(combination)
-        }
-        catch(error){
-            alert(error.message)
-        }
-
-        setResultContainer(true)
     }
 
     return (
