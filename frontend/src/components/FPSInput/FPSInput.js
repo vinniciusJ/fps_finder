@@ -1,25 +1,34 @@
-import React from 'react'
-
-import Input from '../Input/Input'
+import React, { Suspense, lazy } from 'react'
 
 import './styles.css'
 
+const Input = lazy(() => import('../Input/Input'))
+
 const FPSInput = props => {
-    const { id, options, selectValue, inputValue, handleSelect, handleInput, deleteInput = () => {}, isDuplicated = false } = props
+    const { id_game, games, fps_average, onSelect, onKeyUp, onDelete, classOption } = props
 
     return (
        <div className='fps-input-container'>
-            <div data-id={id} className={isDuplicated ? "fps-input duplicated" : "fps-input"}>
-                <select name="game" id="game" defaultValue={selectValue} onChange={handleSelect}>
+            <div data-id_game={id_game} className={`fps-input ${classOption ?? ''}`}>
+
+                <select name="game" id="game" onChange={onSelect}>
                     <option value={0}>Escolha um jogo </option>
-                    {options.map(option => <option key={option.id} value={option.id}>{option.name}</option>)}
+
+                    {games.map(game => (
+                        <option key={game.id} selected={id_game === game.id} value={game.id}>{game.name}</option>
+                    ))}
+
                 </select>
-                <Input value={inputValue} name='fps_average' type='number' isRequired={true} placeholder='FPS' onKeyUp={handleInput}/>
-                <button onClick={deleteInput} type='button' className="delete-fps-average">
-                    X
-                </button>
+
+                <Suspense fallback={<div></div>}>
+                    <Input value={fps_average} name='fps_average' type='number' isRequired={true} placeholder='FPS' onKeyUp={onKeyUp}/>
+                </Suspense>
+
+                <button onClick={onDelete} type='button' className="delete-fps-average"> X </button>
             </div>
-            { isDuplicated && <p>Este jogo já foi selecionado</p>}
+
+            { classOption && <p>Este jogo já foi selecionado</p>}
+
        </div> 
     )
 }

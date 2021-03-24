@@ -2,6 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react'
 
 import { HashLink as Link } from 'react-router-hash-link'
 import { AlertCircle } from 'react-feather'
+import { ComponentsArrayInterface, ComponentsInterface } from '../../utils/interfaces.json'
 
 import axios from 'axios'
 import api from '../../services/api'
@@ -19,8 +20,6 @@ const GameContainer = lazy(() => import('../../components/GameContainer/GameCont
 const Footer = lazy(() => import('../../components/Footer/Footer'))
 const Menu = lazy(() => import('../../components/Menu/index'))
 
-const componentsInterface = { graphic_card: null, processor: null, ram_memory: null }
-
 const Home = () => {
     const [ currentPopUp, setCurrentPopUp ] = useState({ id: '#', isVisible: false })
     const [ resultContainer, setResultContainer ] = useState(false)
@@ -31,10 +30,10 @@ const Home = () => {
     const [ filteredCombination, setFilteredCombination ] = useState({})
     const [ filteredComponents, setFilteredComponents ] = useState([])
 
-    const [ components, setComponents ] = useState([{ ...componentsInterface }])
-    const [ selectedComponents, setSelectedComponents ] = useState({ ...componentsInterface })
+    const [ components, setComponents ] = useState([{ ...ComponentsInterface }])
+    const [ selectedComponents, setSelectedComponents ] = useState({ ...ComponentsInterface })
 
-    const [ selectComponents, setSelectComponents ] = useState({ graphic_card: [], processor: [], ram_memory: [] })
+    const [ selectComponents, setSelectComponents ] = useState({ ...ComponentsArrayInterface })
 
     useEffect(() => {
         (async () => {
@@ -169,7 +168,7 @@ const Home = () => {
     const clearSelectFields = () => {
         resetSelectComponents()
         setFilteredComponents([])
-        setSelectedComponents({ ...componentsInterface })
+        setSelectedComponents({ ...ComponentsInterface })
     }
 
     const calculateAgain = () => {        

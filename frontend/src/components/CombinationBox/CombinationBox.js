@@ -76,7 +76,6 @@ const CombinationBox = props => {
                         const [ currentGame ] = games.filter(game => game.id === fps_average.id_game)
                 
                         if(currentGame){
-
                             return (
                                 <Suspense key={`${currentGame.name}#${Math.random() * (100 - 1) + 1}`} fallback={<div></div>}>
                                     <GameContainer name={currentGame.name} FPSAverage={fps_average.fps_average} logo={currentGame.url_logo} background='#FFF' />

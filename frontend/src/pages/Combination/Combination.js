@@ -1,99 +1,103 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense, lazy } from 'react'
+
 import axios from 'axios'
-import { Redirect, useParams, useHistory } from 'react-router-dom'
-import { Plus } from 'react-feather'
-
-import Input from '../../components/Input/Input'
-import FPSInput from '../../components/FPSInput/FPSInput'
-
 import api from '../../services/api'
-import { debounceEvent } from '../../utils/index'
+
+import { Plus } from 'react-feather'
+import { debounceEvent, slugify } from '../../utils/index'
+import { Redirect, useParams, useHistory } from 'react-router-dom'
+import { GameInterface, CombinationInterface, ComponentsInterface, FPSAverageInterface } from '../../utils/interfaces.json'
 
 import './styles.css'
 
-const Combination = props => {
-    const { id } = useParams()
-    const history = useHistory()
+const Input = lazy(() => import('../../components/Input/Input'))
+const FPSInput = lazy(() => import('../../components/FPSInput/FPSInput'))
 
-    const [ games, setGames ] = useState([])
-    const [ combination, setCombination ] = useState({})
+const Combination = props => {
+    const { id } = useParams(), history = useHistory()
+
+    const [ games, setGames ] = useState([ { ...GameInterface } ])
+    const [ combination, setCombination ] = useState({ ...CombinationInterface })
+    const [ components, setComponents ] = useState({ ...ComponentsInterface })
+
+    const [ FPSAverages, setFPSAverages ] = useState([ { ...FPSAverageInterface } ])
 
     const [ FPSInputs, setFPSInputs ] = useState([id || { key: 0, gameValue: 0, fpsValue: 0, isDuplicated: false }])
-    const [ components, setComponents ] = useState({ graphic_card: '', processor: '', ram_memory: '', motherboard: '' })
 
     const user = sessionStorage.getItem('user')
 
-    useEffect(() => 
+    useEffect(() => {
         (async() => {
             const source = axios.CancelToken.source()
 
             try{ 
-                const { data } = await api.get('/games', { 
-                    headers: { user },
-                    cancelToken: source.token
-                })
+                const { data: receivedGames } = await api.get('/games', { cancelToken: source.token })
+                
+                if(id){
+                    const { data: receivedCombination } = await api.get(`/combinations/${id}`, { cancelToken: source.token })
 
-                setGames(data)
+                    const { fps_averages: receivedFPSAverages } = receivedCombination, receivedComponents = { ...ComponentsInterface }
+
+                    Object.keys(receivedComponents).forEach(key => receivedComponents[key] = receivedCombination[key])
+
+                    setComponents(receivedComponents)
+                    setCombination(receivedCombination)
+                    setFPSAverages(receivedFPSAverages) 
+                }
+
+                setGames(receivedGames)
             }
             catch(error){
                 return error
             }
 
             return () => source.cancel("Requisição Cancelada")
-        })(), 
-        [ user ]
-    )
-    
-    useEffect(() => {
-        const source = axios.CancelToken.source()
-    
-        id && (async () => {      
-            try{
-                const { data: [ selectedCombination ] } =  await api.get(`/combinations/${id}`, { 
-                    headers: { user }, 
-                    cancelToken: source.token 
-                })
-
-                const { FPSAverages, name, graphic_card, processor, ram_memory, motherboard } = selectedCombination
-
-                const FPSInputValues = FPSAverages.map((average, index) => ({
-                    key: index,
-                    id: average.id,
-                    gameValue: average.id_game,
-                    fpsValue: average.fps_average,
-                    isDuplicated: false
-                }))
-
-                setCombination(selectedCombination)
-                setComponents({ name, graphic_card, processor, ram_memory, motherboard })
-                setFPSInputs(FPSInputValues)
-            }
-            catch(error){
-                alert('Houve um problema para buscar os dados, por favor espere um pouco e tente novamente.')
-
-                history.goBack()
-            }
         })()
 
-        return () => source.cancel("Requisição Cancelada")
+    }, [ id ])
 
-    }, [ id, user, history ])
+    const verifyDuplicatedFPSAverages = ({ id_game, index }) => {
+        const status = FPSAverages.every(({ id_game: comparativeIDGame }, comparativeIndex) => {
+            if(comparativeIndex !== index){
+                if(comparativeIDGame === id_game && id_game !== 0)
+                    return true
+                else 
+                    return false
+            }
 
-    const addFPSInput = () => {
+            return false
+        })
+        
+        return status
+    }
+
+    
+    const addFPSAverage = () => setFPSAverages([ ...FPSAverages, { id_game: 0, id_combination: id, fps_average: 0 } ])
+
+    const removeFPSAverage = ({ target }) => {
+        const { dataset: { id_game } } = target.parentNode
+
+        if(Number(id_game)) 
+            return
+        else
+            setFPSAverages(FPSAverages.filter(FPSAverage => FPSAverage.id_game !== Number(id_game)))
+    }
+
+    /*const addFPSInput = () => {
         const newKey = FPSInputs[FPSInputs.length - 1].key + 1
 
         setFPSInputs([...FPSInputs, { key: newKey, gameValue: 0, fpsValue: 0, isDuplicated: false }])
-    }
+    }*/
 
-    const removeFPSInput = ({ target }) => {
+    /*const removeFPSInput = ({ target }) => {
         const { dataset: { id } } = target.parentNode
         
         if(Number(id) === 0) return
         
         setFPSInputs(FPSInputs.filter(input => input.key !== Number(id)))
-    }
+    }*/
 
-    const handleGameSelection = ({ target }) => {
+   /* const handleGameSelection = ({ target }) => {
         const { value: gameID } = target
         const { dataset: { id: inputID } } = target.parentNode
     
@@ -155,7 +159,7 @@ const Combination = props => {
 
         setFPSInputs(modifiedFPSInputs)
     }
-
+*/
     const handleComponentInput = ({ target }) => {
         const copiedComponents = components
 
@@ -229,34 +233,42 @@ const Combination = props => {
                 <main className="combination-data-container">
                     <form className='combination-form'>
                         {componentsInput.map((input, index) => (
-                            <Input 
-                                key={index}
-                                value={input.value}
-                                label={input.label}
-                                name={input.name}
-                                isRequired={input.isRequired}
-                                onKeyUp={debounceEvent(input.onKeyUp)}
-                            />
+                            <Suspense key={index} fallback={<div></div>}>
+                                <Input 
+                                    value={input.value}
+                                    label={input.label}
+                                    id={slugify({ text: input.label })}
+                                    name={input.name}
+                                    isRequired={input.isRequired}
+                                    onKeyUp={debounceEvent(input.onKeyUp)}
+                                />
+                            </Suspense>
                         ))}
                     
                     <div className="fps-input-container">
                         <h2>Jogos:</h2>
 
-                        {FPSInputs.map(input => 
-                            <FPSInput 
-                                key={input.key} 
-                                id={input.key}
-                                selectValue={input.gameValue}
-                                inputValue={input.fpsValue}
-                                isDuplicated={input.isDuplicated}
-                                options={games} 
-                                handleSelect={handleGameSelection} 
-                                handleInput={debounceEvent(handleFPSInput)} 
-                                deleteInput={removeFPSInput}
-                            />
-                        )}                        
+                        {
+                            FPSAverages.map(({ id_game, fps_average }, index) => {
+                                const classOption = verifyDuplicatedFPSAverages({ id_game, index }) ? 'duplicated' : ''
 
-                        <button onClick={addFPSInput} type="button" className="add-new-fps-average">
+                                return (
+                                    <Suspense key={id_game} fallback={<div></div>}>
+                                        <FPSInput 
+                                            games={games}
+                                            id_game={id_game}
+                                            classOption={classOption}
+                                            fps_average={fps_average}
+                                            onSelect={(event) => {console.log(event.target.value)}}
+                                            onDelete={() => {}}
+                                            onKeyUp={debounceEvent(() => {})}
+                                        />
+                                    </Suspense>
+                                )
+                            })
+                        }
+
+                        <button title="Adicionar mais uma média de FPS à combinação" onClick={addFPSAverage} type="button" className="add-new-fps-average">
                             <Plus color='#FFF' height={48} width={48} strokeWidth={1}/>
                         </button>
                     </div>
@@ -274,5 +286,23 @@ const Combination = props => {
         </div>
     )
 }
+
+/**
+ * {FPSInputs.map(input => 
+                            <Suspense key={input.key} fallback={<div></div>}>
+                                <FPSInput 
+                                    key={input.key} 
+                                    id={input.key}
+                                    selectValue={input.gameValue}
+                                    inputValue={input.fpsValue}
+                                    isDuplicated={input.isDuplicated}
+                                    options={games} 
+                                    handleSelect={handleGameSelection} 
+                                    handleInput={debounceEvent(handleFPSInput)} 
+                                    deleteInput={removeFPSInput}
+                                />
+                            </Suspense>
+                        )}  
+ */
 
 export default Combination

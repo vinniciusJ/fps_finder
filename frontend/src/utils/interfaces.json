@@ -1,6 +1,7 @@
 {
     "CombinationInterface": {
         "id": null,
+        "name": null,
         "graphic_card": null,
         "processor": null,
         "ram_memory": null,
@@ -9,7 +10,7 @@
         "processor_link": null,
         "ram_memory_link": null,
         "motherboard_link": null,
-        "fps_avergaes": [
+        "fps_averages": [
             {
                 "id": null,
                 "fps_average": null,
@@ -22,5 +23,21 @@
         "id": null,
         "name": null,
         "url_logo": null
+    },
+    "ComponentsArrayInterface": {
+        "graphic_card": [],
+        "processor": [],
+        "ram_memory": []
+    },
+    "ComponentsInterface": {
+        "graphic_card": null,
+        "processor": null,
+        "ram_memory": null
+    },
+    "FPSAverageInterface": {
+        "id": null,
+        "fps_average": null,
+        "id_combination": null,
+        "id_game": null
     }
 }
