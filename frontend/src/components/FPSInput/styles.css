@@ -17,6 +17,10 @@
     column-gap: 3rem;
 }
 
+.fps-input label{
+    display: none;
+}
+
 .fps-input select{
     appearance: none;
     background: transparent url(../../assets/images/arrow-select.svg) 98% no-repeat;
@@ -91,6 +95,31 @@
 
 .fps-input.duplicated .delete-fps-average svg{
     stroke: var(--main-color);
+}
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.input-container label.effect{
+    font-weight: 800;
+    font-size: 2.4rem;
+    margin-bottom: 2rem;
+}
+
+.input-container input{
+    height: 5.4rem;
+    padding: 0 2rem;
+    outline: none;
+
+    border: 3px solid var(--secondary-color);
+    color: #5C5C5C;
+}
+
+.input-container input:focus{
+    border: 3px solid var(--main-color-variation);
 }
 
 @media screen and (max-width: 886px){

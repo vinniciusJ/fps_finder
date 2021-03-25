@@ -32,12 +32,20 @@
     "ComponentsInterface": {
         "graphic_card": null,
         "processor": null,
-        "ram_memory": null
+        "ram_memory": null,
+        "motherboard": null
     },
     "FPSAverageInterface": {
         "id": null,
         "fps_average": null,
         "id_combination": null,
         "id_game": null
+    },
+    "InputsInterface": {
+        "name": null,
+        "graphic_card": null,
+        "processor": null,
+        "ram_memory": null,
+        "motherboard": null
     }
 }

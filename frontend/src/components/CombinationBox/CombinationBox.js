@@ -1,6 +1,7 @@
 import React, { useState, Suspense, lazy } from 'react'
-import { MoreHorizontal, Edit3, X } from 'react-feather'
+
 import { Link } from 'react-router-dom'
+import { MoreHorizontal, Edit3, X } from 'react-feather'
 import { HashLink as InternalLink } from 'react-router-hash-link'
 
 import './styles.css'

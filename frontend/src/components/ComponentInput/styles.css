@@ -1,0 +1,49 @@
+.component-input-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    row-gap: 2.4rem;
+}
+
+.component-input-container section{
+    display: flex;
+    flex-direction: column;
+}
+
+.component-input-container section input{
+    padding: 0 2rem;
+    outline: none;
+
+    border: 3px solid var(--secondary-color);
+    color: #5C5C5C;
+}
+
+.component-input-container .component-main-sec,
+.component-input-container .component-link-sec{
+    width: 100%;
+}
+
+.component-input-container .component-main-sec label{
+    font-weight: 800;
+    font-size: 2.4rem;
+    margin-bottom: 2rem;
+}
+
+.component-input-container .component-main-sec input{
+    height: 5.4rem;
+
+}
+
+.component-input-container section input:focus{
+    border: 3px solid var(--main-color-variation);
+}
+
+.component-input-container .component-link-sec label{
+    font-weight: 500;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.component-input-container .component-link-sec input{
+    height: 4rem;
+}
