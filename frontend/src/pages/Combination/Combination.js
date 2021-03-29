@@ -52,8 +52,6 @@ const Combination = props => {
 
     }, [ id ])
 
-    useEffect(() => console.log(components), [ components ])
-
     useEffect(() => {
         let data = { ...InputsInterface }, { fps_averages } = combination
     
@@ -292,47 +290,5 @@ const Combination = props => {
         </div>
     )
 }
-
-/* const saveCombination = async event => {
-        event.preventDefault()
-
-        const { name, graphic_card, processor, ram_memory, motherboard } = components
-        const gamesValues = FPSInputs.map(input => input.gameValue) 
-
-        if(!(name && graphic_card && processor && ram_memory && motherboard)) 
-            return alert('Por favor, você deve preencher todos os campos de componentes.')
-
-        if(gamesValues.includes(0)) return alert('Por favor, em todos os campos de seleção você deve selecionar um jogo.')
-
-        const fps_averages = FPSInputs.map(input => {
-            const { id, gameValue, fpsValue } = input
-
-            return id ? { id, fps_average: fpsValue, id_game: gameValue } : { fps_average: fpsValue, id_game: gameValue } 
-        })
-
-        const newCombination = { ...components, fps_averages }
-        
-        const source = axios.CancelToken.source()
-
-        try{
-            id || await api.post('/combinations', { ...newCombination }, { 
-                headers: { 'Access-Control-Allow-Origin': '*', user }, 
-                cancelToken: source.token,
-            })
-
-            id && await api.put('/combinations', { id, ...newCombination }, { 
-                headers: { user }, 
-                cancelToken: source.token 
-            })
-        }
-        catch{
-            alert(`Houve um problema na ${id ? 'edição' : 'criação'} da combinação, por favor tente mais tarde novamente.`)
-        }
-         
-        history.push('/admin')
-
-        return () => source.cancel()
-    }
-*/
 
 export default Combination

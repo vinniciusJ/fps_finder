@@ -326,8 +326,8 @@ const Home = () => {
                                         <span>Placa de Vídeo: </span>{filteredCombination.graphic_card}
                                     </div>
 
-                                    {!filteredCombination.graphic_card_link && (
-                                        <a href={filteredCombination.graphic_card_link || 'https://www.google.com/'}  className="purchase-link" target="_blank" rel="noreferrer">Onde comprar</a>
+                                    {filteredCombination.graphic_card_link && (
+                                        <a href={filteredCombination.graphic_card_link} className="purchase-link" target="_blank" rel="noreferrer">Onde comprar</a>
                                     )}
                                 </li>
                                 <li>
@@ -335,15 +335,15 @@ const Home = () => {
                                         <span>Processador: </span>{filteredCombination.processor}
                                     </div>
 
-                                    {!filteredCombination.processor_link && (
-                                        <a href={filteredCombination.processor_link || 'https://www.google.com/'}  className="purchase-link" target="_blank" rel="noreferrer">Onde comprar</a>
+                                    {filteredCombination.processor_link && (
+                                        <a href={filteredCombination.processor_link} className="purchase-link" target="_blank" rel="noreferrer">Onde comprar</a>
                                     )}
                                 </li>
                                 <li>
                                     <div><span>Memória RAM: </span>{filteredCombination.ram_memory}</div>
 
-                                    {!filteredCombination.ram_memory_link && (
-                                        <a href={filteredCombination.ram_memory_link || 'https://www.google.com/'}  className="purchase-link" target="_blank" rel="noreferrer">Onde comprar</a>
+                                    {filteredCombination.ram_memory_link && (
+                                        <a href={filteredCombination.ram_memory_link} className="purchase-link" target="_blank" rel="noreferrer">Onde comprar</a>
                                     )}
                                 </li>
                             </ul>
@@ -359,8 +359,8 @@ const Home = () => {
                                 <p>{filteredCombination.motherboard}</p>
                             </div>
 
-                            {!filteredCombination.motherboard_link && (
-                                <a href={filteredCombination.motherboard_link || 'https://www.google.com/'}  className="purchase-link" target="_blank" rel="noreferrer">Onde comprar</a>
+                            {filteredCombination.motherboard_link && (
+                                <a href={filteredCombination.motherboard_link} className="purchase-link" target="_blank" rel="noreferrer">Onde comprar</a>
                             )}
                         </div>
                     </section>
