@@ -1,0 +1,107 @@
+.add-image-popup{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 100vh;
+    width: 100vw;
+    
+    background: rgba(0, 0, 0, .5);
+
+    z-index: 10;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-image-popup-inner{
+    background: #FFF;
+
+    width: 48vw;
+    height: 72vh;
+
+    padding: 7.6rem 8rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 3.8rem;
+}
+
+.add-image-popup-inner .aip-header{
+    font-size: 1.8rem;
+}
+
+.add-image-popup-inner .aip-insert-types{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-image-popup-inner .aip-insert-types button{
+    height: 4.2rem;
+    border: none;
+    padding: 1rem 2rem;
+    font-weight: 800;
+    color: #FFF;
+    background: var(--secondary-color);
+    outline: none;
+}
+
+.add-image-popup-inner .aip-insert-types button:not(.active){
+    background: #FFF;
+    color: #626262;
+}
+
+.add-image-popup-inner .aip-insert-inputs{
+    display: flex;
+    flex-direction: column;
+    row-gap: 4rem;
+    width: 100%;
+
+}
+
+.add-image-popup-inner .aip-insert-inputs .aip-input-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.add-image-popup-inner .aip-insert-inputs .aip-input-container label{
+    font-weight: 500;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+.add-image-popup-inner .aip-insert-inputs .aip-input-container input{
+    padding: 0 2rem;
+    outline: none;
+
+    border: 3px solid var(--secondary-color);
+    color: #5C5C5C;
+    height: 5.4rem;
+}
+
+.add-image-popup-inner .aip-insert-inputs .aip-input-container .input-trigger{
+    display: flex;
+    align-items: center;
+    column-gap: 3.2rem;
+}
+
+.add-image-popup-inner .aip-insert-inputs .aip-input-container .input-trigger button{
+    background: var(--secondary-color);
+    font-weight: 800;
+    height:5.4rem;
+    border: none;
+    padding: 1rem 2rem;
+    color: #FFF;
+}
+
+.add-image-popup-inner .aip-insert-inputs .aip-input-container .input-trigger p{
+    font-weight: 500;
+    font-size: 1.6rem;
+}
+
+.add-image-popup-inner .aip-footer{
+    display: flex;
+    column-gap: 3.2rem;
+}

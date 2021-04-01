@@ -1,0 +1,55 @@
+.Post{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6.8rem 0;
+}
+
+.post-header{
+    width: 56vw;
+    margin-bottom: 6.2rem;
+}
+
+.post-header h2{
+    font-size: 4.4rem;
+    font-weight: 500;
+    letter-spacing: initial;
+}
+
+.post-data-container{
+    width: 56vw;
+}
+
+.post-data-container .post-form > div{
+    margin-bottom: 6rem;
+}
+
+.post-data-container .post-form div{
+    display: flex;
+    flex-direction: column;
+}
+
+.post-data-container .post-form  div input,
+.post-data-container .post-form  div button{
+    padding: 0 2rem;
+    outline: none;
+
+    border: 3px solid var(--secondary-color);
+    color: #5C5C5C;
+    height: 5.4rem;
+}
+
+.post-data-container .post-form  div label{
+    font-weight: 800;
+    font-size: 2.4rem;
+    margin-bottom: 2rem;
+}
+
+.post-data-container .post-form  div button{
+    background: #FFF;
+    height: 25rem;
+}
+
+
+
+

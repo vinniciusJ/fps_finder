@@ -45,7 +45,7 @@ const CalculatorAdmin = props => {
 
     const handleKeyUp = ({ target: { value } }) => {
         const searcher = RegExp(`^.*(${value}).*$`)
-
+        
         const foundCombinations = combinations.filter(({ name }) => name.match(searcher))
         const newListedCombinations = foundCombinations.length ? foundCombinations : [ { ...CombinationInterface } ]
 
@@ -99,9 +99,7 @@ const CalculatorAdmin = props => {
                         ) : (
                             <div className="no-combination-found">
                                 <AlertCircle width={96} height={96} color='#E7E6E6'/>
-                                <p>   
-                                    Nenhuma combinação foi encontrada
-                                </p>
+                                <p> Nenhuma combinação foi encontrada</p>
                             </div>
                         )
                     }
