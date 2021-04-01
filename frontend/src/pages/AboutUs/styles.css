@@ -1,0 +1,70 @@
+.about-us-container .about-us-content{
+    padding: 0 2.6rem;
+    margin: 6rem 0 8rem;
+}
+
+.about-us-container .about-us-content h1, 
+.about-us-container .about-us-content .about-us-illustration{
+   margin-bottom: 3.2rem;
+}
+
+.about-us-container .about-us-content div img{
+    width: 100%;
+    height: 28rem;
+}
+
+.about-us-container .about-us-content .about-us-content-inner{
+    display: flex;
+    flex-direction: column;
+
+    row-gap: 3.2rem;
+}
+
+.about-us-container .about-us-content .about-us-content-inner article h2{
+    margin-bottom: 2.6rem;
+}
+
+.about-us-container .about-us-content .about-us-content-inner article p{
+    font-size: 2rem;
+    line-height: 1.8;
+}
+
+.about-us-container .about-us-content .about-us-content-inner article:last-child{
+    margin-bottom: 2rem;
+}
+
+@media screen and (min-width: 620px){
+    .about-us-container .about-us-content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about-us-container .about-us-content h1, .about-us-container .about-us-content div,
+    .about-us-container .about-us-content .about-us-content-inner{
+        width: 80vw;
+    }
+    .about-us-container .about-us-content div img{
+        width: 100%;
+        height: 42rem;
+    }
+}
+
+@media screen and (min-width: 920px){
+    .about-us-container .about-us-content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about-us-container .about-us-content h1, .about-us-container .about-us-content div,
+    .about-us-container .about-us-content .about-us-content-inner{
+        width: 64vw;
+    }
+    .about-us-container .about-us-content div img{
+        width: 100%;
+        height: 54rem;
+    }
+}
+
+

@@ -6,7 +6,7 @@ import FPSFinderLogo from '../../assets/images/logo.svg'
 
 import './styles.css'
 
-const Menu = ({ searchInput, onSearch }) => {
+const Menu = ({ searchInput, onSearch = () => {} }) => {
     const [ hiddenMenu, setHiddenMenu ] = useState(true)
     const [ searchButton, setSearchButton ] = useState(false)
 
@@ -16,13 +16,13 @@ const Menu = ({ searchInput, onSearch }) => {
     return (
         <nav className="nav-bar">
             <div className={`nav-bar-inner ${!hiddenMenu ? 'extended' : ''}`}>
-                <div className="nav-bar-logo">
+                <a href="/" className="nav-bar-logo">
                     <img width={120} height={80} src={FPSFinderLogo} alt="FPS Finder"/>
-                </div>
+                </a>
                 <div className="nav-bar-main">
                     <div className="nav-bar-links">
                         <a href="https://www.google.com/" target="_blank" rel="noreferrer">Blog</a>
-                        <a href="https://www.google.com/" target="_blank" rel="noreferrer">Sobre nós</a>
+                        <a href="/about-us" >Sobre nós</a>
                     </div>
 
                     {searchInput.isVisible && (

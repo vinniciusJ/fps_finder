@@ -49,6 +49,8 @@
     align-items: center;
     gap: 1rem;
 
+    width: 80vw;
+
     font-size: 2rem;
 }
 

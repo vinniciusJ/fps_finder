@@ -12,7 +12,7 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    width: 76vw;
+    width: 70vw;
 }
 
 .admin-header div .total-combinations{
@@ -36,7 +36,8 @@
     color: #FFF;
 }
 
-.admin-header div .add-new-combination{
+.admin-header div .add-new-combination,
+.admin-header div .link-go-back{
     height: 5.4rem;
     width: 6.4rem;
     background: transparent;
@@ -113,13 +114,14 @@
 
 @media screen and (max-width: 980px){
     .admin-header{
-        height: 20vh;  
+        height: 40vh;  
     }
     .admin-header div{
         display: grid;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
         grid-template-columns: 1fr 72vw;
-        grid-template-areas: 'paragraph paragraph'
+        grid-template-areas: 'go-back '
+                             'paragraph paragraph'
                              'search-bar add-button';
         padding: 2rem 0;
         row-gap: 2rem;
@@ -140,6 +142,10 @@
     .admin-header div button{
         grid-area: add-button;
         justify-self: end;
+    }
+
+    .admin-header div a{
+        grid-area: go-back;
     }
 
 }

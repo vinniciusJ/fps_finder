@@ -3,7 +3,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react'
 import axios from 'axios'
 import api from '../../services/api'
 
-import { Plus, AlertCircle } from 'react-feather'
+import { Plus, AlertCircle, ArrowLeft } from 'react-feather'
 import { Link, Redirect } from 'react-router-dom'
 import { debounceEvent } from '../../utils/index'
 import { CombinationInterface, GameInterface} from '../../utils/interfaces.json'
@@ -52,7 +52,7 @@ const CalculatorAdmin = props => {
         setListedCombinations(newListedCombinations)
     }
 
-    const isThereAnyCombination =  () => listedCombinations[0].id ? true : false
+    const isThereAnyCombination = () => listedCombinations[0].id ? true : false
 
     return (
         <div className="Admin">
@@ -60,6 +60,9 @@ const CalculatorAdmin = props => {
                 <>
                 <header className="admin-header">
                     <div>
+                        <Link className="link-go-back" to="/admin">
+                            <ArrowLeft color="#FFF" width={24} height={24} strokeWidth={1.5}/>
+                        </Link>
                         <p className="total-combinations">Total de Combinações: {totalCombinations}</p>
                         <label htmlFor="name">
                             <input 
@@ -72,7 +75,7 @@ const CalculatorAdmin = props => {
                             }/>
                         </label>
                         <Link className="add-new-combination" to="/combination">
-                            <Plus color="#FFF" width={24} height={24} strokeWidth={1}/>
+                            <Plus color="#FFF" width={24} height={24} strokeWidth={1.5}/>
                         </Link>  
                     </div>
                 </header>

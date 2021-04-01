@@ -3,10 +3,9 @@ import { BrowserRouter, Route } from 'react-router-dom'
 
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
-
-import Combination from './pages/Combination/Combination'
-
+import AboutUs from './pages/AboutUs/'
 import AdminPanel from './pages/AdminPanel'
+import Combination from './pages/Combination/Combination'
 import CalculatorAdmin from './pages/CalculatorAdmin/'
 
 const Routes = () => (
@@ -16,6 +15,7 @@ const Routes = () => (
         <Route path='/calculator-admin' component={CalculatorAdmin} />
         <Route path='/admin' component={AdminPanel} />
         <Route path='/combination/:id?' component={Combination}/>
+        <Route path='/about-us' component={AboutUs}/>
     </BrowserRouter>
 )
 

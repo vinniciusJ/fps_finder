@@ -209,7 +209,7 @@ const Combination = props => {
     const cancelOperation = event => {
         event.preventDefault()
 
-        history.push('/admin')
+        history.push('/calculator-admin')
     }
 
     return (

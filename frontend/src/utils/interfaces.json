@@ -32,8 +32,7 @@
     "ComponentsInterface": {
         "graphic_card": null,
         "processor": null,
-        "ram_memory": null,
-        "motherboard": null
+        "ram_memory": null
     },
     "FPSAverageInterface": {
         "id": null,

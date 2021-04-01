@@ -181,7 +181,7 @@ const Home = () => {
     return (
         <div className="Home">
             <Suspense fallback={<div></div>}>
-                <Menu searchInput={{ isVisible: false }} onSearch={() => {}}/>
+                <Menu searchInput={{ isVisible: false }}/>
             </Suspense>
             <header className="main-header">
                 <section className="presentation">

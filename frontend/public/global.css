@@ -27,6 +27,21 @@ h1{
     font-weight: 400;
 }
 
+h1.blog-title{
+    font-family: 'Montserrat', sans-serif;
+    color: var(--main-color);
+    font-size: 5.4rem;
+    font-weight: 800;
+    letter-spacing: .6rem;
+}
+
+h2.blog-subtitle{
+    font-weight: 800;
+    color: #000;
+    font-size: 3.6rem;
+    letter-spacing: .6rem
+}
+
 h2{
     font-family: 'Montserrat', sans-serif;
     letter-spacing: .2rem;
