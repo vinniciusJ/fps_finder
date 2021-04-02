@@ -3,10 +3,10 @@ import React, { useState, useRef } from 'react'
 import './styles.css'
 
 const AddImagePopup = props => {
-    const { isThereAnImage = false, onChangeImage, onFontInput } = props
+    const { isThereAnImage = false, onChangeImage, onFontInput, onSave, onCancel } = props
 
     const [ inputType, setInputType ] = useState('upload')
-    
+
     const imageInputButton = useRef(null)
 
     const toggleInputType = ({ target: { value } }) => setInputType(value)
@@ -56,8 +56,8 @@ const AddImagePopup = props => {
                     </div>
                 </main>
                 <footer className="aip-footer">
-                    <button className="btn main">Inserir</button>
-                    <button className="btn">Cancelar</button>
+                    <button className="btn main" onClick={onSave}>Inserir</button>
+                    <button className="btn" onClick={onCancel}>Cancelar</button>
                 </footer>
             </div>
         </div>
