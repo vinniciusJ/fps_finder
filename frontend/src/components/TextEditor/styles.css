@@ -1,0 +1,18 @@
+.editor-container{
+    width: 100%;
+
+    border: 3px solid var(--secondary-color);
+    background: var(--secondary-color);
+}
+
+
+.editor-container .DraftEditor-root{
+    background: #FFF;
+    padding: 4rem 8rem;
+    font-size: 1.8rem;
+    line-height: 1.5;
+}
+
+.editor-container .DraftEditor-root div[data-block=true]:not(:last-child){
+    margin-bottom: 2.8rem;
+}

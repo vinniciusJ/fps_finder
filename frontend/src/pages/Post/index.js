@@ -1,28 +1,37 @@
 import React, { Suspense, lazy, useState } from 'react'
 
-import { Redirect, useParams, useHistory } from 'react-router-dom'
 import { Plus, Edit3 } from 'react-feather'
+import { Redirect, useParams } from 'react-router-dom'
+import { EditorState } from 'draft-js'
 
 import './styles.css'
 
 const AddImagePopup = lazy(() => import('../../components/AddImagePopup'))
+const TextEditor = lazy(() => import('../../components/TextEditor'))
 
 const Post = props => {
-    const id = useParams(), history = useHistory()
+    const id = useParams(), user = sessionStorage.getItem('user')
 
     const [ addImagePopup, setAddImagePopup ] = useState(false)
     const [ bannerPreview, setBannerPreview ] = useState(false)
-
+    const [ editorState, setEditorState ] = useState(EditorState.createEmpty())
     const [ postHeader, setPostHeader ] = useState({ title: null, banner: { src: null, font: null } })
  
+    const handleTitleInput = ({ target: value }) => {
+        const { banner } = postHeader
+
+        setPostHeader({ title: value, banner })
+    }
+
     const handleImagePopupVisibility = event => {
         event.preventDefault()
 
-        setAddImagePopup(!addImagePopup)
-    }
+        const { overflowY } = document.documentElement.style 
+           
+        document.documentElement.style.overflowY = overflowY === 'hidden' ? 'initial' : 'hidden'
 
-    const handleURLInput = value => {
-        console.log(value)
+        setBannerPreview(postHeader.banner.src ? true : false)
+        setAddImagePopup(!addImagePopup)
     }
 
     const handleFontInput = ({ target: { value } }) => {
@@ -31,11 +40,15 @@ const Post = props => {
         setPostHeader({ title, banner: { src, font: value } })
     }
 
-    const handleImageChange = event => {
-        if(event.target.type === 'url') return handleURLInput
+    const handleImageChange = ({ target: { value, files, type } }) => {
+        if(type === 'url'){
+            const { title, banner: { font } } = postHeader
 
-        const file = event.target.files.item(0)
+            return setPostHeader({ title, banner: { src: value, font } })
+        }
+
         const reader = new FileReader()
+        const [ file ] = files
 
         reader.readAsDataURL(file)
 
@@ -45,8 +58,6 @@ const Post = props => {
             setPostHeader({ title, banner: { src: result, font } })
         }
     }
-
-    const user = sessionStorage.getItem('user')
 
     return (
         <div className="Post">
@@ -59,9 +70,9 @@ const Post = props => {
                         <form className="post-form">
                             <div className="post-input">
                                 <label htmlFor="title">Título:</label>
-                                <input type="text" name="title" id="title" placeholder="Escreva aqui..."/>
+                                <input type="text" name="title" id="title" placeholder="Escreva aqui..." onChange={handleTitleInput}/>
                             </div>
-                            {bannerPreview || (
+                            {(bannerPreview) || (
                                 <div className="post-input">
                                     <label htmlFor="">Banner:</label>
                                     <button className="banner-button" title="Selecione uma imagem" onClick={handleImagePopupVisibility}>
@@ -70,18 +81,28 @@ const Post = props => {
                                 </div>
                             )}
 
-                            {bannerPreview && (
+                            {(bannerPreview) && (
+                                <>
+                                <h2 className="label">Banner:</h2>
                                 <div className="banner-preview">
                                     <figure>
                                         <img src={postHeader.banner.src} alt={postHeader.banner.font}/>
-                                        <figcaption><span className="font">Fonte: </span> {postHeader.banner.font}</figcaption>
+                                        <figcaption><strong>Fonte: </strong> {postHeader.banner.font}</figcaption>
                                     </figure>
 
-                                    <button className="banner-edit">
+                                    <button className="banner-edit" onClick={handleImagePopupVisibility} title="Editar banner">
                                         <Edit3 color="#FFF" width={32} height={32} strokeWidth={1}/>
                                     </button>
                                 </div>
+                                </>
                             )}
+
+                            <div className="content-input">
+                                <h2 className="label">Conteúdo:</h2>
+                                <Suspense fallback={<div></div>}>
+                                    <TextEditor editorState={editorState} onChange={setEditorState}/>
+                                </Suspense>
+                            </div>
                         </form>
                     </main>
 
@@ -92,10 +113,7 @@ const Post = props => {
                                 isThereAnImage={false}
                                 onChangeImage={handleImageChange}
                                 onFontInput={handleFontInput}
-                                onSave={() => {
-                                    setBannerPreview(true)
-                                    setAddImagePopup(false)
-                                }}
+                                onSave={handleImagePopupVisibility}
                                 onCancel={handleImagePopupVisibility}
                             />
                         </Suspense>

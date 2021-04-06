@@ -1,19 +1,22 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 import './styles.css'
 
 const AddImagePopup = props => {
     const { isThereAnImage = false, onChangeImage, onFontInput, onSave, onCancel } = props
 
-    const [ inputType, setInputType ] = useState('upload')
+    const [ inputType, setInputType ] = useState('url')
+    const [ position, setPosition ] = useState({ top: 0 })
 
     const imageInputButton = useRef(null)
+
+    useEffect(() => setPosition({ top: window.pageYOffset }), [])
 
     const toggleInputType = ({ target: { value } }) => setInputType(value)
     const triggerButton = () => imageInputButton.current.click()
 
     return (
-        <div className="add-image-popup">
+        <div style={position} className="add-image-popup">
             <div className="add-image-popup-inner">
                 <header className="aip-header">
                     <h2>Inserir imagem:</h2>

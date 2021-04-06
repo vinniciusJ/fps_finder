@@ -16,7 +16,7 @@
 }
 
 .admin-header div .total-combinations{
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     color: #FFF;
 }
 
@@ -114,38 +114,43 @@
 
 @media screen and (max-width: 980px){
     .admin-header{
-        height: 40vh;  
+        height: 16rem;
     }
     .admin-header div{
         display: grid;
-        grid-template-rows: 1fr 1fr 1fr;
-        grid-template-columns: 1fr 72vw;
-        grid-template-areas: 'go-back '
-                             'paragraph paragraph'
-                             'search-bar add-button';
-        padding: 2rem 0;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 6.4rem 1fr 1fr;
+        grid-template-areas: 'go-back paragraph paragraph'
+                             'search-bar search-bar add-button';
+        column-gap: 2rem;
         row-gap: 2rem;
-        column-gap: 4vw;
     }
 
     .admin-header div p{
         grid-area: paragraph;
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         align-self: center;
+        justify-self: end;
     }
 
-    .admin-header div input{
+    .admin-header div label{
         grid-area: search-bar;
         width: 62vw;
     }
 
-    .admin-header div button{
+    .admin-header div label input{
+        width: 100%;
+    }
+
+    .admin-header div .add-new-combination{
         grid-area: add-button;
         justify-self: end;
     }
 
-    .admin-header div a{
+    .admin-header div .link-go-back{
         grid-area: go-back;
+        justify-self: start;
+        width: 6.4rem;
     }
 
 }
@@ -155,21 +160,16 @@
         width: 88vw;
     }
 
-    .admin-header div input{
-        grid-area: search-bar;
-        max-width: 74vw;
-        min-width: 70.8vw;
-    }
-
     .admin-header div, .combinations .combinations-registered{
         width: 88vw;
+    }
+
+    .admin-header div label{
+        grid-area: search-bar;
+        width: 66vw;
     }
 
     .combinations{
         padding-bottom: 6rem;
     }
-}
-
-@media screen and (max-width: 544px){
-    
 }
