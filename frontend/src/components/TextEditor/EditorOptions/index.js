@@ -1,7 +1,8 @@
-import React, { Suspense, lazy } from 'react'
+import React, { Suspense, lazy, useState, useEffect } from 'react'
 
 import { Bold, Italic, Underline, Link2, List, Image, Youtube } from 'react-feather'
 import { ColorOption, HighlightOption, OrderedListOption } from '../OptsIcons'
+import { RichUtils } from 'draft-js'
 
 import './styles.css'
 
@@ -20,9 +21,14 @@ const BLOCK_TYPE_HEADINGS = [
 
 const HeaderLevelSelect = lazy(() => import('../HeaderLevelSelect'))
 
-const EditorOptions = ({ editorState, onToggle }) => {
+const EditorOptions = ({ editorState, activeButtons, onChange, onToggle, onClick }) => {
+
+
     const selection = editorState.getSelection()
     const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType()
+
+    
+    const setActiveClassName = className => activeButtons.includes(className)
 
     return (
         <header className="editor-options">
@@ -35,22 +41,42 @@ const EditorOptions = ({ editorState, onToggle }) => {
                     />
                 </Suspense>
                 <div className="inline-options">
-                    <Bold color="#FFF"/>
-                    <Italic color="#FFF"/>
-                    <Underline color="#FFF"/>
-                    <ColorOption color="#000"/>
-                    <HighlightOption color="#FFF"/>
+                    <button onClick={onClick({ style: 'BOLD' })}>
+                        <Bold className={setActiveClassName('BOLD') ? 'active' : ' '} color="#FFF"/>
+                    </button>
+                    <button onClick={onClick({ style: 'ITALIC' })}>
+                        <Italic className={setActiveClassName('ITALIC') ? 'active' : ' '} color="#FFF" />
+                    </button>
+                    <button onClick={onClick({ style: 'UNDERLINE' })}>
+                        <Underline className={setActiveClassName('UNDERLINE') ? 'active' : ' '} color="#FFF" />
+                    </button>
+                    <button onClick={onClick({ style: 'TEXT-COLOR' })}>
+                        <ColorOption color="#000"/>
+                    </button>
+                    <button id="highlight-btn">
+                        <HighlightOption color="#FFF"/>
+                    </button>
                 </div>
-                <div className="link-option">
-                    <Link2 color="#FFF"/>
+                <div  data-id="4" className="link-option">
+                    <button id="link-btn">
+                        <Link2 color="#FFF" />
+                    </button>
                 </div>
                 <div className="lists-options">
-                    <List color="#FFF"/>
-                    <OrderedListOption />
+                    <button data-id="5" id="ul-btn">
+                        <List color="#FFF"/>
+                    </button>
+                    <button data-id="6" id="ol-btn">
+                        <OrderedListOption/>
+                    </button>
                 </div>
                 <div className="media-options">
-                    <Image color="#FFF"/>
-                    <Youtube color="#FFF"/>
+                    <button id="img-btn">
+                        <Image color="#FFF"/>
+                    </button>
+                    <button className="yt-video-btn">
+                        <Youtube color="#FFF"/>
+                    </button>
                 </div>
             </div>
         </header>

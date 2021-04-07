@@ -25,3 +25,46 @@
     border-right: 3px solid #F1F1F1;
 }
 
+.editor-container .editor-options .editor-options-opts .inline-options, .lists-options, .media-options{
+    display: flex;
+    column-gap: 1.5rem;
+}
+
+.editor-container .editor-options .editor-options-opts .title-options select{
+    background: transparent;
+    border: none;
+    height: 100%;
+    color: #FFF;
+    font-size: 1.8rem;
+    border-radius: 2.5px;
+    transition: background .2s;
+}
+
+.editor-container .editor-options .editor-options-opts button{
+    background: transparent;
+    border: transparent;
+}
+
+.editor-container .editor-options .editor-options-opts svg{
+    height: 32px;
+    width: 24px;
+    padding: 0 2px;
+    border-radius: 5px;
+
+    transition: background .2s;
+}
+
+.editor-container .editor-options .editor-options-opts svg.active{
+    stroke: var(--main-color);
+}
+
+.editor-container .editor-options .editor-options-opts .title-options select:hover,
+.editor-container .editor-options .editor-options-opts .title-options select:focus,
+.editor-container .editor-options .editor-options-opts svg:hover,
+.editor-container .editor-options .editor-options-opts svg:focus{
+    background: rgba(255,255, 255, 0.4);
+}
+
+.editor-container .editor-options .editor-options-opts .title-options select option{
+    color: #000;
+}
