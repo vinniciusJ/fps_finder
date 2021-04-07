@@ -2,16 +2,8 @@ import React, { Suspense, lazy, useState, useEffect } from 'react'
 
 import { Bold, Italic, Underline, Link2, List, Image, Youtube } from 'react-feather'
 import { ColorOption, HighlightOption, OrderedListOption } from '../OptsIcons'
-import { RichUtils } from 'draft-js'
 
 import './styles.css'
-
-const BLOCK_TYPES = [
-    { label: '" "', style: 'blockquote' },
-    { label: "UL", style: "unordered-list-item" },
-    { label: "OL", style: "ordered-list-item" },
-    { label: "{ }", style: 'code-block' }
-]
 
 const BLOCK_TYPE_HEADINGS = [
     { label: "Título 1", style: "header-two" },
@@ -21,14 +13,35 @@ const BLOCK_TYPE_HEADINGS = [
 
 const HeaderLevelSelect = lazy(() => import('../HeaderLevelSelect'))
 
-const EditorOptions = ({ editorState, activeButtons, onChange, onToggle, onClick }) => {
-
+const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
+    const [ selectedTextColor, setSelectedTextColor ] = useState('#000')
+    const [ isCollorPalleteVisible, setIsColorPalleteVisible ] = useState(false)
 
     const selection = editorState.getSelection()
     const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType()
 
-    
+    const colors = [ '#000000', '#737373', '#E7E6E6', '#5500F1', '#9776FF', '#FFD382']
+
     const setActiveClassName = className => activeButtons.includes(className)
+    
+    const handleListBlock = ({ style }) => event => {
+        event.preventDefault()
+
+        onToggleFn(style)
+    } 
+
+    const handleTextColor = ({ color }) => event => {
+        onClick({ style: 'TEXT-COLOR', color })(event)
+
+        setSelectedTextColor(color)
+        setIsColorPalleteVisible(!isCollorPalleteVisible)
+    }
+
+    const handleColorPalleteVisible = event => {
+        event.preventDefault()
+
+        setIsColorPalleteVisible(!isCollorPalleteVisible)
+    }
 
     return (
         <header className="editor-options">
@@ -37,7 +50,7 @@ const EditorOptions = ({ editorState, activeButtons, onChange, onToggle, onClick
                     <HeaderLevelSelect 
                         headerOptions={BLOCK_TYPE_HEADINGS}
                         active={blockType}
-                        onToggle={onToggle}
+                        onToggle={onToggleFn}
                     />
                 </Suspense>
                 <div className="inline-options">
@@ -50,23 +63,30 @@ const EditorOptions = ({ editorState, activeButtons, onChange, onToggle, onClick
                     <button onClick={onClick({ style: 'UNDERLINE' })}>
                         <Underline className={setActiveClassName('UNDERLINE') ? 'active' : ' '} color="#FFF" />
                     </button>
-                    <button onClick={onClick({ style: 'TEXT-COLOR' })}>
-                        <ColorOption color="#000"/>
+                    <button onClick={handleColorPalleteVisible}>
+                        <ColorOption color={selectedTextColor}/>
+
                     </button>
-                    <button id="highlight-btn">
+                    <button onClick={onClick({ style: 'HIGHLIGHT' })}>
                         <HighlightOption color="#FFF"/>
                     </button>
+
+                    <div className={`color-options ${isCollorPalleteVisible ? 'visible': ' '}`}>
+                        {colors.map(color => (
+                            <span key={color} style={{ background: color }} onClick={handleTextColor({ color })}></span>
+                        ))}
+                    </div>
                 </div>
-                <div  data-id="4" className="link-option">
+                <div className="link-option">
                     <button id="link-btn">
                         <Link2 color="#FFF" />
                     </button>
                 </div>
                 <div className="lists-options">
-                    <button data-id="5" id="ul-btn">
+                    <button onClick={handleListBlock({ style: 'unordered-list-item' })}>
                         <List color="#FFF"/>
                     </button>
-                    <button data-id="6" id="ol-btn">
+                    <button onClick={handleListBlock({ style: 'ordered-list-item' })}>
                         <OrderedListOption/>
                     </button>
                 </div>

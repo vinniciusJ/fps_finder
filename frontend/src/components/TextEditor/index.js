@@ -1,8 +1,8 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react'
 import Editor from 'draft-js-plugins-editor'
-import createTextColorPlugin from './plugins/textColorPlugin'
+import { createTextColorPlugin, createHighlightPlugin } from './plugins'
 
-import { RichUtils } from 'draft-js'
+import { convertToRaw, RichUtils } from 'draft-js'
 import { getBlockStyle } from './EditorOptions'
 
 import './styles.css'
@@ -12,7 +12,11 @@ const EditorOptions = lazy(() => import('./EditorOptions'))
 
 const TextEditor = ({ editorState, onChange }) => {
     const [ activeButtons, setActiveButtons ] = useState([])
-    const [ plugins, setPlugins ] = useState([ createTextColorPlugin({}) ])
+
+    const [ plugins, setPlugins ] = useState([ 
+        createTextColorPlugin({}), 
+        createHighlightPlugin({}) 
+    ])
 
     useEffect(() => setActiveButtons(activeButtons.filter(activeButton => editorState.getCurrentInlineStyle().has(activeButton))), [ editorState ])
 
@@ -31,20 +35,29 @@ const TextEditor = ({ editorState, onChange }) => {
         return 'not-handled'
     }
 
-    const handleUIButtons = ({ style }) => event => {
+    const handleUIButtons = ({ style, color }) => event => {
         event.preventDefault()
 
         const currentStyle = { [style]: editorState.getCurrentInlineStyle().has(style) }
+        let currentEditorState = editorState
 
-        onChange(RichUtils.toggleInlineStyle(editorState, style))
-        
-        if(style !== 'TEXT-COLOR'){
-            setActiveButtons(currentStyle[style] ? activeButtons.filter(btn => btn !== style) : [...activeButtons, style])
-
-            return
+        if(currentStyle[style]){
+            currentEditorState = RichUtils.toggleInlineStyle(editorState, style)
         }
-        
-        setPlugins([createTextColorPlugin({ color: '#c08F90' })])
+
+        currentEditorState = RichUtils.toggleInlineStyle(currentEditorState, style)
+
+        switch(style){
+            case 'TEXT-COLOR': 
+                setPlugins([createTextColorPlugin({ color }), plugins[1]]) 
+                break
+            case 'HIGHLIGHT':  
+                setPlugins([ plugins[0], createHighlightPlugin({ color }) ])
+                break
+            default: setActiveButtons(currentStyle[style] ? activeButtons.filter(btn => btn !== style) : [...activeButtons, style])
+        }
+
+        onChange(currentEditorState)
     }
 
     const toggleBlockType = blockType => {
@@ -58,14 +71,16 @@ const TextEditor = ({ editorState, onChange }) => {
                     editorState={editorState}
                     activeButtons={activeButtons}
                     onClick={handleUIButtons}
-                    onChange={onChange}
-                    onToggle={toggleBlockType}
+                    onToggleFn={toggleBlockType}
                 />
             </Suspense>
+            {console.log(plugins
+                )}
             <Editor 
                 editorState={editorState} 
                 plugins={plugins}
                 onChange={onChange}
+                blockStyleFn={getBlockStyle}
                 handleKeyCommand={handleKeyCommand}
             />
         </div>
