@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react'
 
-import { Bold, Italic, Underline, Link2, List, Image, Youtube } from 'react-feather'
+import { Bold, Italic, Underline, Link2, List, Image, Youtube, Slash } from 'react-feather'
 import { ColorOption, HighlightOption, OrderedListOption } from '../OptsIcons'
 
 import './styles.css'
@@ -15,12 +15,16 @@ const HeaderLevelSelect = lazy(() => import('../HeaderLevelSelect'))
 
 const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
     const [ selectedTextColor, setSelectedTextColor ] = useState('#000')
-    const [ isCollorPalleteVisible, setIsColorPalleteVisible ] = useState(false)
+    const [ isColorPalleteVisible, setIsColorPalleteVisible ] = useState(false)
+
+    const [ selectedHighlightColor, setSelectedHighlightColor ] = useState('#FFF')
+    const [ isBgPalleteVisible, setIsBgPalleteVisible ] = useState(false)
 
     const selection = editorState.getSelection()
     const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType()
 
     const colors = [ '#000000', '#737373', '#E7E6E6', '#5500F1', '#9776FF', '#FFD382']
+    const bgColors = ['#5500F1', '#9776FF', '#FFD382']
 
     const setActiveClassName = className => activeButtons.includes(className)
     
@@ -34,13 +38,26 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
         onClick({ style: 'TEXT-COLOR', color })(event)
 
         setSelectedTextColor(color)
-        setIsColorPalleteVisible(!isCollorPalleteVisible)
+        setIsColorPalleteVisible(!isColorPalleteVisible)
+    }
+
+    const handleHighlightColor = ({ color }) => event => {
+        onClick({ style: 'HIGHLIGHT', color })(event)
+
+        setSelectedHighlightColor(color || '#FFF')
+        setIsBgPalleteVisible(!isBgPalleteVisible)
+    }
+
+    const handleBgPalleteVisible = event => {
+        event.preventDefault()
+
+        setIsBgPalleteVisible(!isBgPalleteVisible)
     }
 
     const handleColorPalleteVisible = event => {
         event.preventDefault()
 
-        setIsColorPalleteVisible(!isCollorPalleteVisible)
+        setIsColorPalleteVisible(!isColorPalleteVisible)
     }
 
     return (
@@ -67,14 +84,24 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
                         <ColorOption color={selectedTextColor}/>
 
                     </button>
-                    <button onClick={onClick({ style: 'HIGHLIGHT' })}>
-                        <HighlightOption color="#FFF"/>
+                    <button onClick={handleBgPalleteVisible}>
+                        <HighlightOption color={selectedHighlightColor}/>
                     </button>
 
-                    <div className={`color-options ${isCollorPalleteVisible ? 'visible': ' '}`}>
+                    <div className={`color-options ${isColorPalleteVisible ? 'visible': ' '}`}>
                         {colors.map(color => (
                             <span key={color} style={{ background: color }} onClick={handleTextColor({ color })}></span>
                         ))}
+                    </div>
+
+                    <div className={`bg-options ${isBgPalleteVisible ? 'visible': ' '}`}>
+                        <span className="none-bg" onClick={handleHighlightColor({ })}><Slash color="#000" width={6} height={6}/>Nenhuma</span>
+                        
+                        <div className="bg-options-colors">
+                            {bgColors.map(color => (
+                                <span key={color} style={{ background: color }} onClick={handleHighlightColor({ color })}></span>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div className="link-option">

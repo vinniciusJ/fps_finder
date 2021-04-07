@@ -41,7 +41,7 @@ const TextEditor = ({ editorState, onChange }) => {
         const currentStyle = { [style]: editorState.getCurrentInlineStyle().has(style) }
         let currentEditorState = editorState
 
-        if(currentStyle[style]){
+        if(currentStyle[style] && (style === 'TEXT-COLOR' || style === 'HIGHLIGHT') ){
             currentEditorState = RichUtils.toggleInlineStyle(editorState, style)
         }
 

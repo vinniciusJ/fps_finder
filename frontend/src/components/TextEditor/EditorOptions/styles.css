@@ -30,7 +30,6 @@
     column-gap: 1.5rem;
 }
 
-
 .editor-container .editor-options .editor-options-opts .inline-options{
     position: relative;
 }
@@ -56,7 +55,50 @@
     column-gap: .8rem;
 }
 
-.editor-container .editor-options .editor-options-opts .inline-options .color-options span{
+.editor-container .editor-options .editor-options-opts .inline-options .bg-options{
+    position: absolute;
+    right: -28.6%;
+    top: 150%;
+    width: 16rem;
+    height: 9.2rem;
+
+    display: none;
+
+    padding: .2rem 1.2rem;
+
+    border: 3px solid var(--secondary-color);
+}
+
+.editor-container .editor-options .editor-options-opts .inline-options .bg-options .none-bg {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    column-gap: .8rem;
+    font-weight: 500;
+}
+
+.editor-container .editor-options .editor-options-opts .inline-options .bg-options .none-bg svg{
+    padding: 0;
+    width: 3.4rem;
+    height: 3.4rem;
+    padding: .2rem .8rem;
+}
+
+.editor-container .editor-options .editor-options-opts .inline-options .bg-options .bg-options-colors{
+    display: flex;
+    column-gap: .8rem;
+    padding: .2rem 1.2rem;
+}
+
+.editor-container .editor-options .editor-options-opts .inline-options .bg-options.visible{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.editor-container .editor-options .editor-options-opts .inline-options .color-options span,
+.editor-container .editor-options .editor-options-opts .inline-options .bg-options span{
     width: 3.6rem;
     height: 3.6rem;
     border-radius: 50%;
