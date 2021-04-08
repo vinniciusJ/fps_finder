@@ -1,6 +1,6 @@
-import React, { Suspense, lazy, useState } from 'react'
+import React, { Suspense, lazy, useState, useRef } from 'react'
 
-import { Bold, Italic, Underline, Link2, List, Image, Youtube, Slash, Check } from 'react-feather'
+import { Bold, Italic, Underline, Link2, List, Image, Youtube, Slash } from 'react-feather'
 import { ColorOption, HighlightOption, OrderedListOption } from '../OptsIcons'
 
 import './styles.css'
@@ -20,6 +20,10 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
 
     const [ selectedHighlightColor, setSelectedHighlightColor ] = useState('#FFF')
     const [ isBgPalleteVisible, setIsBgPalleteVisible ] = useState(false)
+
+    const [ isLinkInputVisible, setIsLinkInputVisible ] = useState(false)
+
+    const urlInput = { src: useRef(null), target: useRef(null) }
 
     const selection = editorState.getSelection()
     const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType()
@@ -49,19 +53,34 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
         setIsBgPalleteVisible(!isBgPalleteVisible)
     }
 
-    const handleLink = event => {
+    const onAddLink = event => {
         event.preventDefault()
 
-        onClick({ type: 'LINK' })(event)
+        const { src: { current: { value: src } }, target: { current: { checked } } } = urlInput
+
+        onClick({ type: 'LINK' }, { src, target: checked ? '_blank' : '_self' })(event)
+        setIsLinkInputVisible(!isLinkInputVisible)
     }
 
-    const handleBgPalleteVisible = event => {
+    const onCancelLink = event => {
+        event.preventDefault()
+
+        setIsLinkInputVisible(!isLinkInputVisible)
+    }
+
+    const handleLinkInputVisibility = event => {
+        event.preventDefault()
+
+        setIsLinkInputVisible(!isLinkInputVisible)
+    }
+
+    const handleBgPalleteVisibility = event => {
         event.preventDefault()
 
         setIsBgPalleteVisible(!isBgPalleteVisible)
     }
 
-    const handleColorPalleteVisible = event => {
+    const handleColorPalleteVisibility = event => {
         event.preventDefault()
 
         setIsColorPalleteVisible(!isColorPalleteVisible)
@@ -88,11 +107,11 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
                         <button onClick={onClick({ style: 'UNDERLINE' })}>
                             <Underline className={setActiveClassName('UNDERLINE') ? 'active' : ' '} color="#FFF" />
                         </button>
-                        <button onClick={handleColorPalleteVisible}>
+                        <button onClick={handleColorPalleteVisibility}>
                             <ColorOption color={selectedTextColor}/>
 
                         </button>
-                        <button onClick={handleBgPalleteVisible}>
+                        <button onClick={handleBgPalleteVisibility}>
                             <HighlightOption color={selectedHighlightColor}/>
                         </button>
 
@@ -113,7 +132,7 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
                         </div>
                     </div>
                     <div className="link-option">
-                        <button onClick={handleLink}>
+                        <button onClick={handleLinkInputVisibility}>
                             <Link2 color="#FFF" />
                         </button>
                     </div>
@@ -135,7 +154,17 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
                     </div>
                 </div>
             </header>
-            
+
+            {isLinkInputVisible && (
+                <Suspense fallback={<div></div>}>
+                    <LinkPopup 
+                        srcRef={urlInput.src} 
+                        targetRef={urlInput.target} 
+                        onClick={onAddLink} 
+                        onCancel={onCancelLink}
+                    />
+                </Suspense>
+            )}
         </>
     )
 }

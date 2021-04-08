@@ -1,5 +1,5 @@
 import React from 'react'
-import { RichUtils, KeyBindingUtil, EditorState } from 'draft-js'
+//import { RichUtils, KeyBindingUtil, EditorState } from 'draft-js'
 
 export const createTextColorPlugin = ({ color = '#000' }) => ({
     customStyleMap: {
@@ -14,34 +14,39 @@ export const createHighlightPlugin = ({ color = 'transparent' }) => ({
 })
 
 const linkStrategy = (contentBlock, callback, contentState) => {
-    contentBlock.findEntityRanges(
-        char => {
-            const entityKey = char.getEntity()
-
-            return ( entityKey !== null && contentState.getEntity(entityKey).getType === 'LINK' )
-        }
-    )
+	contentBlock.findEntityRanges(character => {
+		const entityKey = character.getEntity()
+		return (
+			entityKey !== null &&
+			contentState.getEntity(entityKey).getType() === "LINK"
+		)
+	}, callback)
 }
 
 const Link = ({ contentState, entityKey, children }) => {
-    const { url, target } = contentState.getEntity(entityKey).getData()
-    
-    return (
-        <a
-            className="link"
-            href={url}
-            rel="noopener noreferrer"
-            target={target}
-            aria-label={url}
-        >
-          {children}  
-        </a>
-    )
-}
+	const { url } = contentState.getEntity(entityKey).getData()
+
+	return (
+		<a
+			className="link"
+            style={{ color: '#9776ff' }}
+			href={url}
+			rel="noopener noreferrer"
+			target="_blank"
+			aria-label={url}
+		>
+			{children}
+		</a>
+	);
+};
 
 export const createLinkPlugin = () => ({
-    decorators: [{
-        strategy: linkStrategy,
-        component: Link
-    }]
-})
+	decorators: [
+		{
+			strategy: linkStrategy,
+			component: Link
+		}
+	]
+}) 
+
+

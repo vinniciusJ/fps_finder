@@ -13,6 +13,8 @@
     line-height: 1.5;
 }
 
+
 .editor-container .DraftEditor-root div[data-block=true]:not(:last-child){
     margin-bottom: 2.8rem;
 }
+

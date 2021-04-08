@@ -1,15 +1,13 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react'
 import Editor from 'draft-js-plugins-editor'
 
-
-import { RichUtils } from 'draft-js'
+import { RichUtils, EditorState } from 'draft-js'
 import { getBlockStyle } from './EditorOptions'
 import { createTextColorPlugin, createHighlightPlugin, createLinkPlugin } from './plugins'
 
 import './styles.css'
 
 const EditorOptions = lazy(() => import('./EditorOptions'))
-
 
 const TextEditor = ({ editorState, onChange }) => {
     const [ activeButtons, setActiveButtons ] = useState([])
@@ -37,14 +35,34 @@ const TextEditor = ({ editorState, onChange }) => {
         return 'not-handled'
     }
 
-    const handleEntitiyButtons = ({ type, ...args }) => {
-        console.log(type)
+    const addLink = ({ src, target }) => {
+        const selection = editorState.getSelection()
+
+        if (!src) {
+            onChange(RichUtils.toggleLink(editorState, selection, null))
+            
+            return 'handled'
+        }
+
+        const content = editorState.getCurrentContent()
+        const contentWithEntity = content.createEntity('LINK', 'MUTABLE', { url: src, target })
+        const newEditorState = EditorState.push(editorState, contentWithEntity, 'create-entity')
+        const entityKey = contentWithEntity.getLastCreatedEntityKey()
+
+        onChange(RichUtils.toggleLink(newEditorState, selection, entityKey))
     }
 
-    const handleUIButtons = ({ type, style, color }) => event => {
+
+    const handleEntitiyButtons = ({ type, attrs }) => {
+        if(type === 'LINK') return addLink(attrs)
+    }
+
+    const handleUIButtons = ({ type, style, color }, ...args) => event => {
         event.preventDefault()
 
-        //if(type) return handleEntitiyButtons({ type })
+        const [ attrs ] = args
+
+        if(type) return handleEntitiyButtons({ type, attrs })
 
         const currentStyle = { [style]: editorState.getCurrentInlineStyle().has(style) }
         let currentEditorState = editorState
