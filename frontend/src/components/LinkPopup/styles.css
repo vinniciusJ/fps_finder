@@ -1,0 +1,108 @@
+
+.add-link-popup{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 100vh;
+    width: 100vw;
+    
+    background: rgba(0, 0, 0, .5);
+
+    z-index: 10;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-link-popup-inner{
+    background: #FFF;
+
+    width: 48vw;
+    height: 48vh;
+
+    padding: 7.6rem 8rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 3.8rem;
+}
+
+.add-link-popup-inner .alp-header{
+    font-size: 1.8rem;
+}
+
+.add-link-popup-inner .alp-link-input{
+    display: flex;
+    flex-direction: column;
+    row-gap: 2.4rem;
+    margin-bottom: 2.4rem;
+}
+
+.add-link-popup-inner .alp-link-input input[type=url]{
+    padding: 0 2rem;
+    outline: none;
+
+    border: 3px solid var(--secondary-color);
+    color: #5C5C5C;
+    width: 100%;
+    height: 5.4rem;
+}
+
+.add-link-popup-inner .alp-link-input .checkbox-container{
+    display: flex;
+    align-items: center;
+    column-gap: .8rem;
+}
+
+.add-link-popup-inner .alp-link-input .checkbox-container > span{
+    width: 2.7rem;
+    height: 2.7rem;
+    border: 3px solid var(--secondary-color);
+    position: relative;
+}
+
+.add-link-popup-inner .alp-link-input .checkbox-container span input[type=checkbox]{
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    width: 100%;
+    height: 100%;
+
+    z-index: 10;
+    opacity: 0;
+}
+
+.add-link-popup-inner .alp-link-input .checkbox-container span .checked{
+    position: absolute;
+    top: -15%;
+    right: 15%;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.add-link-popup-inner .alp-link-input .checkbox-container span .checked svg{
+    width: 2.7rem;
+    height: 2.7rem;
+}
+
+.add-link-popup-inner .alp-link-input .checkbox-container span input[type=checkbox]:checked ~ .checked{
+    display: initial;
+}
+
+
+.add-link-popup-inner .alp-link-input .checkbox-container label{
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.add-link-popup-inner .alp-buttons{
+    display: flex;
+    column-gap: 4rem;
+}

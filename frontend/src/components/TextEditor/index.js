@@ -1,9 +1,10 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react'
 import Editor from 'draft-js-plugins-editor'
-import { createTextColorPlugin, createHighlightPlugin } from './plugins'
 
-import { convertToRaw, RichUtils } from 'draft-js'
+
+import { RichUtils } from 'draft-js'
 import { getBlockStyle } from './EditorOptions'
+import { createTextColorPlugin, createHighlightPlugin, createLinkPlugin } from './plugins'
 
 import './styles.css'
 
@@ -15,7 +16,8 @@ const TextEditor = ({ editorState, onChange }) => {
 
     const [ plugins, setPlugins ] = useState([ 
         createTextColorPlugin({}), 
-        createHighlightPlugin({}) 
+        createHighlightPlugin({}),
+        createLinkPlugin()
     ])
 
     useEffect(() => setActiveButtons(activeButtons.filter(activeButton => editorState.getCurrentInlineStyle().has(activeButton))), [ editorState ])
@@ -35,8 +37,14 @@ const TextEditor = ({ editorState, onChange }) => {
         return 'not-handled'
     }
 
-    const handleUIButtons = ({ style, color }) => event => {
+    const handleEntitiyButtons = ({ type, ...args }) => {
+        console.log(type)
+    }
+
+    const handleUIButtons = ({ type, style, color }) => event => {
         event.preventDefault()
+
+        //if(type) return handleEntitiyButtons({ type })
 
         const currentStyle = { [style]: editorState.getCurrentInlineStyle().has(style) }
         let currentEditorState = editorState
@@ -49,10 +57,10 @@ const TextEditor = ({ editorState, onChange }) => {
 
         switch(style){
             case 'TEXT-COLOR': 
-                setPlugins([createTextColorPlugin({ color }), plugins[1]]) 
+                setPlugins([createTextColorPlugin({ color }), plugins[1], createLinkPlugin() ]) 
                 break
             case 'HIGHLIGHT':  
-                setPlugins([ plugins[0], createHighlightPlugin({ color }) ])
+                setPlugins([ plugins[0], createHighlightPlugin({ color }), createLinkPlugin() ])
                 break
             default: setActiveButtons(currentStyle[style] ? activeButtons.filter(btn => btn !== style) : [...activeButtons, style])
         }
@@ -74,8 +82,6 @@ const TextEditor = ({ editorState, onChange }) => {
                     onToggleFn={toggleBlockType}
                 />
             </Suspense>
-            {console.log(plugins
-                )}
             <Editor 
                 editorState={editorState} 
                 plugins={plugins}
