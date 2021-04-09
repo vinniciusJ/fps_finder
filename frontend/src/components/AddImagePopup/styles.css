@@ -20,12 +20,12 @@
     background: #FFF;
 
     width: 48vw;
-    height: 72vh;
 
-    padding: 7.6rem 8rem;
+
+    padding: 6.4rem 8rem;
     display: flex;
     flex-direction: column;
-    row-gap: 3.8rem;
+    row-gap: 4rem;
 }
 
 .add-image-popup-inner .aip-header{
@@ -36,6 +36,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    margin-bottom: -2rem;
 }
 
 .add-image-popup-inner .aip-insert-types button{
@@ -56,9 +57,9 @@
 .add-image-popup-inner .aip-insert-inputs{
     display: flex;
     flex-direction: column;
-    row-gap: 4rem;
+    row-gap: 2.4rem;
     width: 100%;
-
+    margin-bottom: 2rem;
 }
 
 .add-image-popup-inner .aip-insert-inputs .aip-input-container{
@@ -104,4 +105,15 @@
 .add-image-popup-inner .aip-footer{
     display: flex;
     column-gap: 3.2rem;
+}
+
+.add-image-popup-inner .aip-img-preview-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.add-image-popup-inner .aip-img-preview-container .aip-img-preview{
+    object-fit: cover;
 }

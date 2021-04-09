@@ -15,7 +15,7 @@ const Post = props => {
     const [ addImagePopup, setAddImagePopup ] = useState(false)
     const [ bannerPreview, setBannerPreview ] = useState(false)
     const [ editorState, setEditorState ] = useState(EditorState.createEmpty())
-    const [ postHeader, setPostHeader ] = useState({ title: null, banner: { src: null, font: null } })
+    const [ postHeader, setPostHeader ] = useState({ title: null, banner: { src: null, type: null, font: null } })
  
     const handleTitleInput = ({ target: value }) => {
         const { banner } = postHeader
@@ -26,37 +26,24 @@ const Post = props => {
     const handleImagePopupVisibility = event => {
         event.preventDefault()
 
-        const { overflowY } = document.documentElement.style 
+        const overflowY  = document.documentElement.style.overflowY || 'initial'
            
-        document.documentElement.style.overflowY = overflowY === 'hidden' ? 'initial' : 'hidden'
+        document.documentElement.style.overflowY = overflowY === 'initial' ? 'hidden' : 'initial'
 
         setBannerPreview(postHeader.banner.src ? true : false)
         setAddImagePopup(!addImagePopup)
     }
 
     const handleFontInput = ({ target: { value } }) => {
-        const { title, banner: { src } } = postHeader
+        const { title, banner: { src, type } } = postHeader
 
-        setPostHeader({ title, banner: { src, font: value } })
+        setPostHeader({ title, banner: { src, type, font: value } })
     }
 
-    const handleImageChange = ({ target: { value, files, type } }) => {
-        if(type === 'url'){
-            const { title, banner: { font } } = postHeader
+    const handleImageChange = ({ src, type }) => {
+        const { title, banner: { font } } = postHeader
 
-            return setPostHeader({ title, banner: { src: value, font } })
-        }
-
-        const reader = new FileReader()
-        const [ file ] = files
-
-        reader.readAsDataURL(file)
-
-        reader.onload = ({ target: { result } }) => {
-            const { title, banner: { font } } = postHeader
-
-            setPostHeader({ title, banner: { src: result, font } })
-        }
+        setPostHeader({ title, banner: { src, type, font } })
     }
 
     return (
@@ -110,7 +97,7 @@ const Post = props => {
                     {addImagePopup && (
                         <Suspense fallback={<div></div>}>
                             <AddImagePopup 
-                                isThereAnImage={false}
+                                image={postHeader.banner}
                                 onChangeImage={handleImageChange}
                                 onFontInput={handleFontInput}
                                 onSave={handleImagePopupVisibility}

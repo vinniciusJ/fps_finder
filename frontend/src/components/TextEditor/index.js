@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useState, useEffect } from 'react'
+import React, { Suspense, lazy, useState, useEffect, useRef } from 'react'
 import Editor from 'draft-js-plugins-editor'
 
 import { RichUtils, EditorState } from 'draft-js'
@@ -10,13 +10,15 @@ import './styles.css'
 const EditorOptions = lazy(() => import('./EditorOptions'))
 
 const TextEditor = ({ editorState, onChange }) => {
-    const [ activeButtons, setActiveButtons ] = useState([])
+    const [ activeButtons, setActiveButtons ] = useState([]), editor = useRef(null)
 
     const [ plugins, setPlugins ] = useState([ 
         createTextColorPlugin({}), 
         createHighlightPlugin({}),
         createLinkPlugin()
     ])
+
+    useEffect(() => editor.current.focus(), [ ])
 
     useEffect(() => setActiveButtons(activeButtons.filter(activeButton => editorState.getCurrentInlineStyle().has(activeButton))), [ editorState ])
 
@@ -105,6 +107,7 @@ const TextEditor = ({ editorState, onChange }) => {
                 plugins={plugins}
                 onChange={onChange}
                 blockStyleFn={getBlockStyle}
+                ref={editor}
                 handleKeyCommand={handleKeyCommand}
             />
         </div>
