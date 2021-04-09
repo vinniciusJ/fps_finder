@@ -1,0 +1,18 @@
+.editor-img-container{
+    width: 100%;
+}
+
+.editor-img-container img{
+    object-fit: cover;
+    width: 100%;
+    height: 450px;
+}
+
+.editor-img-container figcaption{
+    font-size: 1.6rem;
+}
+
+.editor-img-container figcaption strong{
+    color: var(--main-color);
+}
+

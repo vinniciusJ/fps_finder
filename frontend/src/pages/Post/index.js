@@ -6,7 +6,7 @@ import { EditorState } from 'draft-js'
 
 import './styles.css'
 
-const AddImagePopup = lazy(() => import('../../components/AddImagePopup'))
+const ImagePopup = lazy(() => import('../../components/ImagePopup'))
 const TextEditor = lazy(() => import('../../components/TextEditor'))
 
 const Post = props => {
@@ -96,7 +96,7 @@ const Post = props => {
                     
                     {addImagePopup && (
                         <Suspense fallback={<div></div>}>
-                            <AddImagePopup 
+                            <ImagePopup 
                                 image={postHeader.banner}
                                 onChangeImage={handleImageChange}
                                 onFontInput={handleFontInput}

@@ -53,6 +53,7 @@
     justify-content: center;
     flex-wrap: wrap;
     column-gap: .8rem;
+    background: #FFF;
 }
 
 .editor-container .editor-options .editor-options-opts .inline-options .bg-options{
@@ -67,6 +68,7 @@
     padding: .2rem 1.2rem;
 
     border: 3px solid var(--secondary-color);
+    background: #FFF;
 }
 
 .editor-container .editor-options .editor-options-opts .inline-options .bg-options .none-bg {

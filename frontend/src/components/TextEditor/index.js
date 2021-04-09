@@ -1,9 +1,9 @@
 import React, { Suspense, lazy, useState, useEffect, useRef } from 'react'
 import Editor from 'draft-js-plugins-editor'
 
-import { RichUtils, EditorState } from 'draft-js'
-import { getBlockStyle } from './EditorOptions'
+import { RichUtils, EditorState, AtomicBlockUtils } from 'draft-js'
 import { createTextColorPlugin, createHighlightPlugin, createLinkPlugin } from './plugins'
+import { entityBlockRenderer } from './Entities/mediaBlockRenderer'
 
 import './styles.css'
 
@@ -18,7 +18,7 @@ const TextEditor = ({ editorState, onChange }) => {
         createLinkPlugin()
     ])
 
-    useEffect(() => editor.current.focus(), [ ])
+    //useEffect(() => editor.current.focus(), [ ])
 
     useEffect(() => setActiveButtons(activeButtons.filter(activeButton => editorState.getCurrentInlineStyle().has(activeButton))), [ editorState ])
 
@@ -41,22 +41,39 @@ const TextEditor = ({ editorState, onChange }) => {
         const selection = editorState.getSelection()
 
         if (!src) {
-            onChange(RichUtils.toggleLink(editorState, selection, null))
-            
-            return 'handled'
+          onChange(RichUtils.toggleLink(editorState, selection, null));
+
+          return "handled"
         }
 
         const content = editorState.getCurrentContent()
-        const contentWithEntity = content.createEntity('LINK', 'MUTABLE', { url: src, target })
-        const newEditorState = EditorState.push(editorState, contentWithEntity, 'create-entity')
+        const contentWithEntity = content.createEntity("LINK", "MUTABLE", { url: src, target })
+        const newEditorState = EditorState.push(editorState, contentWithEntity, "create-entity")
         const entityKey = contentWithEntity.getLastCreatedEntityKey()
 
         onChange(RichUtils.toggleLink(newEditorState, selection, entityKey))
+
+        return "handled"
     }
 
+    const addMediaEntity = ({ media, src, font }) => {
+        const contentState = editorState.getCurrentContent()
+        const contentStateWithEntity = contentState.createEntity(media, 'IMMUTABLE', media === 'image' ? { src, font } : { src })
+
+        const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
+
+        const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity }, 'create-entity')
+
+        onChange(AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " "))
+    }
 
     const handleEntitiyButtons = ({ type, attrs }) => {
-        if(type === 'LINK') return addLink(attrs)
+        switch(type){
+            case 'LINK': return addLink(attrs)
+            //case 'IMAGE': return addMediaEntity({ media: 'image', ...attrs  })
+            //case 'VIDEO': return addMediaEntity({ media: 'video', ...attrs  })
+            default: return
+        }
     }
 
     const handleUIButtons = ({ type, style, color }, ...args) => event => {
@@ -77,7 +94,7 @@ const TextEditor = ({ editorState, onChange }) => {
 
         switch(style){
             case 'TEXT-COLOR': 
-                setPlugins([createTextColorPlugin({ color }), plugins[1], createLinkPlugin() ]) 
+                setPlugins([createTextColorPlugin({ color }), plugins[1], createLinkPlugin()]) 
                 break
             case 'HIGHLIGHT':  
                 setPlugins([ plugins[0], createHighlightPlugin({ color }), createLinkPlugin() ])
@@ -102,13 +119,13 @@ const TextEditor = ({ editorState, onChange }) => {
                     onToggleFn={toggleBlockType}
                 />
             </Suspense>
+            {console.log(plugins)}
             <Editor 
                 editorState={editorState} 
                 plugins={plugins}
                 onChange={onChange}
-                blockStyleFn={getBlockStyle}
-                ref={editor}
                 handleKeyCommand={handleKeyCommand}
+                blockRendererFn={entityBlockRenderer}
             />
         </div>
     )

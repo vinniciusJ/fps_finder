@@ -5,23 +5,19 @@ import { ColorOption, HighlightOption, OrderedListOption } from '../OptsIcons'
 
 import './styles.css'
 
-const BLOCK_TYPE_HEADINGS = [
-    { label: "Título 1", style: "header-two" },
-    { label: "Título 2", style: "header-three" },
-    { label: "Título 3", style: "header-four" },
-]
-
 const HeaderLevelSelect = lazy(() => import('../HeaderLevelSelect'))
 const LinkPopup = lazy(() => import('../../LinkPopup'))
+const ImagePopup = lazy(() => import('../../ImagePopup'))
 
 const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
     const [ selectedTextColor, setSelectedTextColor ] = useState('#000')
-    const [ isColorPalleteVisible, setIsColorPalleteVisible ] = useState(false)
-
     const [ selectedHighlightColor, setSelectedHighlightColor ] = useState('#FFF')
-    const [ isBgPalleteVisible, setIsBgPalleteVisible ] = useState(false)
+    const [ currentImage, setCurrentImage ] = useState({ src: null, font: null })
 
-    const [ isLinkInputVisible, setIsLinkInputVisible ] = useState(false)
+    const [ isImgPopupVisible, setIsImgPopupVisible ] = useState(false)
+    const [ isLinkPopupVisible, setIsLinkPopupVisible ] = useState(false)
+    const [ isBgPalleteVisible, setIsBgPalleteVisible ] = useState(false)
+    const [ isColorPalleteVisible, setIsColorPalleteVisible ] = useState(false)
 
     const urlInput = { src: useRef(null), target: useRef(null) }
 
@@ -30,6 +26,12 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
 
     const colors = [ '#000000', '#737373', '#E7E6E6', '#5500F1', '#9776FF', '#FFD382']
     const bgColors = ['#5500F1', '#9776FF', '#FFD382']
+
+    const headingsTypes = [
+        { label: "Título 1", style: "header-two" },
+        { label: "Título 2", style: "header-three" },
+        { label: "Título 3", style: "header-four" },
+    ]
 
     const setActiveClassName = className => activeButtons.includes(className)
     
@@ -53,25 +55,49 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
         setIsBgPalleteVisible(!isBgPalleteVisible)
     }
 
+    const handleImageChange = ({ src }) => setCurrentImage({ src, font: currentImage.font })
+    const handleFontInput = ({ target: { value } }) => setCurrentImage({ src: currentImage.src, font: value })
+
     const onAddLink = event => {
         event.preventDefault()
 
         const { src: { current: { value: src } }, target: { current: { checked } } } = urlInput
 
         onClick({ type: 'LINK' }, { src, target: checked ? '_blank' : '_self' })(event)
-        setIsLinkInputVisible(!isLinkInputVisible)
+        setIsLinkPopupVisible(!isLinkPopupVisible)
     }
 
-    const onCancelLink = event => {
+    const onAddImage = event => {
         event.preventDefault()
+        
+        const { src, font } = currentImage
 
-        setIsLinkInputVisible(!isLinkInputVisible)
+        onClick({ type: 'IMAGE' }, {  src, font })(event)
+        setIsImgPopupVisible(!isImgPopupVisible)
     }
 
-    const handleLinkInputVisibility = event => {
+    const onClosePopup = ({ type }) => event => {
         event.preventDefault()
 
-        setIsLinkInputVisible(!isLinkInputVisible)
+        if(type === 'link-popup'){
+            return setIsLinkPopupVisible(!isLinkPopupVisible)
+        }
+        
+        if(type === 'img-popup'){
+            return setIsImgPopupVisible(!isImgPopupVisible)
+        }
+    }
+
+    const handleLinkPopupVisibility = event => {
+        event.preventDefault()
+
+        setIsLinkPopupVisible(!isLinkPopupVisible)
+    }
+
+    const handleImagePopupVisibility = event => {
+        event.preventDefault()
+
+        setIsImgPopupVisible(!isImgPopupVisible)
     }
 
     const handleBgPalleteVisibility = event => {
@@ -92,26 +118,25 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
                 <div className="editor-options-opts">
                     <Suspense fallback={<div></div>}>
                         <HeaderLevelSelect 
-                            headerOptions={BLOCK_TYPE_HEADINGS}
+                            headerOptions={headingsTypes}
                             active={blockType}
                             onToggle={onToggleFn}
                         />
                     </Suspense>
                     <div className="inline-options">
-                        <button onClick={onClick({ style: 'BOLD' })}>
+                        <button onClick={onClick({ style: 'BOLD' })} title="Negrito">
                             <Bold className={setActiveClassName('BOLD') ? 'active' : ' '} color="#FFF"/>
                         </button>
-                        <button onClick={onClick({ style: 'ITALIC' })}>
+                        <button onClick={onClick({ style: 'ITALIC' })} title="Itálico">
                             <Italic className={setActiveClassName('ITALIC') ? 'active' : ' '} color="#FFF" />
                         </button>
-                        <button onClick={onClick({ style: 'UNDERLINE' })}>
+                        <button onClick={onClick({ style: 'UNDERLINE' })} title="Sublinhado">
                             <Underline className={setActiveClassName('UNDERLINE') ? 'active' : ' '} color="#FFF" />
                         </button>
-                        <button onClick={handleColorPalleteVisibility}>
+                        <button onClick={handleColorPalleteVisibility} title="Cor de texto">
                             <ColorOption color={selectedTextColor}/>
-
                         </button>
-                        <button onClick={handleBgPalleteVisibility}>
+                        <button onClick={handleBgPalleteVisibility} title="Grifar">
                             <HighlightOption color={selectedHighlightColor}/>
                         </button>
 
@@ -132,50 +157,52 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
                         </div>
                     </div>
                     <div className="link-option">
-                        <button onClick={handleLinkInputVisibility}>
+                        <button onClick={handleLinkPopupVisibility} title="Adicionar link">
                             <Link2 color="#FFF" />
                         </button>
                     </div>
                     <div className="lists-options">
-                        <button onClick={handleListBlock({ style: 'unordered-list-item' })}>
+                        <button onClick={handleListBlock({ style: 'unordered-list-item' })} title="Adicionar lista sem ordem">
                             <List color="#FFF"/>
                         </button>
-                        <button onClick={handleListBlock({ style: 'ordered-list-item' })}>
+                        <button onClick={handleListBlock({ style: 'ordered-list-item' })} title="Adicionar lista ordenada">
                             <OrderedListOption/>
                         </button>
                     </div>
                     <div className="media-options">
-                        <button id="img-btn">
+                        <button id="img-btn" title="Adicionar uma imagem" onClick={handleImagePopupVisibility}>
                             <Image color="#FFF"/>
                         </button>
-                        <button className="yt-video-btn">
+                        <button className="yt-video-btn" title="Adicionar uma vídeo do youtube">
                             <Youtube color="#FFF"/>
                         </button>
                     </div>
                 </div>
             </header>
 
-            {isLinkInputVisible && (
+            {isLinkPopupVisible && (
                 <Suspense fallback={<div></div>}>
                     <LinkPopup 
                         srcRef={urlInput.src} 
                         targetRef={urlInput.target} 
                         onClick={onAddLink} 
-                        onCancel={onCancelLink}
+                        onCancel={onClosePopup({ type: 'link-popup' })}
                     />
+                </Suspense>
+            )}
+
+            {isImgPopupVisible && (
+                <Suspense fallback={<div></div>}>
+                    <ImagePopup 
+                        onChangeImage={handleImageChange}
+                        onFontInput={handleFontInput}
+                        onSave={onAddImage}
+                        onCancel={onClosePopup({ type: 'img-popup' })}
+                    /> 
                 </Suspense>
             )}
         </>
     )
-}
-
-export function getBlockStyle(block){
-    switch(block.getType()){
-        case 'blockquote':
-            return 'RichEditor-blockquote'
-        default: 
-            return null
-    }
 }
 
 export default EditorOptions

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 
 import './styles.css'
 
-const AddImagePopup = ({ image = {}, onChangeImage, onFontInput, onSave, onCancel }) => {
+const ImagePopup = ({ image = { src: null, font: null, type: null }, onChangeImage, onFontInput, onSave, onCancel }) => {
     const [ inputType, setInputType ] = useState(image.type === 'uploaded' ? 'upload' : 'url')
     const [ position, setPosition ] = useState({ top: 0 })
     const [ currentImage, setCurrentImage ] = useState(image)
@@ -31,8 +31,16 @@ const AddImagePopup = ({ image = {}, onChangeImage, onFontInput, onSave, onCance
         }
     }
 
-    const toggleInputType = ({ target: { value } }) => setInputType(value)
-    const triggerButton = () => uploadInput.current.click()
+    const toggleInputType = event => {
+        event.preventDefault()
+
+        setInputType(event.target.value)
+    }
+    const triggerButton = event => {
+        event.preventDefault()
+
+        uploadInput.current.click()
+    }
 
     return (
         <div style={position} className="add-image-popup">
@@ -125,4 +133,4 @@ const AddImagePopup = ({ image = {}, onChangeImage, onFontInput, onSave, onCance
     )
 }
 
-export default AddImagePopup
+export default ImagePopup

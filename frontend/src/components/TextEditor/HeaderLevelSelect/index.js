@@ -7,7 +7,8 @@ const HeaderLevelSelect = props => {
 
     return (
         <div className="title-options">
-            <select value={active} onChange={onToggle} >
+            <label htmlFor="header-level"></label>
+            <select id="header-level" value={active} onChange={onToggle} >
                 <option value="">Texto Normal</option>
 
                 {headerOptions.map(heading => (
