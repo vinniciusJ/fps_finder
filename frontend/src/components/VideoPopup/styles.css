@@ -1,0 +1,64 @@
+
+.add-video-popup{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 100vh;
+    width: 100vw;
+    
+    background: rgba(0, 0, 0, .5);
+
+    z-index: 10;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.add-video-popup-inner{
+    background: #FFF;
+
+    width: 48vw;
+
+    padding: 6.4rem 8rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 3.8rem;
+}
+
+.add-video-popup-inner .avp-header{
+    font-size: 1.8rem;
+}
+
+.add-video-popup-inner .avp-video-input{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3rem;
+}
+
+.add-video-popup-inner .avp-video-input input[type=url]{
+    padding: 0 2rem;
+    outline: none;
+
+    border: 3px solid var(--secondary-color);
+    color: #5C5C5C;
+    width: 100%;
+    height: 5.4rem;
+}
+
+.add-video-popup-inner .avp-video-input input[type=url]:not(:last-child){
+    margin-bottom: 2.8rem;
+}
+
+.add-video-popup-inner .avp-video-input iframe{
+    width: 100%;
+    margin: 0%;
+}
+
+.add-video-popup-inner .avp-buttons{
+    display: flex;
+    column-gap: 4rem;
+}

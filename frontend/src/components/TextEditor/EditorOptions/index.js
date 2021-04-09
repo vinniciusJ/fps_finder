@@ -5,21 +5,22 @@ import { ColorOption, HighlightOption, OrderedListOption } from '../OptsIcons'
 
 import './styles.css'
 
-const HeaderLevelSelect = lazy(() => import('../HeaderLevelSelect'))
 const LinkPopup = lazy(() => import('../../LinkPopup'))
 const ImagePopup = lazy(() => import('../../ImagePopup'))
+const VideoPopup = lazy(() => import('../../VideoPopup'))
+const HeaderLevelSelect = lazy(() => import('../HeaderLevelSelect'))
 
 const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
     const [ selectedTextColor, setSelectedTextColor ] = useState('#000')
     const [ selectedHighlightColor, setSelectedHighlightColor ] = useState('#FFF')
+    
     const [ currentImage, setCurrentImage ] = useState({ src: null, font: null })
+    const [ inputPopup, setInputPopup ] = useState({ status: false, which: null })
 
-    const [ isImgPopupVisible, setIsImgPopupVisible ] = useState(false)
-    const [ isLinkPopupVisible, setIsLinkPopupVisible ] = useState(false)
     const [ isBgPalleteVisible, setIsBgPalleteVisible ] = useState(false)
     const [ isColorPalleteVisible, setIsColorPalleteVisible ] = useState(false)
 
-    const urlInput = { src: useRef(null), target: useRef(null) }
+    const urlInput = { src: useRef(null), target: useRef(null) }, videoInput = useRef(null)
 
     const selection = editorState.getSelection()
     const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType()
@@ -41,6 +42,9 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
         onToggleFn(style)
     } 
 
+    const toggleOverflowY = (overflow) => 
+        document.documentElement.style.overflowY = (overflow || overflow === 'hidden') ? 'initial' : 'hidden'
+
     const handleTextColor = ({ color }) => event => {
         onClick({ style: 'TEXT-COLOR', color })(event)
 
@@ -60,44 +64,49 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
 
     const onAddLink = event => {
         event.preventDefault()
+        toggleOverflowY(document.documentElement.style.overflowY)
 
         const { src: { current: { value: src } }, target: { current: { checked } } } = urlInput
 
         onClick({ type: 'LINK' }, { src, target: checked ? '_blank' : '_self' })(event)
-        setIsLinkPopupVisible(!isLinkPopupVisible)
+        
+        setInputPopup({ status: false, which: null })
+    }
+
+    const onAddVideo = event => {
+        event.preventDefault()
+        toggleOverflowY(document.documentElement.style.overflowY)
+
+        const { current: { value: src } } = videoInput
+        const id = src.split('/')[src.split('/').length - 1]
+
+        onClick({ type: 'VIDEO' }, { src: `https://www.youtube.com/embed/${id}` })(event)
+        
+        setInputPopup({ status: false, which: null })
     }
 
     const onAddImage = event => {
         event.preventDefault()
+        toggleOverflowY(document.documentElement.style.overflowY)
         
         const { src, font } = currentImage
 
         onClick({ type: 'IMAGE' }, {  src, font })(event)
-        setIsImgPopupVisible(!isImgPopupVisible)
+        setInputPopup({ status: false, which: null })
     }
 
-    const onClosePopup = ({ type }) => event => {
+    const onClosePopup = () => event => {
         event.preventDefault()
+        toggleOverflowY(document.documentElement.style.overflowY)
 
-        if(type === 'link-popup'){
-            return setIsLinkPopupVisible(!isLinkPopupVisible)
-        }
-        
-        if(type === 'img-popup'){
-            return setIsImgPopupVisible(!isImgPopupVisible)
-        }
+        setInputPopup({ status: false, which: null })
     }
 
-    const handleLinkPopupVisibility = event => {
-        event.preventDefault()
+    const handlePopupVisibility = ({ which }) => event => {
+        event.preventDefault()  
+        toggleOverflowY(document.documentElement.style.overflowY)
 
-        setIsLinkPopupVisible(!isLinkPopupVisible)
-    }
-
-    const handleImagePopupVisibility = event => {
-        event.preventDefault()
-
-        setIsImgPopupVisible(!isImgPopupVisible)
+        setInputPopup({ status: !inputPopup.status, which })
     }
 
     const handleBgPalleteVisibility = event => {
@@ -157,7 +166,7 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
                         </div>
                     </div>
                     <div className="link-option">
-                        <button onClick={handleLinkPopupVisibility} title="Adicionar link">
+                        <button onClick={handlePopupVisibility({ which: 'LINK' })} title="Adicionar link">
                             <Link2 color="#FFF" />
                         </button>
                     </div>
@@ -170,36 +179,50 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
                         </button>
                     </div>
                     <div className="media-options">
-                        <button id="img-btn" title="Adicionar uma imagem" onClick={handleImagePopupVisibility}>
+                        <button title="Adicionar uma imagem" onClick={handlePopupVisibility({ which: 'IMG' })}>
                             <Image color="#FFF"/>
                         </button>
-                        <button className="yt-video-btn" title="Adicionar uma vídeo do youtube">
+                        <button title="Adicionar uma vídeo do youtube" onClick={handlePopupVisibility({ which: 'VIDEO' })}>
                             <Youtube color="#FFF"/>
                         </button>
                     </div>
                 </div>
             </header>
 
-            {isLinkPopupVisible && (
-                <Suspense fallback={<div></div>}>
-                    <LinkPopup 
-                        srcRef={urlInput.src} 
-                        targetRef={urlInput.target} 
-                        onClick={onAddLink} 
-                        onCancel={onClosePopup({ type: 'link-popup' })}
-                    />
-                </Suspense>
-            )}
+            {inputPopup.status && (
+                <>
+                {inputPopup.which === 'LINK' && (
+                    <Suspense fallback={<div></div>}>
+                        <LinkPopup 
+                            srcRef={urlInput.src} 
+                            targetRef={urlInput.target} 
+                            onClick={onAddLink} 
+                            onCancel={onClosePopup({ type: 'link-popup' })}
+                        />
+                    </Suspense>
+                )}
 
-            {isImgPopupVisible && (
-                <Suspense fallback={<div></div>}>
-                    <ImagePopup 
-                        onChangeImage={handleImageChange}
-                        onFontInput={handleFontInput}
-                        onSave={onAddImage}
-                        onCancel={onClosePopup({ type: 'img-popup' })}
-                    /> 
-                </Suspense>
+                {inputPopup.which === 'IMG' && (
+                    <Suspense fallback={<div></div>}>
+                        <ImagePopup 
+                            onChangeImage={handleImageChange}
+                            onFontInput={handleFontInput}
+                            onSave={onAddImage}
+                            onCancel={onClosePopup({ type: 'img-popup' })}
+                        /> 
+                    </Suspense>
+                )}
+
+                    {inputPopup.which === 'VIDEO' && (
+                        <Suspense fallback={<div></div>}>
+                            <VideoPopup 
+                                videoRef={videoInput}
+                                onClick={onAddVideo}
+                                onCancel={onClosePopup({ type: 'link-popup' })}
+                            />
+                        </Suspense>
+                    )}
+                </>
             )}
         </>
     )

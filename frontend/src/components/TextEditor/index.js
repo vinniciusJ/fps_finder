@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useState, useEffect, useRef } from 'react'
+import React, { Suspense, lazy, useState, useEffect } from 'react'
 import Editor from 'draft-js-plugins-editor'
 
 import { RichUtils, EditorState, AtomicBlockUtils } from 'draft-js'
@@ -10,7 +10,7 @@ import './styles.css'
 const EditorOptions = lazy(() => import('./EditorOptions'))
 
 const TextEditor = ({ editorState, onChange }) => {
-    const [ activeButtons, setActiveButtons ] = useState([]), editor = useRef(null)
+    const [ activeButtons, setActiveButtons ] = useState([])
 
     const [ plugins, setPlugins ] = useState([ 
         createTextColorPlugin({}), 
@@ -18,9 +18,9 @@ const TextEditor = ({ editorState, onChange }) => {
         createLinkPlugin()
     ])
 
-    //useEffect(() => editor.current.focus(), [ ])
-
-    useEffect(() => setActiveButtons(activeButtons.filter(activeButton => editorState.getCurrentInlineStyle().has(activeButton))), [ editorState ])
+    useEffect(() => 
+        setActiveButtons(activeButtons.filter(activeButton => editorState.getCurrentInlineStyle().has(activeButton))), 
+    [ editorState ])
 
     const handleKeyCommand = command => {
         const newState = RichUtils.handleKeyCommand(editorState, command)
@@ -70,8 +70,8 @@ const TextEditor = ({ editorState, onChange }) => {
     const handleEntitiyButtons = ({ type, attrs }) => {
         switch(type){
             case 'LINK': return addLink(attrs)
-            //case 'IMAGE': return addMediaEntity({ media: 'image', ...attrs  })
-            //case 'VIDEO': return addMediaEntity({ media: 'video', ...attrs  })
+            case 'IMAGE': return addMediaEntity({ media: 'image', ...attrs  })
+            case 'VIDEO': return addMediaEntity({ media: 'video', ...attrs  })
             default: return
         }
     }
