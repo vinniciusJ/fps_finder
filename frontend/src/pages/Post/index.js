@@ -1,8 +1,11 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react'
+import axios from 'axios'
 
+import fakeData from './data.json'
 import { Plus, Edit3 } from 'react-feather'
+//import { blogAPI } from '../../services/api'
 import { Redirect, useParams, useHistory } from 'react-router-dom'
-import { EditorState, convertToRaw } from 'draft-js'
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js'
 
 import './styles.css'
 
@@ -10,7 +13,7 @@ const ImagePopup = lazy(() => import('../../components/ImagePopup'))
 const TextEditor = lazy(() => import('../../components/TextEditor'))
 
 const Post = props => {
-    const id = useParams(), history = useHistory(), user = sessionStorage.getItem('user')
+    const { id } = useParams(), history = useHistory(), user = sessionStorage.getItem('user')
 
     const [ imagePopup, setImagePopup ] = useState(false)
     const [ bannerPreview, setBannerPreview ] = useState(false)
@@ -18,8 +21,24 @@ const Post = props => {
     const [ postHeader, setPostHeader ] = useState({ title: null, banner: { src: null, type: null, font: null, file: null } })
  
     useEffect(() => (async () => {
-        console.log('oi')
+        if(!id) return
+
+        const source = axios.CancelToken.source()
+
+        try{
+            const { title, banner, bannerFont, content } = fakeData
+
+            const contentState = convertFromRaw(JSON.parse(content))
+
+            setBannerPreview(true)
+            setEditorState(EditorState.createWithContent(contentState))
+            setPostHeader({ title, banner: { src: banner, type: 'pasted', font: bannerFont, file: null } })
+        }
+        catch(error){
+            alert(error.message)
+        }
         
+        return () => source.cancel("Requisição Cancelada")
     })(), [ id ])
     
     const handleTitleInput = ({ target: { value } }) => {
@@ -68,9 +87,6 @@ const Post = props => {
         history.push('/admin')
     }
 
-    const generateHashCode = ({ str }) => `${[...Array(16)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')}-${str}`
-
-
     const onSave = async event => {
         event.preventDefault()
 
@@ -89,17 +105,21 @@ const Post = props => {
 
         // Requisitando
 
-        setTimeout(() => {
-            const newEntityMap = {...Object.values(entity => {
-                entity.data.src = generateHashCode({ str: 'louco.svg' })
-
-                return entity
-            })}
-
-            const post = { title, banner: banner.src, content: JSON.stringify({ blocks, entityMap: newEntityMap }), isPublished: publish }
-
-            console.log(post)
-        }, 5000)
+        const post = { 
+            title, 
+            bannerFont: banner.font,
+            banner: banner.src, 
+            content: { blocks, entityMap }, 
+            publish 
+        }
+        
+        try{
+            console.log(JSON.stringify({ blocks, entityMap }))
+            //setEditorState(EditorState.createWithContent(convertFromRaw(fakeData.content)))
+        }
+        catch(error){
+            alert(error.message)
+        }
     }
 
     return (
@@ -113,7 +133,7 @@ const Post = props => {
                         <form className="post-form">
                             <div className="post-input">
                                 <label htmlFor="title">Título:</label>
-                                <input type="text" name="title" id="title" placeholder="Escreva aqui..." onChange={handleTitleInput}/>
+                                <input type="text" value={postHeader.title ?? ' '} name="title" id="title" placeholder="Escreva aqui..." onChange={handleTitleInput}/>
                             </div>
                             {(bannerPreview) || (
                                 <div className="post-input">

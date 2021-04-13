@@ -25,7 +25,7 @@ const VideoPopup = ({ videoRef, onClick, onCancel }) => {
                     <input ref={videoRef} type="url" name="video" id="video" placeholder="Insira o link do vídeo do youtube aqui" onChange={handleVideoPreview}/>
 
                     { currentVideo && (
-                        <iframe width="560" height="315" src={`${currentVideo}?autoplay=1&mute=1`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="560" height="315" src={`${currentVideo}?autoplay=1&mute=1`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                     ) }
                 </main>
                 <footer className="avp-buttons">
