@@ -121,6 +121,7 @@
 .editor-container .editor-options .editor-options-opts button{
     background: transparent;
     border: transparent;
+    outline: none;
 }
 
 .editor-container .editor-options .editor-options-opts svg{

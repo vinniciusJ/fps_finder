@@ -18,9 +18,14 @@ const TextEditor = ({ editorState, onChange }) => {
         createLinkPlugin()
     ])
 
-    useEffect(() => 
-        setActiveButtons(activeButtons.filter(activeButton => editorState.getCurrentInlineStyle().has(activeButton))), 
-    [ editorState ])
+    useEffect(() => {
+        const newActivesButtons = activeButtons.filter(activeButton => editorState.getCurrentInlineStyle().has(activeButton))
+
+        if(JSON.stringify(activeButtons) === JSON.stringify(newActivesButtons)) return
+
+        setActiveButtons(newActivesButtons)
+        
+    }, [ activeButtons, editorState])
 
     const handleKeyCommand = command => {
         const newState = RichUtils.handleKeyCommand(editorState, command)

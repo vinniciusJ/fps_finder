@@ -114,8 +114,7 @@ const Post = props => {
         }
         
         try{
-            console.log(JSON.stringify({ blocks, entityMap }))
-            //setEditorState(EditorState.createWithContent(convertFromRaw(fakeData.content)))
+            console.log(post)
         }
         catch(error){
             alert(error.message)
