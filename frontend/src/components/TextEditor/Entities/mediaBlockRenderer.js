@@ -5,14 +5,14 @@ const Video = lazy(() => import('./Video'))
 
 const Entity = props => {
     const entity = props.contentState.getEntity(props.block.getEntityAt(0))
-
-    const { src, font } = entity.getData()
     const type = entity.getType()
+
+    let { file, src, font } = entity.getData()
 
     if(type === 'image'){
         return (
             <Suspense fallback={<div></div>}>
-                <Image src={src} font={font}/>
+                <Image file={file} src={src} font={font}/>
             </Suspense>
         )
     }

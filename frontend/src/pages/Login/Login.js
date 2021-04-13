@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
-import { useHistory } from 'react-router-dom'
 
-import api from '../../services/api'
+import { useHistory } from 'react-router-dom'
+import { calculatorAPI } from '../../services/api'
 
 import './styles.css'
 
@@ -19,7 +19,7 @@ const Login = props => {
         const { value: password } = passwordInput.current
 
         try{
-            const response = await api.post('/login', { credential, password })
+            const response = await calculatorAPI.post('/login', { credential, password })
 
             sessionStorage.setItem('user', response.headers['authtoken'])
             history.push(state.from.pathname)

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react'
 
-import { HashLink as Link } from 'react-router-hash-link'
 import { AlertCircle } from 'react-feather'
+import { calculatorAPI } from '../../services/api'
+import { HashLink as Link } from 'react-router-hash-link'
 import { ComponentsArrayInterface, ComponentsInterface } from '../../utils/interfaces.json'
 
 import axios from 'axios'
-import api from '../../services/api'
 
 import graphicCardImage from '../../assets/images/graphic-card.svg'
 import processorImage from '../../assets/images/processor.svg'
@@ -40,8 +40,8 @@ const Home = () => {
             const source = axios.CancelToken.source()
 
             try{
-                const { data: receivedComponents } = await api.get('/components', { cancelToken: source.token })
-                const { data: receivedGames } = await api.get('games', { cancelToken: source.token })
+                const { data: receivedComponents } = await calculatorAPI.get('/components', { cancelToken: source.token })
+                const { data: receivedGames } = await calculatorAPI.get('games', { cancelToken: source.token })
                 
                 const filteredComponents = { graphic_card: [], processor: [], ram_memory: [] }
 
@@ -120,7 +120,7 @@ const Home = () => {
 
         try{
             const { data: combination } = await (
-                await api.get('/combinations', { params: { ...selectedComponents }, cancelToken: source.token })
+                await calculatorAPI.get('/combinations', { params: { ...selectedComponents }, cancelToken: source.token })
             )
 
             setFilteredCombination(combination)

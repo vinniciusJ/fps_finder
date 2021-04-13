@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react'
 import axios from 'axios'
+
 import { AlertCircle } from "react-feather"
+import { calculatorAPI } from '../../services/api'
 
 import './styles.css'
-
-import api from '../../services/api'
 
 const DeletePopUp = props => {
     const { id, name, handlePopupVisibility } = props
@@ -19,7 +19,7 @@ const DeletePopUp = props => {
         if(inputName.current.value !== name) return setIsNameIncorrect(true)
         
         try{
-            const response = await api.delete('/combinations', {  
+            const response = await calculatorAPI.delete('/combinations', {  
                 headers: { user: sessionStorage.getItem('user') }, 
                 data: { id },
                 cancelToken: source.token

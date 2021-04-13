@@ -1,7 +1,9 @@
 import axios from 'axios'
 
-const api = axios.create({
-    baseURL:'https://fps-finder-server.herokuapp.com',
+export const calculatorAPI = axios.create({
+    baseURL: 'https://fps-finder-server.herokuapp.com',
 })
 
-export default api
+export const blogAPI = axios.create({
+    baseURL: 'https://fpsfinder-blog.herokuapp.com/blog'
+})

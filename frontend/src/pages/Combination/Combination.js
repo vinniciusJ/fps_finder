@@ -1,9 +1,9 @@
 import React, { useEffect, useState, Suspense, lazy } from 'react'
 
 import axios from 'axios'
-import api from '../../services/api'
 
 import { Plus } from 'react-feather'
+import { calculatorAPI } from '../../services/api'
 import { debounceEvent, slugify } from '../../utils/index'
 import { Redirect, useParams, useHistory } from 'react-router-dom'
 import { CombinationInterface, GameInterface, FPSAverageInterface, InputsInterface } from '../../utils/interfaces.json'
@@ -31,10 +31,10 @@ const Combination = props => {
             const source = axios.CancelToken.source()
 
             try{ 
-                const { data: receivedGames } = await api.get('/games', { cancelToken: source.token })
+                const { data: receivedGames } = await calculatorAPI.get('/games', { cancelToken: source.token })
                 
                 if(id){
-                    const { data: receivedCombination } = await api.get(`/combinations/${id}`, { cancelToken: source.token })
+                    const { data: receivedCombination } = await calculatorAPI.get(`/combinations/${id}`, { cancelToken: source.token })
                     const { fps_averages: receivedFPSAverages } = receivedCombination
 
                     setCombination(receivedCombination)
@@ -193,9 +193,9 @@ const Combination = props => {
         const source = axios.CancelToken.source()
 
         try{
-            id || await api.post('/combinations', { ...newCombination }, { headers: { user }, cancelToken: source.token })
+            id || await calculatorAPI.post('/combinations', { ...newCombination }, { headers: { user }, cancelToken: source.token })
 
-            id && await api.put('/combinations', { id, ...newCombination }, { headers: { user },  cancelToken: source.token })
+            id && await calculatorAPI.put('/combinations', { id, ...newCombination }, { headers: { user },  cancelToken: source.token })
         }
         catch{
             alert(`Houve um problema na ${id ? 'edição' : 'criação'} da combinação, por favor tente mais tarde novamente.`)

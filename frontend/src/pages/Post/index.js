@@ -1,8 +1,8 @@
-import React, { Suspense, lazy, useState } from 'react'
+import React, { Suspense, lazy, useState, useEffect } from 'react'
 
 import { Plus, Edit3 } from 'react-feather'
-import { Redirect, useParams } from 'react-router-dom'
-import { EditorState } from 'draft-js'
+import { Redirect, useParams, useHistory } from 'react-router-dom'
+import { EditorState, convertToRaw } from 'draft-js'
 
 import './styles.css'
 
@@ -10,14 +10,19 @@ const ImagePopup = lazy(() => import('../../components/ImagePopup'))
 const TextEditor = lazy(() => import('../../components/TextEditor'))
 
 const Post = props => {
-    const id = useParams(), user = sessionStorage.getItem('user')
+    const id = useParams(), history = useHistory(), user = sessionStorage.getItem('user')
 
-    const [ addImagePopup, setAddImagePopup ] = useState(false)
+    const [ imagePopup, setImagePopup ] = useState(false)
     const [ bannerPreview, setBannerPreview ] = useState(false)
     const [ editorState, setEditorState ] = useState(EditorState.createEmpty())
-    const [ postHeader, setPostHeader ] = useState({ title: null, banner: { src: null, type: null, font: null } })
+    const [ postHeader, setPostHeader ] = useState({ title: null, banner: { src: null, type: null, font: null, file: null } })
  
-    const handleTitleInput = ({ target: value }) => {
+    useEffect(() => (async () => {
+        console.log('oi')
+        
+    })(), [ id ])
+    
+    const handleTitleInput = ({ target: { value } }) => {
         const { banner } = postHeader
 
         setPostHeader({ title: value, banner })
@@ -30,8 +35,8 @@ const Post = props => {
            
         document.documentElement.style.overflowY = overflowY === 'initial' ? 'hidden' : 'initial'
 
+        setImagePopup(!imagePopup)
         setBannerPreview(postHeader.banner.src ? true : false)
-        setAddImagePopup(!addImagePopup)
     }
 
     const handleFontInput = ({ target: { value } }) => {
@@ -40,10 +45,61 @@ const Post = props => {
         setPostHeader({ title, banner: { src, type, font: value } })
     }
 
-    const handleImageChange = ({ src, type }) => {
-        const { title, banner: { font } } = postHeader
+    const handleImageChange = ({ src, file: newFile, type }) => {
+        const { title, banner: { font, file } } = postHeader
 
-        setPostHeader({ title, banner: { src, type, font } })
+        console.log(newFile, file)
+
+        if(newFile){
+            const reader = new FileReader()
+    
+            reader.readAsDataURL(newFile)
+            reader.onload = ({ target: { result } }) => setPostHeader({ title, banner: { src: result, file: newFile, type, font } })
+
+            return
+        }
+
+        setPostHeader({ title, banner: { src, file, type, font } })
+    }
+
+    const onCancel = (event) => {
+        event.preventDefault()
+
+        history.push('/admin')
+    }
+
+    const generateHashCode = ({ str }) => `${[...Array(16)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')}-${str}`
+
+
+    const onSave = async event => {
+        event.preventDefault()
+
+        const publish = event.target.dataset.publish ? true : false
+
+        const { title, banner } = postHeader
+        const { blocks, entityMap } = convertToRaw(editorState.getCurrentContent())
+
+        const formData = new FormData()
+
+        if(banner.file) formData.append(banner.file.name, banner.file)
+
+        Object.values(entityMap).forEach((entity, key) => {
+            if(entity.type === 'image' && entity.data.file) formData.append(entity.data.file.name, entity.data.file)
+        })
+
+        // Requisitando
+
+        setTimeout(() => {
+            const newEntityMap = {...Object.values(entity => {
+                entity.data.src = generateHashCode({ str: 'louco.svg' })
+
+                return entity
+            })}
+
+            const post = { title, banner: banner.src, content: JSON.stringify({ blocks, entityMap: newEntityMap }), isPublished: publish }
+
+            console.log(post)
+        }, 5000)
     }
 
     return (
@@ -90,11 +146,17 @@ const Post = props => {
                                     <TextEditor editorState={editorState} onChange={setEditorState}/>
                                 </Suspense>
                             </div>
+
+                            <div className="post-btns-opts">
+                                <button className="btn main" onClick={onSave}>Salvar</button>
+                                <button className="btn" onClick={onCancel}>Cancelar</button>
+                                <button className="btn" data-publish onClick={onSave}>Publicar</button>
+                            </div>
                         </form>
                     </main>
 
                     
-                    {addImagePopup && (
+                    {imagePopup && (
                         <Suspense fallback={<div></div>}>
                             <ImagePopup 
                                 image={postHeader.banner}

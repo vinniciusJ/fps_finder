@@ -62,3 +62,21 @@
     display: flex;
     column-gap: 4rem;
 }
+
+@media screen and (max-width: 1032px){
+    .add-video-popup-inner{
+        width: 64vw;
+        padding: 6.4rem 8rem;
+    }
+}
+
+@media screen and (max-width: 396px){
+    .add-video-popup-inner{
+        width: 86vw;
+        padding: 6.4rem 4rem;
+    }
+
+    .add-video-popup-inner iframe{
+        height: 240px;
+    }
+}

@@ -9,10 +9,21 @@
 .editor-container .DraftEditor-root{
     background: #FFF;
     padding: 4rem 8rem;
+    min-height: 20rem;
     font-size: 1.8rem;
     line-height: 1.5;
 }
 
 .editor-container .DraftEditor-root .DraftEditor-editorContainer .notranslate.public-DraftEditor-content div[data-contents=true] > *{
     margin-bottom: 2rem;
+}
+
+.editor-container .DraftEditor-root .DraftEditor-editorContainer .notranslate.public-DraftEditor-content div[data-contents=true] ul, ol{
+    margin-left: 4rem;
+}
+
+@media screen and (max-width: 396px){
+    .editor-container .DraftEditor-root{
+        padding: 4rem 2rem;
+    }
 }

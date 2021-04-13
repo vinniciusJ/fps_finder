@@ -22,7 +22,7 @@
     background: #FFF;
 
     width: 48vw;
-    height: 48vh;
+    /*height: 48vh;*/
 
     padding: 7.6rem 8rem;
     display: flex;
@@ -106,4 +106,18 @@
 .add-link-popup-inner .alp-buttons{
     display: flex;
     column-gap: 4rem;
+}
+
+@media screen and (max-width: 1032px){
+    .add-link-popup-inner{
+        width: 64vw;
+        padding: 6.4rem 8rem;
+    }
+}
+
+@media screen and (max-width: 396px){
+    .add-link-popup-inner{
+        width: 86vw;
+        padding: 6.4rem 4rem;
+    }
 }

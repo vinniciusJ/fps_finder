@@ -1,11 +1,11 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react'
 
 import axios from 'axios'
-import api from '../../services/api'
 
-import { Plus, AlertCircle, ArrowLeft } from 'react-feather'
 import { Link, Redirect } from 'react-router-dom'
 import { debounceEvent } from '../../utils/index'
+import { calculatorAPI } from '../../services/api'
+import { Plus, AlertCircle, ArrowLeft } from 'react-feather'
 import { CombinationInterface, GameInterface} from '../../utils/interfaces.json'
 
 import './styles.css'
@@ -26,8 +26,8 @@ const CalculatorAdmin = props => {
             const source = axios.CancelToken.source()
 
             try{
-                const { data: receivedCombinations } = await api.get('/combinations', { cancelToken: source.token })
-                const { data: receivedGames } = await api.get('/games', { cancelToken: source.token })
+                const { data: receivedCombinations } = await calculatorAPI.get('/combinations', { cancelToken: source.token })
+                const { data: receivedGames } = await calculatorAPI.get('/games', { cancelToken: source.token })
 
                 setGames(receivedGames)
                 setCombinations(receivedCombinations)

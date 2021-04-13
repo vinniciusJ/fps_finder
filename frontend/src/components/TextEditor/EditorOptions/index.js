@@ -14,7 +14,7 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
     const [ selectedTextColor, setSelectedTextColor ] = useState('#000')
     const [ selectedHighlightColor, setSelectedHighlightColor ] = useState('#FFF')
     
-    const [ currentImage, setCurrentImage ] = useState({ src: null, font: null })
+    const [ currentImage, setCurrentImage ] = useState({ src: null, file: null, font: null })
     const [ inputPopup, setInputPopup ] = useState({ status: false, which: null })
 
     const [ isBgPalleteVisible, setIsBgPalleteVisible ] = useState(false)
@@ -42,8 +42,11 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
         onToggleFn(style)
     } 
 
-    const toggleOverflowY = (overflow) => 
-        document.documentElement.style.overflowY = (overflow || overflow === 'hidden') ? 'initial' : 'hidden'
+    const toggleOverflowY = (overflow) => {
+        const currentOverflow = overflow || 'initial'
+
+        document.documentElement.style.overflowY = currentOverflow === 'initial' ? 'hidden' : 'initial'
+    }
 
     const handleTextColor = ({ color }) => event => {
         onClick({ style: 'TEXT-COLOR', color })(event)
@@ -59,54 +62,60 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
         setIsBgPalleteVisible(!isBgPalleteVisible)
     }
 
-    const handleImageChange = ({ src }) => setCurrentImage({ src, font: currentImage.font })
-    const handleFontInput = ({ target: { value } }) => setCurrentImage({ src: currentImage.src, font: value })
+    const handleImageChange = ({ file, src }) => {
+        setCurrentImage(file ? { file, font: currentImage.font } : { src, font: currentImage.font })
+    }
+
+    const handleFontInput = ({ target: { value } }) => {
+        const { src, file } = currentImage
+
+        setCurrentImage(file ? { file, font: value } : { src, font: value })
+    }
+
 
     const onAddLink = event => {
         event.preventDefault()
-        toggleOverflowY(document.documentElement.style.overflowY)
 
         const { src: { current: { value: src } }, target: { current: { checked } } } = urlInput
-
-        onClick({ type: 'LINK' }, { src, target: checked ? '_blank' : '_self' })(event)
         
         setInputPopup({ status: false, which: null })
+        onClick({ type: 'LINK' }, { src, target: checked ? '_blank' : '_self' })(event)
+        toggleOverflowY(document.documentElement.style.overflowY)
     }
 
     const onAddVideo = event => {
         event.preventDefault()
-        toggleOverflowY(document.documentElement.style.overflowY)
 
         const { current: { value: src } } = videoInput
         const id = src.split('/')[src.split('/').length - 1]
-
-        onClick({ type: 'VIDEO' }, { src: `https://www.youtube.com/embed/${id}` })(event)
         
         setInputPopup({ status: false, which: null })
+        onClick({ type: 'VIDEO' }, { src: `https://www.youtube.com/embed/${id}` })(event)
+        toggleOverflowY(document.documentElement.style.overflowY)
     }
 
     const onAddImage = event => {
         event.preventDefault()
-        toggleOverflowY(document.documentElement.style.overflowY)
         
-        const { src, font } = currentImage
+        const { src, file, font } = currentImage
 
-        onClick({ type: 'IMAGE' }, {  src, font })(event)
         setInputPopup({ status: false, which: null })
+        onClick({ type: 'IMAGE' }, { file, src, font })(event)
+        toggleOverflowY(document.documentElement.style.overflowY)
     }
 
     const onClosePopup = () => event => {
         event.preventDefault()
-        toggleOverflowY(document.documentElement.style.overflowY)
-
+    
         setInputPopup({ status: false, which: null })
+        toggleOverflowY(document.documentElement.style.overflowY)
     }
 
     const handlePopupVisibility = ({ which }) => event => {
         event.preventDefault()  
-        toggleOverflowY(document.documentElement.style.overflowY)
 
         setInputPopup({ status: !inputPopup.status, which })
+        toggleOverflowY(document.documentElement.style.overflowY)
     }
 
     const handleBgPalleteVisibility = event => {

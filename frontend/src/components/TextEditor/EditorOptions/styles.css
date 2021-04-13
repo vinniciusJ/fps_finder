@@ -14,11 +14,13 @@
     padding: 0 8rem;
 }
 
+
 .editor-container .editor-options .editor-options-opts div{
     padding: 0 3rem;
     height: 4rem;
     display: flex;
     align-items: center;
+    justify-self: start;
 }
 
 .editor-container .editor-options .editor-options-opts div:not(:last-child){
@@ -143,4 +145,73 @@
 
 .editor-container .editor-options .editor-options-opts .title-options select option{
     color: #000;
+}
+
+@media screen and (max-width: 1032px){
+    .editor-container .editor-options .editor-options-opts svg{
+        height: 38px;
+        width: 20px;
+    }
+    .editor-container .editor-options .editor-options-opts div{
+        padding: 0 1.5rem;
+    }
+}
+
+@media screen and (max-width: 396px){
+    .editor-container .editor-options{
+        height: 12rem;
+    }
+    .editor-container .editor-options .editor-options-opts{
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: "select link lists "
+                             "inline-opts inline-opts medias" ;
+
+        justify-content: center;
+        padding: 0 2rem;
+        height: 10rem;
+    }
+
+    .editor-container .editor-options .editor-options-opts div:not(:last-child){
+        border-right: none;
+    }
+    .editor-container .editor-options .editor-options-opts div{
+        padding: 0 1.5rem;
+    }
+
+    .editor-container .editor-options .title-options{
+        grid-area: select;
+    }
+
+    .editor-container .editor-options .title-options select{
+        width: 18rem;
+    }
+
+    .editor-container .editor-options .inline-options{
+        grid-area: inline-opts;
+        
+    }
+
+    .editor-container .editor-options .editor-options-opts svg{
+        height: 44px;
+        width: 26px;
+    }
+
+    .editor-container .editor-options .link-option{
+        grid-area: link;
+        border: none;
+    }
+
+    .editor-container .editor-options .lists-options{
+        grid-area: lists;
+    }
+
+    .editor-container .editor-options .media-options{
+        grid-area: medias;
+    }
+
+
+    
 }

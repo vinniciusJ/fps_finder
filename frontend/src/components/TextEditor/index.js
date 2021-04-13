@@ -56,15 +56,32 @@ const TextEditor = ({ editorState, onChange }) => {
         return "handled"
     }
 
-    const addMediaEntity = ({ media, src, font }) => {
+    const addMediaEntity = ({ media, file, src, font }) => {
         const contentState = editorState.getCurrentContent()
-        const contentStateWithEntity = contentState.createEntity(media, 'IMMUTABLE', media === 'image' ? { src, font } : { src })
+        let contentStateWithEntity = null
 
-        const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
+        const createContentStateWithEntity = () => {
+            const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
+            const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity }, 'create-entity')
+    
+            onChange(AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " "))
+        }
 
-        const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity }, 'create-entity')
+        if(file){
+            const reader = new FileReader()
 
-        onChange(AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " "))
+            reader.readAsDataURL(file)
+            reader.onload = ({ target: { result } }) => {
+                contentStateWithEntity = contentState.createEntity(media, 'IMMUTABLE', { file, src: result, font })
+
+                createContentStateWithEntity()
+            }
+        }
+        else {
+            contentStateWithEntity = contentState.createEntity(media, 'IMMUTABLE', media === 'image' ? { file, src, font } : { src })
+
+            createContentStateWithEntity()
+        } 
     }
 
     const handleEntitiyButtons = ({ type, attrs }) => {
@@ -105,9 +122,7 @@ const TextEditor = ({ editorState, onChange }) => {
         onChange(currentEditorState)
     }
 
-    const toggleBlockType = blockType => {
-        onChange(RichUtils.toggleBlockType(editorState, blockType))
-    }
+    const toggleBlockType = blockType => onChange(RichUtils.toggleBlockType(editorState, blockType))
 
     return (
         <div className="editor-container">
@@ -119,7 +134,6 @@ const TextEditor = ({ editorState, onChange }) => {
                     onToggleFn={toggleBlockType}
                 />
             </Suspense>
-            {console.log(plugins)}
             <Editor 
                 editorState={editorState} 
                 plugins={plugins}

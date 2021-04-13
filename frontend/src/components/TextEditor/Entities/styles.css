@@ -3,9 +3,9 @@
 }
 
 .editor-img-container img{
-    object-fit: cover;
+    object-fit: contain;
     width: 100%;
-    height: 450px;
+    height: 100%;
 }
 
 .editor-img-container figcaption{

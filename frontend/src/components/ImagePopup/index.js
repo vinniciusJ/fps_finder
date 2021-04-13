@@ -15,8 +15,8 @@ const ImagePopup = ({ image = { src: null, font: null, type: null }, onChangeIma
         const { target: { value, files, type } } = event
 
         if(type === 'url'){
+            onChangeImage({ file: null, src: value, type: 'pasted' })
             setCurrentImage({ src: value, type: 'pasted' })
-            onChangeImage({ src: value, type: 'pasted' })
         }
         else{
             const reader = new FileReader()
@@ -25,9 +25,10 @@ const ImagePopup = ({ image = { src: null, font: null, type: null }, onChangeIma
             reader.readAsDataURL(file)
 
             reader.onload = ({ target: { result } }) => {
+                onChangeImage({ file, src: result, type: 'uploaded' })
                 setCurrentImage({ src: result, type: 'uploaded' })
-                onChangeImage({ src: result, type: 'uploaded' })
             }
+                    
         }
     }
 
@@ -50,10 +51,10 @@ const ImagePopup = ({ image = { src: null, font: null, type: null }, onChangeIma
                 </header>
                 <div className="aip-insert-types">
                     <button className={`aip-insert-type ${inputType === 'url' ? 'active' : ''}`} value="url" onClick={toggleInputType}>
-                        Colar URL de uma imagem
+                        Colar URL
                     </button>
                     <button className={`aip-insert-type ${inputType === 'upload' ? 'active' : ''}`} value="upload" onClick={toggleInputType}>
-                        Fazer upload de uma imagem
+                        Fazer upload 
                     </button>
                 </div>
                 <main className="aip-insert-inputs">
