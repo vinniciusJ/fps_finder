@@ -1,7 +1,8 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react'
 import axios from 'axios'
-
 import fakeData from './data.json'
+
+import { slugify} from '../../utils/index'
 import { Plus, Edit3 } from 'react-feather'
 //import { blogAPI } from '../../services/api'
 import { Redirect, useParams, useHistory } from 'react-router-dom'
@@ -67,8 +68,6 @@ const Post = props => {
     const handleImageChange = ({ src, file: newFile, type }) => {
         const { title, banner: { font, file } } = postHeader
 
-        console.log(newFile, file)
-
         if(newFile){
             const reader = new FileReader()
     
@@ -90,35 +89,59 @@ const Post = props => {
     const onSave = async event => {
         event.preventDefault()
 
+        const images = new FormData()
+        //const source = axios.CancelToken.source()
         const publish = event.target.dataset.publish ? true : false
 
         const { title, banner } = postHeader
         const { blocks, entityMap } = convertToRaw(editorState.getCurrentContent())
 
-        const formData = new FormData()
-
-        if(banner.file) formData.append(banner.file.name, banner.file)
+        if(banner.file) images.append(banner.file.name, banner.file)
 
         Object.values(entityMap).forEach((entity, key) => {
-            if(entity.type === 'image' && entity.data.file) formData.append(entity.data.file.name, entity.data.file)
+            if(entity.type === 'image' && entity.data.file) images.append(entity.data.file.name, entity.data.file)
         })
-
-        // Requisitando
 
         const post = { 
             title, 
+            path: slugify({ text: title }),
             bannerFont: banner.font,
             banner: banner.src, 
-            content: { blocks, entityMap }, 
+            content: JSON.stringify({ blocks, entityMap }), 
             publish 
         }
-        
-        try{
+
+        console.log(post)
+
+        /*try{
+            const filesSrc = { "sla": "valor" }
+
+            if(banner.file) banner.src = filesSrc[banner.file.fileName]
+
+            const finalEntityMap = Object.values(entityMap).map(entity => {
+                if(entity.type !== 'image' && !entity.data.file) return entity
+
+                return { ...entity, data: {  ...entity.data, file: null, src: filesSrc[entity.data.file.fileName] } } 
+            })
+
+            const post = { 
+                title, 
+                path: slugify({ text: title }),
+                bannerFont: banner.font,
+                banner: banner.src, 
+                content: JSON.stringify({ blocks, entityMap: finalEntityMap }), 
+                publish 
+            }
+
             console.log(post)
         }
         catch(error){
             alert(error.message)
         }
+
+        history.push('/admin')
+        
+        return () => source.cancel("Requisição Cancelada")*/
     }
 
     return (

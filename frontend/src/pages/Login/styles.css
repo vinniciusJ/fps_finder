@@ -49,6 +49,11 @@
     border: 1.5px solid var(--main-color-variation);
 }
 
+.login-section .login-form .btn:hover{
+    border: none;
+    background: var(--contrast-color-hover);
+}
+
 @media screen and (max-width: 1024px){
     .login-section{
         height: 40vh;

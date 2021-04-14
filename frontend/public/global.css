@@ -5,6 +5,7 @@
     --main-color-variation: #763BF8;
     --secondary-color: #9776FF;
     --contrast-color: #FFD382;
+    --contrast-color-hover: #FFDB98;
 }
 
 html, body{
@@ -29,7 +30,7 @@ h1{
 
 h1.blog-title{
     font-family: 'Montserrat', sans-serif;
-    color: var(--main-color);
+    color: var(--secondary-color);
     font-size: 5.4rem;
     font-weight: 800;
     letter-spacing: .6rem;

@@ -175,7 +175,7 @@
     }
 
     .nav-bar .nav-bar-inner .nav-bar-main .nav-bar-links a:hover{
-        background: #FFDB98;
+        color: var(--secondary-color);
     }
 
     .nav-bar .nav-bar-inner .nav-bar-main .nav-bar-input{

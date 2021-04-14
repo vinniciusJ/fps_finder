@@ -13,6 +13,8 @@ const Footer = () => {
         const { current: { value: subject } } = subjectInput
         const { current: { value: message } } = messageInput
 
+        if(!subject || !message) return
+
         const mailto = document.createElement('a')
 
         mailto.href = `mailto:fpsfindersuporte@gmail.com?subject=${subject}&body=${message}`
@@ -31,6 +33,16 @@ const Footer = () => {
                     <div className="devs-info-email">
                         <h1>DESENVOLVEDORES</h1>
                         <p><Mail width={24} height={24} strokeWidth={1}/>devmaia.contato@gmail.com</p>
+                    </div>
+                    <div className="suport-us">
+                        <h1>APOIE NOSSO PROJETO</h1>
+                            <form action="https://www.paypal.com/donate" method="post" target="_top">
+                            <input type="hidden" name="business" value="WYAYHVW7AHRKW" />
+                            <input type="hidden" name="item_name" value="Doação" />
+                            <input type="hidden" name="currency_code" value="BRL" />
+                            <input type="image" src="https://www.paypalobjects.com/pt_BR/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Faça doações com o botão do PayPal" />
+                            <img alt="" border="0" src="https://www.paypal.com/pt_BR/i/scr/pixel.gif" width="1" height="1" />
+                        </form>
                     </div>
                 </section>
                 <section className="footer-email">

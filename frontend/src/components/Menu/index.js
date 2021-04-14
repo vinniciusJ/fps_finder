@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+
+import { Link } from 'react-router-dom'
 import { Search, Menu as MenuIcon, X } from 'react-feather'
 import { debounceEvent } from '../../utils/index'
 
@@ -21,8 +23,8 @@ const Menu = ({ searchInput, onSearch = () => {} }) => {
                 </a>
                 <div className="nav-bar-main">
                     <div className="nav-bar-links">
-                        <a href="https://www.google.com/" target="_blank" rel="noreferrer">Blog</a>
-                        <a href="/about-us" >Sobre nós</a>
+                        <Link to="/blog" target="_blank">Blog</Link>
+                        <Link to="/about-us">Sobre nós</Link>
                     </div>
 
                     {searchInput.isVisible && (

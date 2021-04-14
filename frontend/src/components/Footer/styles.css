@@ -21,9 +21,6 @@
     justify-content: space-between;
 
     width: 40rem;
-    height: 32rem;
-
-    margin-bottom: 6rem;
 }
 
 .fps-footer .footer-info .fps-info-email h1{
@@ -42,6 +39,11 @@
 .fps-footer .footer-info .devs-info-email h1{
     font-size: 2.4rem;
     margin-bottom: 2.4rem;
+}
+
+.fps-footer .footer-info .suport-us h1{
+    font-size: 2.4rem;
+    margin-bottom: 2.4rem;  
 }
 
 .fps-footer .footer-info .devs-info-email p, .fps-footer .footer-info .fps-info-email p{
@@ -95,6 +97,12 @@
 
 .fps-footer .footer-email form .btn{
     width: 16rem;
+
+}
+
+.fps-footer .footer-email form .btn:hover{
+    border: none;
+    background: var(--contrast-color-hover);
 }
 
 .fps-footer .footer-email form .btn span{
@@ -120,17 +128,31 @@
     .fps-footer .fps-footer-div .footer-info, .fps-footer .fps-footer-div .footer-email{
         width: 68vw;
     }
-
-    .fps-footer .fps-footer-div .footer-info{
-        height: 26rem;
-    }
 }
 
 @media screen and (max-width: 738px){
     .fps-footer .fps-footer-div{
         justify-content: center;
-        
     }
+
+    .fps-footer .fps-footer-div .footer-info div{
+        margin-bottom: 4.4rem;
+        width: 88vw;
+    }
+
+    .fps-footer .fps-footer-div .footer-info div svg{
+        width: 24px;
+        height: 24px;
+    }
+
+    .fps-footer .fps-footer-div .footer-info div:last-child{
+        margin-bottom: 6rem;
+    }
+
+    .fps-footer .fps-footer-div .footer-info .suport-us h1{
+        font-size: 2.4rem;
+    }
+
     .fps-footer .fps-footer-div .footer-info, .fps-footer .fps-footer-div .footer-email{
         width: 68vw;
     }
