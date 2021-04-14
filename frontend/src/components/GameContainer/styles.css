@@ -27,14 +27,10 @@
 
 .game-container .game-logo p{
     font-size: 1.4rem;
-    
     margin-right: 1rem;
-    
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
-    
 }
 
 .game-container .game-fps p{

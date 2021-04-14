@@ -14,7 +14,7 @@ const Routes = () => (
     <BrowserRouter>
         <Route path='/' exact component={Home} />
         <Route path='/login' component={Login} />
-        <Route path='/blog' component={Blog}/>
+        <Route path='/blog' exact component={Blog}/>
         <Route path='/calculator-admin' component={CalculatorAdmin} />
         <Route path='/admin' component={AdminPanel} />
         <Route path='/combination/:id?' component={Combination}/>
