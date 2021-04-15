@@ -16,12 +16,18 @@ const Blog = () => {
 
     useEffect(() => {
         // Implementar logica de posts mais recentes
-        const [ fp, sp, tp ] = fakeData
+        const [ fp, sp, tp ] = fakeData.filter(data => !data.featured)
 
-        setPosts(fakeData)
+        const allposts = [
+            fakeData.filter(data => !data.featured),
+            fakeData.filter(data => !data.featured),
+            fakeData.filter(data => !data.featured)
+        ]
+
         setLatestPosts([ fp, sp, tp ])
+        setPosts(allposts)
         setFeaturedPost(fakeData.find(post => post.featured))
-    }, [ posts ])
+    }, [ ])
 
     return (
         <div className="Blog">
@@ -37,25 +43,34 @@ const Blog = () => {
                 </section>
                 <section className="blog-latest-posts">
                     <h1 className="blog-title">Mais recentes:</h1>
-                    {latestPosts.map(post => (
-                        <Suspense key={post.path} fallback={<div></div>}>
-                            <PostPreview post={post}/>
+                    
+                    <div>
+                        <Suspense fallback={<div></div>}>
+                            {latestPosts.map(post => (
+                                <PostPreview key={post.path} post={post}/>
+                            ))}
                         </Suspense>
-                    ))}
+                    </div>
                     
                 </section>
                 <section className="blog-all-posts">
                     <h1 className="blog-title">Todos as postagens:</h1>
-                    {posts.map(post => (
-                        <Suspense key={post.path} fallback={<div></div>}>
-                            <PostPreview post={post}/>
-                        </Suspense>
+
+                    {posts.map((values, index) => (
+                        <div key={index} >
+                            {values.map(post => (
+                                <Suspense key={post.path} fallback={<div></div>}>
+                                    <PostPreview post={post}/>
+                                </Suspense>
+                            ))}
+                        </div>
                     ))}
+                    
                 </section>
 
                 <div className="blog-pages">
                     <button className='active'><ChevronsLeft/></button>
-                    <button><ChevronsLeft/></button>
+                    <button><ChevronLeft/></button>
                     <button>1</button>
                     <button>2</button>
                     <button>3</button>

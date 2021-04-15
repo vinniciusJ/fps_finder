@@ -1,3 +1,6 @@
+.nav-bar{
+    width: 100vw;
+}
 .nav-bar img{
     width: 16rem;
     height: 10rem;
@@ -10,6 +13,7 @@
 
     background: var(--contrast-color);
     margin-bottom: 3rem;
+    width: 100vw;
 }
 
 .nav-bar-inner{
@@ -17,8 +21,6 @@
     justify-content: space-between;
     align-items: center;
 
-    width: 100vw;
-    padding: 1rem 2.4rem;
 }
 
 .nav-bar .nav-bar-inner.extended{
@@ -117,7 +119,6 @@
     .nav-bar .nav-bar-inner{
         align-items: center;
         width: 68vw;
-        
     }
 }
 
@@ -125,7 +126,7 @@
 @media screen and (min-width: 600px){
     .nav-bar .nav-bar-inner{
         align-items: center;
-        width: 80vw;
+        width: 72vw;
     }
 
     .nav-bar .nav-bar-inner .nav-bar-main .nav-bar-links,

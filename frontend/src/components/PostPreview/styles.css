@@ -1,26 +1,27 @@
 .blog-post-preview{
     text-decoration: none;
     color: #000;
-    margin-bottom: 3.2rem;
+    margin-bottom: 3.6rem;
 }
-.blog-post-preview.featured{
+
+.blog-post-preview{
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
 }
 
-.blog-post-preview.featured img{
+.blog-post-preview img{
     width: 100%;
     object-fit: contain;
 }
 
-.blog-post-preview.featured .post-preview-data{
+.blog-post-preview .post-preview-data{
     display: flex;
     flex-direction: column;
-    row-gap: 2rem;
+    row-gap: 1.6rem;
 }
 
-.blog-post-preview.featured .post-preview-data h2{
+.blog-post-preview .post-preview-data h2{
     font-size: 2.6rem;
     letter-spacing: .4rem;
 }
@@ -34,11 +35,8 @@
     overflow: hidden;
 }
 
-.blog-post-preview.featured .post-preview-data p::after{
-    content: "...";
-}
 
-.blog-post-preview.featured .post-preview-data .post-timestamp{
+.blog-post-preview .post-preview-data .post-timestamp{
     display: flex;
     align-items: center;
     column-gap: 1rem;
@@ -46,7 +44,50 @@
     font-size: 1.6rem;
 }
 
-.blog-post-preview.featured .post-preview-data .post-timestamp svg{
+.blog-post-preview .post-preview-data .post-timestamp svg{
     width: 2.2rem;
     height: 2.2rem;
+}
+
+@media screen and (min-width: 796px){
+    .blog-post-preview.featured{
+        flex-direction: row;
+        column-gap: 2.4rem;
+        width: 100%;
+    }
+
+    .blog-post-preview.featured img{
+        width: 48vw;
+        max-width: 64rem;
+    }
+
+    .blog-post-preview.featured .post-preview-data{
+        justify-content: space-between;
+    }
+
+    .blog-post-preview.featured .post-preview-data h2{
+        font-size: 3rem;
+        line-height: 1.8;
+    }
+
+    .blog-post-preview.featured .post-preview-data p{
+        -webkit-line-clamp: 5;
+        line-height:2;
+    }
+
+    .blog-post-preview{
+        width: 28vw;
+    }
+
+    .blog-post-preview .post-preview-data h2{
+        font-size: 2rem;
+    }
+}
+
+@media screen and (min-width: 1496px){
+    .blog-post-preview.featured img{
+
+
+        object-fit: contain;
+    }
 }

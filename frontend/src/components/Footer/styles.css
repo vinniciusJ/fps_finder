@@ -9,7 +9,7 @@
 
 .fps-footer .fps-footer-div{
     display: flex;
-    width: 66vw;
+    width: 72vw;
     justify-content: space-between;
 
     padding: 2.8rem 0;
@@ -121,7 +121,7 @@
     color: white;
 }
 
-@media screen and (max-width: 1024px){
+@media screen and (max-width: 1018px){
     .fps-footer .fps-footer-div{
         flex-direction: column;
     }

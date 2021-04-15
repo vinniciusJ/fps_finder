@@ -14,7 +14,7 @@ const PostPreview = ({ post }) => {
     }, [ content ])
 
     return (
-        <Link to={`/blog/post/${path}`} className="blog-post-preview featured">
+        <Link to={`/blog/post/${path}`} className={`blog-post-preview ${featured ? 'featured': ' '}`}>
             <img src={banner} alt={bannerFont}/>
 
             <section className="post-preview-data">
