@@ -1,0 +1,28 @@
+.BlogAdmin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100vw;
+}
+
+.BlogAdmin .ba-post{
+    width: 88vw;
+}
+
+.BlogAdmin .ba-post > *:last-child{
+    margin-bottom: 6rem;
+}
+
+.BlogAdmin .ba-post > * > h2{   
+    font-size: 3.8rem;
+    font-weight: 500;
+    letter-spacing: normal;
+    margin: 3rem 0;
+}
+
+.three-dots-container{
+    width: 100%;
+    position: relative;
+}
+

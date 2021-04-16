@@ -6,6 +6,7 @@ import Post from './pages/Post/'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import AboutUs from './pages/AboutUs/'
+import BlogAdmin from './pages/BlogAdmin/'
 import AdminPanel from './pages/AdminPanel'
 import Combination from './pages/Combination/Combination'
 import CalculatorAdmin from './pages/CalculatorAdmin/'
@@ -20,6 +21,7 @@ const Routes = () => (
         <Route path='/combination/:id?' component={Combination}/>
         <Route path='/about-us' component={AboutUs}/>
         <Route path='/post/:id?' component={Post} />
+        <Route path='/blog-admin' component={BlogAdmin} />
     </BrowserRouter>
 )
 

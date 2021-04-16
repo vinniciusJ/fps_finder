@@ -1,21 +1,21 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import './styles.css'
 
 const AdminPanel = props => {
-    const userAuth = sessionStorage.getItem('user')
+    const user = sessionStorage.getItem('user')
 
     return (
         <div className="adminpanel-container">
-            { userAuth ? (
+            { user ? (
                 <main className="adminpanel-routes">
-                    <a href="/calculator-admin" className="adminpanel-route-link">
+                    <Link to='/calculator-admin' className='adminpanel-route-link'>
                         <h1>Painel Calculadora</h1>
-                    </a>
-                    <a href="/" className="adminpanel-route-link">
+                    </Link>
+                    <Link to='/blog-admin' className='adminpanel-route-link'>
                         <h1>Painel Blog</h1>
-                    </a>
+                    </Link>
                 </main>
                 
             ) : (

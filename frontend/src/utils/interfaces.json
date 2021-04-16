@@ -46,5 +46,16 @@
         "processor": null,
         "ram_memory": null,
         "motherboard": null
+    },
+    "PostInterface": {
+        "id": null,
+        "title": null,
+        "content": null,
+        "last_edited_at": null,
+        "published": null,
+        "featured": null,
+        "font_banner": null,
+        "banner_link": null, 
+        "slug": null
     }
 }

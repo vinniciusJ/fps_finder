@@ -39,78 +39,17 @@
     width: 46rem;
 }
 
-
-@media screen and (max-width: 1392px){
-    .admin-header{
-        height: 10.8vh;
-    }   
-}
-
-
 @media screen and (max-width: 1342px){
     .combinations-components{
         width: 100%;
     }
 }
 
-@media screen and (max-width: 980px){
-    .admin-header{
-        height: 16rem;
-    }
-    .admin-header div{
-        display: grid;
-        grid-template-rows: 1fr 1fr;
-        grid-template-columns: 6.4rem 1fr 1fr;
-        grid-template-areas: 'go-back paragraph paragraph'
-                             'search-bar search-bar add-button';
-        column-gap: 2rem;
-        row-gap: 2rem;
-    }
-
-    .admin-header div p{
-        grid-area: paragraph;
-        font-size: 1.6rem;
-        align-self: center;
-        justify-self: end;
-    }
-
-    .admin-header div label{
-        grid-area: search-bar;
-        width: 62vw;
-    }
-
-    .admin-header div label input{
-        width: 100%;
-    }
-
-    .admin-header div .add-new-combination{
-        grid-area: add-button;
-        justify-self: end;
-    }
-
-    .admin-header div .link-go-back{
-        grid-area: go-back;
-        justify-self: start;
-        width: 6.4rem;
-    }
-
-}
-
 @media screen and (max-width: 766px){
-    .admin-header div{
+    .combinations .combinations-registered{
         width: 88vw;
-    }
-
-    .admin-header div, .combinations .combinations-registered{
-        width: 88vw;
-    }
-
-    .admin-header div label{
-        grid-area: search-bar;
-        width: 66vw;
-    }
-
-    .combinations{
-        padding-bottom: 6rem;
     }
 }
+
+
+

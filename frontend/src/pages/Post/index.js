@@ -88,7 +88,7 @@ const Post = props => {
     const onCancel = (event) => {
         event.preventDefault()
 
-        history.push('/admin')
+        history.push('/blog-admin')
     }
 
     const onSave = async event => {
