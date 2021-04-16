@@ -16,16 +16,14 @@ const Blog = () => {
 
     useEffect(() => {
         // Implementar logica de posts mais recentes
-        const [ fp, sp, tp ] = fakeData.filter(data => !data.featured)
+        const [ fp, sp, tp, ...allposts ] = fakeData.filter(data => !data.featured)
 
-        const allposts = [
-            fakeData.filter(data => !data.featured),
-            fakeData.filter(data => !data.featured),
-            fakeData.filter(data => !data.featured)
-        ]
+        const reducedPosts = allposts.reduce((rows, key, index) => (
+            (index % 3 === 0 ? rows.push([key]) : rows[rows.length - 1].push(key)) && rows
+        ), [])
 
+        setPosts(reducedPosts)
         setLatestPosts([ fp, sp, tp ])
-        setPosts(allposts)
         setFeaturedPost(fakeData.find(post => post.featured))
     }, [ ])
 

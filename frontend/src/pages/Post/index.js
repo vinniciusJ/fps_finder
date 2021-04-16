@@ -4,7 +4,7 @@ import fakeData from './data.json'
 
 import { slugify} from '../../utils/index'
 import { Plus, Edit3 } from 'react-feather'
-//import { blogAPI } from '../../services/api'
+import { blogAPI } from '../../services/api'
 import { Redirect, useParams, useHistory } from 'react-router-dom'
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js'
 
@@ -90,11 +90,13 @@ const Post = props => {
         event.preventDefault()
 
         const images = new FormData()
-        //const source = axios.CancelToken.source()
-        const publish = event.target.dataset.publish ? true : false
+        const source = axios.CancelToken.source()
+        const published = event.target.dataset.publish ? true : false
 
         const { title, banner } = postHeader
         const { blocks, entityMap } = convertToRaw(editorState.getCurrentContent())
+
+        if(!(banner.src || banner.file ) || !title) return alert('Por favor, preencha todos os campos')
 
         if(banner.file) images.append(banner.file.name, banner.file)
 
@@ -102,46 +104,37 @@ const Post = props => {
             if(entity.type === 'image' && entity.data.file) images.append(entity.data.file.name, entity.data.file)
         })
 
-        const post = { 
-            title, 
-            path: slugify({ text: title }),
-            bannerFont: banner.font,
-            banner: banner.src, 
-            content: JSON.stringify({ blocks, entityMap }), 
-            publish 
-        }
+        try{
+            const sources = await blogAPI.post('/files', images)
 
-        console.log(post)
+            const entityImages = Object.values(entityMap).filter(entity => entity.type === `image`)
 
-        /*try{
-            const filesSrc = { "sla": "valor" }
+            const finalEntityMap = {...Object.values(entityImages).map(entity => {
+                if(!entity.data.file) return entity
 
-            if(banner.file) banner.src = filesSrc[banner.file.fileName]
+                return { ...entity, data: {  ...entity.data, file: null, src: sources[entity.data.file.name] } } 
+            })}
 
-            const finalEntityMap = Object.values(entityMap).map(entity => {
-                if(entity.type !== 'image' && !entity.data.file) return entity
-
-                return { ...entity, data: {  ...entity.data, file: null, src: filesSrc[entity.data.file.fileName] } } 
-            })
-
-            const post = { 
+           /* const post = { 
                 title, 
-                path: slugify({ text: title }),
-                bannerFont: banner.font,
-                banner: banner.src, 
+                slang: slugify({ text: title }),
+                font_banner: banner.font,
+                banner_link: banner.src, 
                 content: JSON.stringify({ blocks, entityMap: finalEntityMap }), 
-                publish 
+                published 
             }
+            
+            const registeredPost = await blogAPI('/', post)*/
 
-            console.log(post)
+            console.log(sources, finalEntityMap)
         }
         catch(error){
             alert(error.message)
         }
 
-        history.push('/admin')
+        //history.push('/admin')
         
-        return () => source.cancel("Requisição Cancelada")*/
+        return () => source.cancel("Requisição Cancelada")
     }
 
     return (
