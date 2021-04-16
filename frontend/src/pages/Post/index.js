@@ -1,6 +1,5 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react'
 import axios from 'axios'
-import fakeData from './data.json'
 
 import { slugify} from '../../utils/index'
 import { Plus, Edit3 } from 'react-feather'
@@ -27,18 +26,17 @@ const Post = props => {
         const source = axios.CancelToken.source()
 
         try{
-            const { title, banner, bannerFont, content } = fakeData
-
-            const contentState = convertFromRaw(JSON.parse(content))
+            const post = await (await blogAPI.get(`/${id}`, { cancelToken: source.token } )).data
+            const { title, content, banner_link, font_banner } = post
 
             setBannerPreview(true)
-            setEditorState(EditorState.createWithContent(contentState))
-            setPostHeader({ title, banner: { src: banner, type: 'pasted', font: bannerFont, file: null } })
+            setPostHeader({ title, banner: { src: banner_link, type: 'pasted', font: font_banner, file: null } })
+            setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(content))))
         }
         catch(error){
             alert(error.message)
         }
-        
+
         return () => source.cancel("Requisição Cancelada")
     })(), [ id ])
     
@@ -60,24 +58,31 @@ const Post = props => {
     }
 
     const handleFontInput = ({ target: { value } }) => {
-        const { title, banner: { src, type } } = postHeader
+        const { title, banner: { file, src, type, key } } = postHeader
 
-        setPostHeader({ title, banner: { src, type, font: value } })
+        setPostHeader({ title, banner: { file, src, type, font: value, key } })
     }
 
     const handleImageChange = ({ src, file: newFile, type }) => {
         const { title, banner: { font, file } } = postHeader
+        const key = Date.now()
 
         if(newFile){
             const reader = new FileReader()
     
             reader.readAsDataURL(newFile)
-            reader.onload = ({ target: { result } }) => setPostHeader({ title, banner: { src: result, file: newFile, type, font } })
+            reader.onload = ({ target: { result } }) => setPostHeader({ title, banner: { 
+                src: result, 
+                file: newFile, 
+                type, 
+                font, 
+                key: `${key}-${newFile.name}`
+            }})
 
             return
         }
 
-        setPostHeader({ title, banner: { src, file, type, font } })
+        setPostHeader({ title, banner: { src, file, type, font, key } })
     }
 
     const onCancel = (event) => {
@@ -98,41 +103,71 @@ const Post = props => {
 
         if(!(banner.src || banner.file ) || !title) return alert('Por favor, preencha todos os campos')
 
-        if(banner.file) images.append(banner.file.name, banner.file)
-
-        Object.values(entityMap).forEach((entity, key) => {
-            if(entity.type === 'image' && entity.data.file) images.append(entity.data.file.name, entity.data.file)
+        if(banner.file) images.append(banner.key, banner.file)
+        
+        Object.values(entityMap).forEach(entity => {
+            if(entity.type === 'image' && entity.data.file) images.append(entity.data.key, entity.data.file)
         })
 
         try{
-            const sources = await blogAPI.post('/files', images)
+            let sources = []
 
-            const entityImages = Object.values(entityMap).filter(entity => entity.type === `image`)
+            const getSrcFromSources = ({ key }) => {
+                return Array.isArray(sources) ? sources.find(src => src.name === key).file : sources[key].file
+            }
 
-            const finalEntityMap = {...Object.values(entityImages).map(entity => {
-                if(!entity.data.file) return entity
+            if(!!images.entries().next().value) sources = await (await blogAPI.post('/files/', images)).data
 
-                return { ...entity, data: {  ...entity.data, file: null, src: sources[entity.data.file.name] } } 
+            if(banner.file){
+                const src = getSrcFromSources({ key: banner.key })
+
+                banner.src = `https://res.cloudinary.com/dgkfcpp9p/${src}`
+            } 
+
+            const finalEntityMap = {...Object.values(entityMap).map(entity => {
+                if(entityMap !== 'image' && !entity.data.file) return entity
+
+                const src = getSrcFromSources({ key: entity.data.key })
+
+                return { 
+                    ...entity, 
+                    data: {  
+                        ...entity.data, 
+                        file: null, 
+                        src: `https://res.cloudinary.com/dgkfcpp9p/${src}`
+                    }
+                } 
             })}
 
-           /* const post = { 
+            const post = { 
                 title, 
-                slang: slugify({ text: title }),
+                content: JSON.stringify({ blocks, entityMap: finalEntityMap }), 
+                published,
                 font_banner: banner.font,
                 banner_link: banner.src, 
-                content: JSON.stringify({ blocks, entityMap: finalEntityMap }), 
-                published 
+                slug: slugify({ text: title })
+            }
+
+            const httpsCodes = [ 200, 201, 2004 ]
+            const message = id ? 'A postagem foi atualizada com sucesso' : 'A postagem foi criado com sucesso'
+            
+            if(id){
+                console.log(id)
+                const status = await (await blogAPI.put(`/${id}/`, post)).status
+
+                httpsCodes.includes(status) && alert(message)
+            }
+            else {
+                const status = await (await blogAPI.post('/', post)).status
+
+                httpsCodes.includes(status) && alert(message)
             }
             
-            const registeredPost = await blogAPI('/', post)*/
-
-            console.log(sources, finalEntityMap)
+            history.push('/admin')
         }
         catch(error){
             alert(error.message)
         }
-
-        //history.push('/admin')
         
         return () => source.cancel("Requisição Cancelada")
     }

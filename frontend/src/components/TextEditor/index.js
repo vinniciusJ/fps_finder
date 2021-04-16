@@ -77,13 +77,17 @@ const TextEditor = ({ editorState, onChange }) => {
 
             reader.readAsDataURL(file)
             reader.onload = ({ target: { result } }) => {
-                contentStateWithEntity = contentState.createEntity(media, 'IMMUTABLE', { file, src: result, font })
+                const key = `${Date.now()}-${file.name}`
+
+                contentStateWithEntity = contentState.createEntity(media, 'IMMUTABLE', { file, src: result, font, key })
 
                 createContentStateWithEntity()
             }
         }
         else {
-            contentStateWithEntity = contentState.createEntity(media, 'IMMUTABLE', media === 'image' ? { file, src, font } : { src })
+            const key = Date.now()
+
+            contentStateWithEntity = contentState.createEntity(media, 'IMMUTABLE', media === 'image' ? { file, src, font, key } : { src })
 
             createContentStateWithEntity()
         } 

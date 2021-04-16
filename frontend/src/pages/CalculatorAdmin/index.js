@@ -2,14 +2,14 @@ import React, { useState, useEffect, Suspense, lazy } from 'react'
 
 import axios from 'axios'
 
-import { Link, Redirect } from 'react-router-dom'
-import { debounceEvent } from '../../utils/index'
+import { Redirect } from 'react-router-dom'
 import { calculatorAPI } from '../../services/api'
-import { Plus, AlertCircle, ArrowLeft } from 'react-feather'
+import { AlertCircle } from 'react-feather'
 import { CombinationInterface, GameInterface} from '../../utils/interfaces.json'
 
 import './styles.css'
 
+const AdminMenu = lazy(() => import('../../components/AdminMenu'))
 const CombinationBox = lazy(() => import('../../components/CombinationBox/CombinationBox'))
 
 const CalculatorAdmin = props => {
@@ -58,27 +58,13 @@ const CalculatorAdmin = props => {
         <div className="Admin">
             {user ? (
                 <>
-                <header className="admin-header">
-                    <div>
-                        <Link className="link-go-back" to="/admin">
-                            <ArrowLeft color="#FFF" width={24} height={24} strokeWidth={1.5}/>
-                        </Link>
-                        <p className="total-combinations">Total de Combinações: {totalCombinations}</p>
-                        <label htmlFor="name">
-                            <input 
-                                type="text" 
-                                placeholder="Buscar por nome..." 
-                                id="name" 
-                                name="name" 
-                                onKeyUp={debounceEvent(handleKeyUp)} 
-                                spellCheck={false
-                            }/>
-                        </label>
-                        <Link className="add-new-combination" to="/combination">
-                            <Plus color="#FFF" width={24} height={24} strokeWidth={1.5}/>
-                        </Link>  
-                    </div>
-                </header>
+                <Suspense fallback={<div></div>}>
+                    <AdminMenu 
+                        onSearch={handleKeyUp} 
+                        total={totalCombinations}
+                        type="combination"
+                    />
+                </Suspense>
                 <main className="combinations">
                     <header className="combinations-registered">
                         <h2>Combinações Cadastradas</h2>
