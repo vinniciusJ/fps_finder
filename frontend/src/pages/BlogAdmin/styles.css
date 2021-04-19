@@ -26,3 +26,27 @@
     position: relative;
 }
 
+.BlogAdmin .ba-post .ba-saved-posts-rows,
+.BlogAdmin .ba-post .ba-published-posts-rows{
+    display: flex;
+    column-gap: 2rem;
+}
+
+@media screen and (min-width: 762px){
+    .BlogAdmin .ba-post{
+        width: 68rem;
+    }
+}
+
+@media screen and (min-width: 1024px){
+    .BlogAdmin .ba-post{
+        width: 68.8vw;
+    }
+
+}
+
+@media screen and (min-width: 1400px){
+    .BlogAdmin .ba-post{
+        width: 64vw;
+    }
+}

@@ -135,6 +135,11 @@ h2{
     background: var(--contrast-color);
 }
 
+.btn.main.two:hover{
+    border: none;
+    background: var(--contrast-color-hover);
+}
+
 .btn.main:hover{
     border: solid .35rem var(--contrast-color);
     background: transparent;

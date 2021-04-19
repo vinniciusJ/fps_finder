@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, lazy, Suspense } from 'react'
 import moment from 'moment'
 
 import { Link } from 'react-router-dom'
@@ -6,11 +6,15 @@ import { Clock, MoreHorizontal, Heart, X, Edit3 } from 'react-feather'
 
 import './styles.css'
 
-const PostPreview = ({ post, admin, onFeature, onDelete }) => {
+const DeletePopUp = lazy(() => import('../DeletePopUp/'))
+
+const PostPreview = ({ post, admin, onFeature }) => {
     const { id, title, slug, content, last_edited_at, banner_link, font_banner, featured } = post
     const [ postDescription, setPostDescription ] = useState('')
     const [ createdAtDate, setCreatedAtDate ] = useState('')
     const [ moreOptions, setMoreOptions ] = useState(false)
+
+    const [ isDelPopupVisible, setIsDelPopupVisible ] = useState(false)
 
     useEffect(() => {
         if(!id) return
@@ -25,8 +29,13 @@ const PostPreview = ({ post, admin, onFeature, onDelete }) => {
 
     const handleMoreOptionsVisibility = () => setMoreOptions(!moreOptions)
 
+    const handleDelPopupVisibility = () => {
+        setMoreOptions(false)
+        setIsDelPopupVisible(!isDelPopupVisible)
+    }
+
     return (
-        <div className="post-preview-container">
+        <div style={{ position: (isDelPopupVisible ? 'initial' : 'relative') }} className="post-preview-container">
             { admin && (
                     <div className="three-dots-container">
                         <span className="td" onClick={handleMoreOptionsVisibility}
@@ -40,7 +49,7 @@ const PostPreview = ({ post, admin, onFeature, onDelete }) => {
                                 <button onClick={onFeature}>
                                     <Heart /> Destaque
                                 </button>
-                                <button onClick={onDelete}>
+                                <button onClick={handleDelPopupVisibility}>
                                     <X /> Deletar
                                 </button>
                             </div>
@@ -61,8 +70,18 @@ const PostPreview = ({ post, admin, onFeature, onDelete }) => {
                     </span>
                 </section>
             </Link>
+
+            { (admin && isDelPopupVisible) && (
+                <Suspense fallback={<div></div>}>
+                    <DeletePopUp
+                        id={id} 
+                        type="post"
+                        confirmText={title}
+                        handleVisibility={handleDelPopupVisibility}
+                    />
+                </Suspense>
+            )}
         </div>
-        
     )
 }
 

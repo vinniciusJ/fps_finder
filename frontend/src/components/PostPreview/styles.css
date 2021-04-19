@@ -44,8 +44,6 @@
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
-
-    position: relative;
 }
 
 .blog-post-preview .three-dots-container .td-opts{
@@ -58,7 +56,7 @@
 .blog-post-preview img{
     width: 100%;
     height: 28rem;
-    object-fit: cover;
+    object-fit: cover
 }
 
 .blog-post-preview .post-preview-data{
@@ -70,6 +68,16 @@
 .blog-post-preview .post-preview-data h2{
     font-size: 2.6rem;
     letter-spacing: .4rem;
+    height: 8rem;
+    transition: color .4s;
+}
+
+.blog-post-preview.featured .post-preview-data h2{
+    height:inherit;
+}
+
+.blog-post-preview:hover .post-preview-data h2{
+    color: var(--main-color);
 }
 
 .blog-post-preview.featured .post-preview-data p{
@@ -95,16 +103,16 @@
     height: 2.2rem;
 }
 
-@media screen and (min-width: 796px){
+@media screen and (min-width: 798px){
     .blog-post-preview.featured{
         flex-direction: row;
+        align-items: start;
         column-gap: 2.4rem;
         width: 100%;
     }
 
     .blog-post-preview.featured img{
         width: 48vw;
-        max-width: 64rem;
     }
 
     .blog-post-preview.featured .post-preview-data{
@@ -130,10 +138,49 @@
     }
 }
 
-@media screen and (min-width: 1496px){
+@media screen and (min-width: 1024px){
+    .blog-post-preview.featured{
+        align-items: center;
+        max-width: inherit;
+    }
     .blog-post-preview.featured img{
+        width: 48vw;
+        max-width: inherit;
+        object-fit:cover;
+    }
 
+    .blog-post-preview.featured .post-preview-data h2{
+        line-height: 1.5;
+    }
 
-        object-fit: contain;
+    .blog-post-preview.featured .post-preview-data p{
+        line-height: 1.8;
+    }
+
+    .blog-post-preview{
+        width: 22vw;
+        max-width: 34.8rem;
+    }
+
+    .blog-post-preview img{
+        width: 22vw;
+        max-width: 34.8rem;
+    }
+
+    .blog-post-preview.featured .post-preview-data{
+        width: 56rem;
+    }
+
+}
+
+@media screen and (min-width: 1400px){
+    .blog-post-preview{
+        width: 22vw;
+        max-width: 40rem;
+    }
+
+    .blog-post-preview img{
+        width: 22vw;
+        max-width: 40rem;
     }
 }

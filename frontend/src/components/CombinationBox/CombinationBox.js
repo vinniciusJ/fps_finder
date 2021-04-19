@@ -2,12 +2,11 @@ import React, { useState, Suspense, lazy } from 'react'
 
 import { Link } from 'react-router-dom'
 import { MoreHorizontal, Edit3, X } from 'react-feather'
-import { HashLink as InternalLink } from 'react-router-hash-link'
 
 import './styles.css'
 
 const GameContainer = lazy(() => import('../GameContainer/GameContainer'))
-const DeletePopUp = lazy(() => import('../DeletePopUp/DeletePopUp'))
+const DeletePopUp = lazy(() => import('../DeletePopUp/'))
 
 const CombinationBox = props => {
     const { combination, games } = props
@@ -25,21 +24,8 @@ const CombinationBox = props => {
     const handleMoreOptions = () => setIsMoreOptionVisible(!isMoreOptionVisible)
     
     const handleDeletePopupVisibility = () => {
-        setIsDeletePopupVisible(!isDeletePopupVisible)
         setIsMoreOptionVisible(false)
-
-        const maxWidthQuery = window.matchMedia('max-width: 416px')
-
-        const changeOverflowY = element => {
-            const { overflowY } = element.style
-
-            element.style.overflowY = overflowY === 'hidden' ? 'initial' : 'hidden'
-        }
-
-        maxWidthQuery && changeOverflowY(document.documentElement)
-        maxWidthQuery || changeOverflowY(document.body)
-       
-        return <InternalLink smooth to='#delete' />
+        setIsDeletePopupVisible(!isDeletePopupVisible)
     }
 
     return (
@@ -90,7 +76,12 @@ const CombinationBox = props => {
             </main>
             {isDeletePopupVisible && 
                 <Suspense fallback={<div></div>}>
-                    <DeletePopUp id={combination.id} name={combination.name} handlePopupVisibility={handleDeletePopupVisibility}/>
+                    <DeletePopUp 
+                        type='combination'
+                        id={combination.id}
+                        confirmText={combination.name}
+                        handleVisibility={handleDeletePopupVisibility}
+                    />
                 </Suspense>
             }
         </section>
