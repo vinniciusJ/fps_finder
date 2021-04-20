@@ -173,14 +173,16 @@
 
 }
 
-@media screen and (min-width: 1400px){
-    .blog-post-preview{
-        width: 22vw;
-        max-width: 40rem;
+@media screen and (min-width: 1024px){
+    .post-preview-container .three-dots-container .td-opts{
+        top: 32px;
+        left: -84px;
     }
+}
 
-    .blog-post-preview img{
+@media screen and (min-width: 1400px){
+    .blog-post-preview, .blog-post-preview img{
         width: 22vw;
-        max-width: 40rem;
+        max-width: 36.88rem;
     }
 }

@@ -8,7 +8,7 @@ import './styles.css'
 
 const DeletePopUp = lazy(() => import('../DeletePopUp/'))
 
-const PostPreview = ({ post, admin, onFeature }) => {
+const PostPreview = ({ post, admin, onFeature, onDelete }) => {
     const { id, title, slug, content, last_edited_at, banner_link, font_banner, featured } = post
     const [ postDescription, setPostDescription ] = useState('')
     const [ createdAtDate, setCreatedAtDate ] = useState('')
@@ -46,8 +46,8 @@ const PostPreview = ({ post, admin, onFeature }) => {
                                 <Link to={`/post/${id}`}>
                                     <Edit3 /> Editar
                                 </Link>
-                                <button onClick={onFeature}>
-                                    <Heart /> Destaque
+                                <button onClick={onFeature} data-id={id} disabled={featured ? true : false}>
+                                    <Heart color={featured ? "#9776FF" : "#000"} fill={featured ? "#9776FF" : "transparent"}/> Destaque
                                 </button>
                                 <button onClick={handleDelPopupVisibility}>
                                     <X /> Deletar

@@ -38,19 +38,18 @@ const DeletePopUp = ({ type, id, confirmText, handleVisibility}) => {
                     data: { id },
                     cancelToken: source.token
                 })
+
+                window.location.reload()
             }
             else {
                 response = await blogAPI.delete(`/blog/${id}/`, { cancelToken: source.token })
             }
           
             if(response.status === 200) document.body.style.overflow = 'initial'
-
         }
         catch(error){
             console.log(error)
         }
-       
-        window.location.reload()
 
         return () => source.cancel('Ocorreu uma problema no processo de deletar a combinação.')
     }

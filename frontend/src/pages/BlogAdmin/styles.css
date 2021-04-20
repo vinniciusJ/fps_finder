@@ -29,6 +29,13 @@
 .BlogAdmin .ba-post .ba-saved-posts-rows,
 .BlogAdmin .ba-post .ba-published-posts-rows{
     display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+}
+
+.BlogAdmin .ba-post .ba-saved-posts-row,
+.BlogAdmin .ba-post .ba-published-posts-row{
+    display: flex;
     column-gap: 2rem;
 }
 
