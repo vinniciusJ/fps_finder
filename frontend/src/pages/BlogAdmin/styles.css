@@ -39,6 +39,23 @@
     column-gap: 2rem;
 }
 
+.BlogAdmin .no-post-found{
+    margin-top: 16rem;
+    width: 64vw;
+    min-height: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 2.8rem;
+    color: #E7E6E6;
+    text-align: center;
+}
+.BlogAdmin .no-post-found svg{
+    margin-bottom: 2rem;
+}
+
+
 @media screen and (min-width: 762px){
     .BlogAdmin .ba-post{
         width: 68rem;
