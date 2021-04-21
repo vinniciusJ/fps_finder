@@ -18,7 +18,7 @@
 }
 
 .delete-popup-inner{
-    background: var(--secondary-color);
+    background: #FFF;
 
     width: 92rem;
     height: 56rem;
@@ -64,6 +64,7 @@
 
     border: none;
     outline: none;
+    border: 3px solid var(--main-color-variation);
 }
 
 .delete-popup-inner .delete-input-name input:focus{

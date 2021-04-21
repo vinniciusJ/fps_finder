@@ -5,6 +5,7 @@ import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 import { calculatorAPI } from '../../services/api'
 import { AlertCircle } from 'react-feather'
+import { createSearcher } from '../../utils/'
 import { CombinationInterface, GameInterface} from '../../utils/interfaces.json'
 
 import './styles.css'
@@ -44,9 +45,9 @@ const CalculatorAdmin = props => {
 
 
     const handleKeyUp = ({ target: { value } }) => {
-        const searcher = RegExp(`^.*(${value}).*$`)
+        const searcher = createSearcher({ value })
         
-        const foundCombinations = combinations.filter(({ name }) => name.match(searcher))
+        const foundCombinations = combinations.filter(({ name }) => name.toUpperCase().match(searcher))
         const newListedCombinations = foundCombinations.length ? foundCombinations : [ { ...CombinationInterface } ]
 
         setListedCombinations(newListedCombinations)

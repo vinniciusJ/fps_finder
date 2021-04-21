@@ -40,7 +40,7 @@
 .blog-post-preview{
     text-decoration: none;
     color: #000;
-    margin-bottom: 3.6rem;
+    margin-bottom: 4.8rem;
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
@@ -62,31 +62,34 @@
 .blog-post-preview .post-preview-data{
     display: flex;
     flex-direction: column;
-    row-gap: 1.6rem;
+    row-gap: 1.8rem;
 }
 
 .blog-post-preview .post-preview-data h2{
     font-size: 2.6rem;
     letter-spacing: .4rem;
-    height: 8rem;
     transition: color .4s;
 }
 
-.blog-post-preview.featured .post-preview-data h2{
-    height:inherit;
+.blog-post-preview.featured .post-preview-data h2, .blog-post-preview.onSearch .post-preview-data h2{
+    height: inherit;
 }
 
 .blog-post-preview:hover .post-preview-data h2{
     color: var(--main-color);
 }
 
-.blog-post-preview.featured .post-preview-data p{
+.blog-post-preview .post-preview-data p{
     font-size: 1.6rem;
     line-height: 1.5;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;  
     overflow: hidden;
+}
+
+.blog-post-preview.featured .post-preview-data p{
+    -webkit-line-clamp: 4;
 }
 
 
@@ -124,6 +127,10 @@
         line-height: 1.8;
     }
 
+    .blog-post-preview .post-preview-data p{
+        -webkit-line-clamp: 3;
+        line-height: 1.5;
+    }
     .blog-post-preview.featured .post-preview-data p{
         -webkit-line-clamp: 5;
         line-height:2;
@@ -153,6 +160,10 @@
         line-height: 1.5;
     }
 
+    .blog-post-preview .post-preview-data h2{
+        height: 8rem;
+    }
+
     .blog-post-preview.featured .post-preview-data p{
         line-height: 1.8;
     }
@@ -167,13 +178,14 @@
         max-width: 34.8rem;
     }
 
+    .blog-post-preview.onSearch, .blog-post-preview.onSearch img {
+        width: 36vw;
+        max-width: 40rem;
+    }
+
     .blog-post-preview.featured .post-preview-data{
         width: 56rem;
     }
-
-}
-
-@media screen and (min-width: 1024px){
     .post-preview-container .three-dots-container .td-opts{
         top: 32px;
         left: -84px;

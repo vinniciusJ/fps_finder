@@ -8,13 +8,15 @@ import './styles.css'
 
 const DeletePopUp = lazy(() => import('../DeletePopUp/'))
 
-const PostPreview = ({ post, admin, onFeature, onDelete }) => {
+const PostPreview = ({ post, admin, onFeature, isOnSearch = false }) => {
     const { id, title, slug, content, last_edited_at, banner_link, font_banner, featured } = post
     const [ postDescription, setPostDescription ] = useState('')
     const [ createdAtDate, setCreatedAtDate ] = useState('')
     const [ moreOptions, setMoreOptions ] = useState(false)
 
     const [ isDelPopupVisible, setIsDelPopupVisible ] = useState(false)
+
+    const className = `blog-post-preview ${featured ? 'featured': (isOnSearch ? 'onSearch': ' ')}`
 
     useEffect(() => {
         if(!id) return
@@ -56,14 +58,14 @@ const PostPreview = ({ post, admin, onFeature, onDelete }) => {
                         )}
                     </div>
                 ) }
-            <Link to={`/blog/post/${slug}`} className={`blog-post-preview ${featured ? 'featured': ' '}`}>
+            <Link to={`/blog/post/${slug}`} className={className}>
                 
                 <img src={banner_link} alt={font_banner}/>
 
                 <section className="post-preview-data">
                     <h2>{title}</h2>
 
-                    {featured && <p>{postDescription}</p> }
+                    {(featured || isOnSearch) && <p>{postDescription}</p> }
 
                     <span className="post-timestamp">
                         <Clock color='#737373' strokeWidth={2}/> {createdAtDate}

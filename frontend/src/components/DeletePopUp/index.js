@@ -66,7 +66,7 @@ const DeletePopUp = ({ type, id, confirmText, handleVisibility}) => {
                     { isTextCorrect || <p>O nome digitado está incorreto.</p> }
                 </section>
                 <footer className='delete-popup-footer'>
-                    <button className="btn main two" onClick={deleteCombination}>Apagar</button>
+                    <button className="btn main" onClick={deleteCombination}>Apagar</button>
                     <button className="btn" onClick={onCancel}>Cancelar</button>
                 </footer>
             </div>

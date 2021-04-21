@@ -43,7 +43,7 @@ const Menu = ({ searchInput, onSearch = () => {} }) => {
                                     placeholder="Buscar..."
                                     onKeyUp={event => {
                                         handleSearchButton({ status: true })
-                                        debounceEvent(onSearch).apply(null, event)
+                                        debounceEvent(onSearch)(event)
                                     }}
                                 />
                             </label>

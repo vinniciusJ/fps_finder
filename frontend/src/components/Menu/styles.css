@@ -20,7 +20,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    width: 100%;
+    padding: 1.8rem 2.6rem;
 }
 
 .nav-bar .nav-bar-inner.extended{
@@ -123,7 +124,7 @@
 }
 
 
-@media screen and (min-width: 600px){
+@media screen and (min-width: 780px){
     .nav-bar .nav-bar-inner{
         align-items: center;
         width: 72vw;

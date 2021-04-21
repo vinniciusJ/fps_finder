@@ -2,7 +2,7 @@ import { Suspense, lazy, useState, useEffect, useCallback } from 'react'
 import { blogAPI } from '../../services/api'
 import { Redirect } from 'react-router-dom'
 import { PostInterface } from '../../utils/interfaces.json'
-import { parseArrayToMatrices } from '../../utils/'
+import { parseArrayToMatrices, createSearcher } from '../../utils/'
 import { AlertCircle } from 'react-feather'
 
 import axios from 'axios'
@@ -24,7 +24,6 @@ const BlogAdmin = props => {
     const [ isWideScreen, setIsWideScreen ] = useState(false)
     const [ isSearching, setIsSearching ] = useState(false)
     const [ noPostFound, setNoPostFound] = useState(false)
-
 
     const setPostsByCategory = useCallback(({ posts, screen = isWideScreen }) => {
         const [ receivedSavedPosts, receivedPublishedPosts ] = [
@@ -75,7 +74,7 @@ const BlogAdmin = props => {
     }
 
     const handlePostSearching = ({ target: { value } }) => {
-        const searcher = RegExp(`^.*(${value.toUpperCase()}).*$`)
+        const searcher = createSearcher({ value })
         
         if(!value) {
             setNoPostFound(false)
