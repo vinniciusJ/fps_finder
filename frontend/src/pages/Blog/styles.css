@@ -33,11 +33,13 @@
     width: 4rem;
     height: 5rem;
 
+    z-index: 10;
+
     font-weight: 800;
     font-size: 1.8rem;
 }
 
-.blog-posts .blog-pages button.active{
+.blog-posts .blog-pages button:active, .blog-posts .blog-pages button.active{
     background: var(--contrast-color);
 }
 
@@ -80,7 +82,7 @@
     color: #E7E6E6;
     text-align: center;
 }
-.blog-posts  .no-post-found svg{
+.blog-posts  .no-post-found img{
     width: 8rem;
     height: 8rem;
 }

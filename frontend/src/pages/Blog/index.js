@@ -1,6 +1,6 @@
 import { Suspense, lazy, useState, useEffect } from 'react'
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, AlertCircle } from 'react-feather'
 import { parseArrayToMatrices, createSearcher } from '../../utils'
+import { AlertCircle } from 'react-feather'
 import { blogAPI } from '../../services/api'
 
 import axios from 'axios'
@@ -12,10 +12,15 @@ const PostPreview = lazy(() => import('../../components/PostPreview'))
 const Footer = lazy(() => import('../../components/Footer/Footer'))
 
 const Blog = () => {
-    const [ posts, setPosts ] = useState([])
+    const [ postsByPage, setPostsByPage ] = useState({ 1: [] })
     const [ latestPosts, setLatestPosts ] = useState([])
     const [ featuredPost, setFeaturedPost ] = useState({})
 
+    const [ pages, setPages ] = useState([])
+    const [ currentPage, setCurrentPage ] = useState(1)
+    const [ pageButtons, setPageButtons ] = useState({
+        first: 0, previous: 0, showingButtons: [], next: 0, last: 0
+    })
 
     const [ searchFor, setSearchFor ] = useState('')
     const [ foundPosts, setFoundPosts ] = useState([])
@@ -33,7 +38,7 @@ const Blog = () => {
         setIsSearching(value ? true : false)
 
         if(value){
-            let foundPosts = posts.flat().filter(({ title }) => title.toUpperCase().match(searcher))
+            let foundPosts = postsByPage.flat().filter(({ title }) => title.toUpperCase().match(searcher))
 
             setSearchFor(value)
             setFoundPosts(foundPosts)
@@ -41,30 +46,97 @@ const Blog = () => {
         }
     }
 
-    useEffect(() => (async () => {
+    const defineShowingButtons = ({ page }) => {
+        if(page === 1) 
+            return [ page, (page + 1), (page + 2) ]
+        if(page === pages[pages.length - 1].index)
+            return [ (page - 2), (page - 1), page ]
+        
+        return [ (page - 1), page, (page + 1) ]
+    }
+
+    const handlePagination = async ({ target }) => {
         const source = axios.CancelToken.source()
 
         try{
-            const receivedPosts = await (await blogAPI.get('/', { cancelToken: source.token })).data
+            const value = target.value || target.parentElement.value, page = Number(value.split('=')[1])
+            const newShowingButtons = defineShowingButtons({ page }).map(page => ({ index: (page ), page: `/?page=${page}`}))
+            const { first, last } = pageButtons
+    
+            if(page === 1) {
+                setPageButtons({ first,previous: `/?page=${page}`, showingButtons: newShowingButtons, next: `/?page=${page + 1}`, last})
 
-            const featured = receivedPosts.find(post => post.featured)
-            const filteredPosts = receivedPosts.filter(post => !post.featured)
-
-            const [ st, nd, rd, ...all ] = filteredPosts.sort(
-                ( fs, nd ) => Date.parse(nd.last_edited_at) - Date.parse(fs.last_edited_at)
-            )
-   
-            setFeaturedPost(featured)
-            setLatestPosts([ st, nd, rd ])        
+            }
+            else if(page === pages[pages.length - 1].index) {
+                setPageButtons({ first,previous: `/?page=${page - 1}`, showingButtons: newShowingButtons, next: `/?page=${page}`, last})
+            }
+            else{            
+                setPageButtons({ first,previous: `/?page=${page - 1}`, showingButtons: newShowingButtons, next: `/?page=${page + 1}`, last})
+            }
+    
+            if(!postsByPage[page]){
+                const { data: { results } } = await blogAPI.get(`/?page=${page}`, { cancelToken: source.token })
             
-            setPosts(parseArrayToMatrices(all))
+                const posts = parseArrayToMatrices(results)
+
+                setPostsByPage({ ...postsByPage, [page]: posts })
+            }
+
+            setCurrentPage(page)
         }
         catch(error){
             alert(error.message)
         }
 
         return () => source.cancel('Requisição foi cancelada')
-    })(), [])
+    }
+
+
+
+    useEffect(() => (async () => {
+        const source = axios.CancelToken.source()
+
+        try{
+            const { data: page } = await blogAPI.get(`/?page=1`, { cancelToken: source.token })
+            const { data: receivedFeaturedPost } = await blogAPI.get('/featured/', { cancelToken: source.token })
+            const { data: receivedLatestPosts } = await blogAPI.get('/latest-posts/', { cancelToken: source.token })
+
+            const { count, results } = page, allpages = [], paginatedPosts = parseArrayToMatrices([...results])
+
+            for(let i = 1; i <= Math.ceil(count / 9); i++) 
+                allpages.push({ index: i, page: `/?page=${i}` })
+
+            const firstPagePosts = { 1 : paginatedPosts }
+
+            setPages(allpages)
+            setPostsByPage(firstPagePosts)
+            setLatestPosts(receivedLatestPosts)
+            setFeaturedPost(receivedFeaturedPost)
+        }
+        catch(error){
+            alert(error.message)
+        }
+
+        return () => source.cancel('Requisição foi cancelada')
+
+    })(), [ ])
+
+    useEffect(() => {
+        if(!pages.length) return
+
+        const [ { page: first }, { page: last } ] = [ pages[0], pages[pages.length - 1] ]
+        const showingButtons = pages.slice(0, 3)
+
+        const [ previousIndex, nextIndex ] = [ 
+            showingButtons[0].index , 
+            showingButtons[showingButtons.length - 1].index 
+        ]
+
+        const [ previous, next ] = [ `/?page=${previousIndex}`, `/?page=${nextIndex + 1}` ]
+
+        setPageButtons({ first, previous, showingButtons, next, last })
+    }, [ pages ])
+
 
 
     return (
@@ -99,7 +171,8 @@ const Blog = () => {
                         <section className="blog-all-posts">
                             <h1 className="blog-title">Todos as postagens:</h1>
    
-                            {posts.map((values, index) => (
+                            
+                            {postsByPage[currentPage].map((values, index) => (
                                 <div key={index} >
                                     {values.map(post => (
                                         <Suspense key={`${Date.now}#${post.id}`} fallback={<div></div>}>
@@ -110,13 +183,43 @@ const Blog = () => {
                             ))}
                         </section>
                         <div className="blog-pages">
-                            <button className='active'><ChevronsLeft/></button>
-                            <button><ChevronLeft/></button>
-                            <button>1</button>
-                            <button>2</button>
-                            <button>3</button>
-                            <button><ChevronRight/></button>
-                            <button><ChevronsRight/></button>
+                          
+                            <button 
+                                value={pageButtons.first} 
+                                onClick={handlePagination}
+                            >
+                                <img src="/images/go-to-first.svg" alt="Voltar à primeira página"/>
+                            </button>
+                            <button 
+                                value={pageButtons.previous} 
+                                onClick={handlePagination}
+                            >
+                                <img src="/images/go-to-previous.svg"alt="Voltar à pagina anterior"/>
+                            </button>
+
+                            { pageButtons.showingButtons.map(showingBtn => (
+                                <button 
+                                    className={ currentPage === showingBtn.index ? 'active' : '' } 
+                                    key={showingBtn.index} 
+                                    value={showingBtn.page}
+                                    onClick={handlePagination}
+                                 >
+                                    {showingBtn.index}
+                                </button>
+                            )) }
+
+                            <button 
+                                value={pageButtons.next} 
+                                onClick={handlePagination}
+                            >
+                                <img src="/images/go-to-next.svg" alt="Ir para próxima página"/>
+                            </button>
+                            <button 
+                                value={pageButtons.last} 
+                                onClick={handlePagination}
+                            >
+                                <img src="/images/go-to-last.svg" alt="Ir para última página"/>
+                            </button>
                         </div>
                     </>
                ) }

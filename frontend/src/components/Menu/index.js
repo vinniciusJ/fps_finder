@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, Menu as MenuIcon, X } from 'react-feather'
 import { debounceEvent } from '../../utils/index'
@@ -8,13 +7,15 @@ import FPSFinderLogo from '../../assets/images/logo.svg'
 
 import './styles.css'
 
+
 const Menu = ({ searchInput, onSearch = () => {} }) => {
     const [ hiddenMenu, setHiddenMenu ] = useState(true)
     const [ searchButton, setSearchButton ] = useState(false)
 
     const handleMenuVisibility = () => setHiddenMenu(!hiddenMenu)
+    
     const handleSearchButton = ({ status = !searchButton }) => setSearchButton(status)
-        
+    
     return (
         <nav className="nav-bar">
             <div className={`nav-bar-inner ${!hiddenMenu ? 'extended' : ''}`}>
