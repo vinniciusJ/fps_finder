@@ -24,7 +24,7 @@ const Menu = ({ searchInput, onSearch = () => {} }) => {
                 </a>
                 <div className="nav-bar-main">
                     <div className="nav-bar-links">
-                        <Link to="/blog" target="_blank">Blog</Link>
+                        <Link to="/" target="_blank">Blog</Link>
                         <Link to="/about-us">Sobre nós</Link>
                     </div>
 
