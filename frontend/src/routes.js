@@ -1,4 +1,3 @@
-import React from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 
 import Blog from './pages/Blog/'
@@ -7,6 +6,7 @@ import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import AboutUs from './pages/AboutUs/'
 import BlogAdmin from './pages/BlogAdmin/'
+import PostViewer from './pages/PostViewer'
 import AdminPanel from './pages/AdminPanel'
 import Combination from './pages/Combination/Combination'
 import CalculatorAdmin from './pages/CalculatorAdmin/'
@@ -16,12 +16,14 @@ const Routes = () => (
         <Route path='/' exact component={Home} />
         <Route path='/login' component={Login} />
         <Route path='/blog' exact component={Blog}/>
-        <Route path='/calculator-admin' component={CalculatorAdmin} />
-        <Route path='/admin' component={AdminPanel} />
-        <Route path='/combination/:id?' component={Combination}/>
+        <Route path='/blog/post/:slug?' component={PostViewer}/>
         <Route path='/about-us' component={AboutUs}/>
+       
+        <Route path='/admin' exact component={AdminPanel} />
         <Route path='/post/:id?' component={Post} />
-        <Route path='/blog-admin' component={BlogAdmin} />
+        <Route path='/combination/:id?' component={Combination}/>
+        <Route path='/admin/calculator' component={CalculatorAdmin} />
+        <Route path='/admin/blog' component={BlogAdmin} />
     </BrowserRouter>
 )
 
