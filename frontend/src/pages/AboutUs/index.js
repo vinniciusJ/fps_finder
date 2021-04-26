@@ -1,7 +1,5 @@
 import React, { Suspense, lazy } from 'react'
 
-import Illustration from '../../assets/images/illustration-about-us.svg'
-
 import './styles.css'
 
 const Menu = lazy(() => import('../../components/Menu/'))
@@ -16,7 +14,7 @@ const AboutUs = () => {
             <main className="about-us-content">
                 <h1 className="blog-title">Sobre nós</h1>
                 <div className="about-us-illustration">
-                    <img src={Illustration} width={340} height={208} alt="Ilustração" />
+                    <img src="/images/illustration-about-us.svg" width={340} height={208} alt="Ilustração" />
                 </div>
 
                 <section className="about-us-content-inner">

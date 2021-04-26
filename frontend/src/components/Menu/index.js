@@ -3,10 +3,7 @@ import { Link } from 'react-router-dom'
 import { Search, Menu as MenuIcon, X } from 'react-feather'
 import { debounceEvent } from '../../utils/index'
 
-import FPSFinderLogo from '../../assets/images/logo.svg'
-
 import './styles.css'
-
 
 const Menu = ({ searchInput, onSearch = () => {} }) => {
     const [ hiddenMenu, setHiddenMenu ] = useState(true)
@@ -20,7 +17,7 @@ const Menu = ({ searchInput, onSearch = () => {} }) => {
         <nav className="nav-bar">
             <div className={`nav-bar-inner ${!hiddenMenu ? 'extended' : ''}`}>
                 <a href="/" className="nav-bar-logo">
-                    <img width={120} height={80} src={FPSFinderLogo} alt="FPS Finder"/>
+                    <img width={120} height={80} src="/images/logo.svg" alt="FPS Finder"/>
                 </a>
                 <div className="nav-bar-main">
                     <div className="nav-bar-links">

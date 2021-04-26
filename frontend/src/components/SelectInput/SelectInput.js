@@ -1,7 +1,5 @@
 import React from 'react'
 
-import helpIcon from '../../assets/images/help.svg'
-
 import './styles.css'
 
 const SelectInput = (props) => {
@@ -12,7 +10,7 @@ const SelectInput = (props) => {
             <section className="select-header">
                 <h2><label htmlFor={id}>{label}</label></h2>
                 <button onClick={handlePopUp}>
-                    <img width={22} height={22} src={helpIcon} alt={label} id={popUpID}/>
+                    <img width={22} height={22} src="/images/help.svg" alt={label} id={popUpID}/>
                 </button>
             </section>
             <section className="select-input">

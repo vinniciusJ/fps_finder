@@ -7,11 +7,6 @@ import { ComponentsArrayInterface, ComponentsInterface } from '../../utils/inter
 
 import axios from 'axios'
 
-import graphicCardImage from '../../assets/images/graphic-card.svg'
-import processorImage from '../../assets/images/processor.svg'
-import ramMemoryImage from '../../assets/images/ram-memory.svg'
-import motherboardImage from '../../assets/images/motherboard.svg'
-
 import './styles.css'
 
 const SelectInput = lazy(() => import('../../components/SelectInput/SelectInput'))
@@ -221,7 +216,7 @@ const Home = () => {
                             >
                                 <section className="popup-title">
                                     
-                                    <img width={isAMobileDevice ? 76 : 32} height={isAMobileDevice ? 76 : 32} src={graphicCardImage} alt="Placa de Vídeo"/>
+                                    <img width={isAMobileDevice ? 76 : 32} height={isAMobileDevice ? 76 : 32} src="/images/graphic-card.svg" alt="Placa de Vídeo"/>
                                     <h2>Placa de Vídeo</h2>
                                 </section>
                                 <main>
@@ -257,7 +252,7 @@ const Home = () => {
                                 id="component-processor"
                             >
                                 <section className="popup-title">
-                                    <img width={isAMobileDevice ? 76 : 32} height={isAMobileDevice ? 76 : 32}  src={processorImage} alt="Processador"/>
+                                    <img width={isAMobileDevice ? 76 : 32} height={isAMobileDevice ? 76 : 32}  src="/images/processor.svg" alt="Processador"/>
                                     <h2>Processador</h2>
                                 </section>
                                 <main>
@@ -292,7 +287,7 @@ const Home = () => {
                                 id="component-ram-memory"
                             >
                                 <section className="popup-title">
-                                    <img width={isAMobileDevice ? 76 : 32} height={isAMobileDevice ? 76 : 32}  src={ramMemoryImage} alt="Memória RAM"/>
+                                    <img width={isAMobileDevice ? 76 : 32} height={isAMobileDevice ? 76 : 32}  src="/images/ram-memory.svg" alt="Memória RAM"/>
                                     <h2>Memória RAM</h2>
                                 </section>
                                 <main>
@@ -355,7 +350,7 @@ const Home = () => {
 
                         <div className="motherboard-box">
                             <div>
-                                <img src={motherboardImage} width={32} height={32} alt="Placa Mãe recomendada"/>
+                                <img src="/images/motherboard" width={32} height={32} alt="Placa Mãe recomendada"/>
                                 <p>{filteredCombination.motherboard}</p>
                             </div>
 
