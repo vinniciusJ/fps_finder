@@ -8,8 +8,8 @@ import axios from 'axios'
 import './styles.css'
 
 const Menu = lazy(() => import('../../components/Menu/'))
-const PostPreview = lazy(() => import('../../components/PostPreview'))
-const Footer = lazy(() => import('../../components/Footer/Footer'))
+const PostPreview = lazy(() => import('../../components/PostPreview/'))
+const Footer = lazy(() => import('../../components/Footer/'))
 
 const Blog = () => {
     const [ postsByPage, setPostsByPage ] = useState({ 1: [] })

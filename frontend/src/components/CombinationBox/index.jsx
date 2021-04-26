@@ -5,7 +5,7 @@ import { MoreHorizontal, Edit3, X } from 'react-feather'
 
 import './styles.css'
 
-const GameContainer = lazy(() => import('../GameContainer/GameContainer'))
+const GameContainer = lazy(() => import('../GameContainer/'))
 const DeletePopUp = lazy(() => import('../DeletePopUp/'))
 
 const CombinationBox = props => {

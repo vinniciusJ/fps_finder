@@ -10,8 +10,8 @@ import { CombinationInterface, GameInterface, FPSAverageInterface, InputsInterfa
 
 import './styles.css'
 
-const ComponentInput = lazy(() => import('../../components/ComponentInput/index'))
-const FPSInput = lazy(() => import('../../components/FPSInput/FPSInput'))
+const ComponentInput = lazy(() => import('../../components/ComponentInput/'))
+const FPSInput = lazy(() => import('../../components/FPSInput/'))
 
 const Combination = props => {
     const { id } = useParams(), history = useHistory()

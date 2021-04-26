@@ -1,15 +1,15 @@
 import { BrowserRouter, Route } from 'react-router-dom'
 
-import Blog from './pages/Blog/'
-import Post from './pages/Post/'
-import Home from './pages/Home/Home'
-import Login from './pages/Login/Login'
-import AboutUs from './pages/AboutUs/'
-import BlogAdmin from './pages/BlogAdmin/'
+import Blog from './pages/Blog'
+import Post from './pages/Post'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import AboutUs from './pages/AboutUs'
+import BlogAdmin from './pages/BlogAdmin'
 import PostViewer from './pages/PostViewer'
 import AdminPanel from './pages/AdminPanel'
-import Combination from './pages/Combination/Combination'
-import CalculatorAdmin from './pages/CalculatorAdmin/'
+import Combination from './pages/Combination'
+import CalculatorAdmin from './pages/CalculatorAdmin'
 
 const Routes = () => (
     <BrowserRouter>

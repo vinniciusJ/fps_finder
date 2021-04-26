@@ -14,8 +14,8 @@ import axios from 'axios'
 
 import './styles.css'
 
-const Menu = lazy(() => import('../../components/Menu/'))
-const Footer = lazy(() => import('../../components/Footer/Footer'))
+const Menu = lazy(() => import('../../components/Menu'))
+const Footer = lazy(() => import('../../components/Footer/'))
 
 const PostViewer = () => {
     const { slug } = useParams()

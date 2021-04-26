@@ -9,11 +9,11 @@ import axios from 'axios'
 
 import './styles.css'
 
-const SelectInput = lazy(() => import('../../components/SelectInput/SelectInput'))
-const PopUp = lazy(() => import('../../components/PopUp/PopUp'))
-const GameContainer = lazy(() => import('../../components/GameContainer/GameContainer'))
-const Footer = lazy(() => import('../../components/Footer/Footer'))
-const Menu = lazy(() => import('../../components/Menu/index'))
+const SelectInput = lazy(() => import('../../components/SelectInput/'))
+const PopUp = lazy(() => import('../../components/PopUp/'))
+const GameContainer = lazy(() => import('../../components/GameContainer/'))
+const Footer = lazy(() => import('../../components/Footer/'))
+const Menu = lazy(() => import('../../components/Menu/'))
 
 const Home = () => {
     const [ currentPopUp, setCurrentPopUp ] = useState({ id: '#', isVisible: false })

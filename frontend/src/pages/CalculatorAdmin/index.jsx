@@ -5,13 +5,13 @@ import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 import { calculatorAPI } from '../../services/api'
 import { AlertCircle } from 'react-feather'
-import { createSearcher } from '../../utils/'
+import { createSearcher } from '../../utils'
 import { CombinationInterface, GameInterface} from '../../utils/interfaces.json'
 
 import './styles.css'
 
-const AdminMenu = lazy(() => import('../../components/AdminMenu'))
-const CombinationBox = lazy(() => import('../../components/CombinationBox/CombinationBox'))
+const AdminMenu = lazy(() => import('../../components/AdminMenu/'))
+const CombinationBox = lazy(() => import('../../components/CombinationBox/'))
 
 const CalculatorAdmin = props => {
     const [ games, setGames ] = useState([ { ...GameInterface } ])

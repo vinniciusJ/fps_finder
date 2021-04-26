@@ -2,15 +2,15 @@ import { Suspense, lazy, useState, useEffect, useCallback } from 'react'
 import { blogAPI } from '../../services/api'
 import { Redirect } from 'react-router-dom'
 import { PostInterface } from '../../utils/interfaces.json'
-import { parseArrayToMatrices, createSearcher } from '../../utils/'
+import { parseArrayToMatrices, createSearcher } from '../../utils'
 import { AlertCircle } from 'react-feather'
 
 import axios from 'axios'
 
 import './styles.css'
 
-const AdminMenu = lazy(() => import('../../components/AdminMenu'))
-const PostPreview = lazy(() => import('../../components/PostPreview'))
+const AdminMenu = lazy(() => import('../../components/AdminMenu/'))
+const PostPreview = lazy(() => import('../../components/PostPreview/'))
 
 const BlogAdmin = props => {
     const user = sessionStorage.getItem('user')

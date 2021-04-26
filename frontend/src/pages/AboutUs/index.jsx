@@ -3,7 +3,7 @@ import React, { Suspense, lazy } from 'react'
 import './styles.css'
 
 const Menu = lazy(() => import('../../components/Menu/'))
-const Footer = lazy(() => import('../../components/Footer/Footer'))
+const Footer = lazy(() => import('../../components/Footer/'))
 
 const AboutUs = () => {
     return (
