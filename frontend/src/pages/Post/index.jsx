@@ -139,9 +139,24 @@ const Post = props => {
                 } 
             })}
 
+            const finalBlocks = blocks.map(block => {
+                if(block.type.toLowerCase() === 'atomic'){
+                    const [ { key } ] = block.entityRanges
+                    const { data, type } =  finalEntityMap[key]
+
+                    return { ...block, data: { ...data, type } }
+                }
+
+                if(block.type.toLocaleLowerCase() === 'unstyled'){
+                    
+                }
+
+                return block
+            })
+
             const post = { 
                 title, 
-                content: JSON.stringify({ blocks, entityMap: finalEntityMap }), 
+                content: JSON.stringify({ blocks: finalBlocks, entityMap: finalEntityMap }), 
                 published,
                 font_banner: banner.font,
                 banner_link: banner.src, 

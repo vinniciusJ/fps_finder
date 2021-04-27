@@ -4,10 +4,10 @@ import './styles.css'
 
 const Image = ({ src, font }) => {
     return !!src ? (
-        <figure className="editor-img-container">
-            <img width={320} height={180} src={src} alt={font}/>
-            <figcaption><strong>Fonte: </strong>{font}</figcaption>
-        </figure>
+        <>
+            <img className="editor-img-container" width={320} height={180} src={src} alt={font}/>
+            <figcaption className="editor-caption-container"><strong>Fonte: </strong>{font}</figcaption>
+        </>
     ) : null
 }
 

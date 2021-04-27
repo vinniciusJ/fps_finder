@@ -1,5 +1,6 @@
 import { useParams } from 'react-router'
 import { blogAPI } from '../../services/api'
+import { convertFromRaw, EditorState } from 'draft-js'
 import { Suspense, lazy, useEffect, useState } from 'react'
 import { Clock } from 'react-feather'
 
@@ -14,16 +15,16 @@ import axios from 'axios'
 
 import './styles.css'
 
-const Menu = lazy(() => import('../../components/Menu'))
+const Menu = lazy(() => import('../../components/Menu/'))
 const Footer = lazy(() => import('../../components/Footer/'))
+const PostContent = lazy(() => import('../../components/PostContent/'))
 
 const PostViewer = () => {
-    const { slug } = useParams()
+    const { slug } = useParams(), postURL = `https://fpsfinder.com/blog/post/${slug}`
+
+    const emptyContent = EditorState.createEmpty().getCurrentContent()
 
     const [ post, setPost ] = useState({})
-
-    const postURL = `https://fpsfinder.com/blog/post/${slug}`
-
 
     useEffect(() => (async () => {
         if(!slug) return
@@ -34,17 +35,20 @@ const PostViewer = () => {
             const { data } = await blogAPI(`https://fpsfinder-blog.herokuapp.com/blog/${slug}/`, { cancelToken: source.token })
 
             const [ date ] = data.last_edited_at.split('T')
-            const lastEditedAt = moment(date).format('DD/MM/YYYY')
 
+            const lastEditedAt = moment(date).format('DD/MM/YYYY')
+            const contentState = convertFromRaw(JSON.parse(data.content))
             const banner = { src: data.banner_link, font: data.font_banner }
 
             document.title = data.title
+
+            console.log(JSON.parse(data.content))
 
             setPost({
                 title: data.title,
                 lastEditedAt,
                 banner,
-                content: data.content
+                content: contentState
             })
         }
         catch(error){
@@ -60,7 +64,7 @@ const PostViewer = () => {
             <Suspense fallback={<div></div>}>
                 <Menu searchInput={{ isVisible: false }} />
             </Suspense>
-            <main className="post-viewer-content">
+            <main className="post-viewer-container">
                 <header className="post-viewer-header">
                     <h1>{post.title}</h1>
                     <div>
@@ -88,6 +92,9 @@ const PostViewer = () => {
                     </figure>
                 </header>
 
+                <Suspense fallback={<div></div>}>
+                    <PostContent content={post?.content ?? emptyContent}/>
+                </Suspense>
                 
             </main>
             <Suspense fallback={<div></div>}>
