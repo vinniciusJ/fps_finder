@@ -28,6 +28,7 @@ const PostViewer = () => {
     const [ post, setPost ] = useState({})
     const [ latestPosts, setLatestPosts ] = useState([])
 
+
     useEffect(() => (async () => {
         if(!slug) return
 
@@ -119,7 +120,7 @@ const PostViewer = () => {
                 <div className={styles?.latestPosts ?? ""}>
                     <Suspense fallback={<div></div>}>
                         { latestPosts.map(post => (
-                            <PostPreview post={post}/>
+                            <PostPreview post={post} key={post.id}/>
                         )) }
                     </Suspense>
                 </div>

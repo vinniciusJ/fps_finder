@@ -58,7 +58,7 @@ const PostPreview = ({ post, admin, onFeature, isOnSearch = false }) => {
                         )}
                     </div>
                 ) }
-            <Link to={`/blog/post/${slug}`} className={className}>
+            <Link to={`/blog/post/${slug}`} className={className} >
                 
                 <img src={banner_link} alt={font_banner}/>
 

@@ -15,8 +15,7 @@ const PostContent = ({ content }) => {
             return {
                 element: 'iframe',
                 attributes: {
-                    width: 560, 
-                    height: 316,
+                    class: styles.ytPlayer,
                     src: data.src,
                     title: "YouTube video player",
                     frameBorder: 0,
@@ -44,6 +43,18 @@ const PostContent = ({ content }) => {
         return null
     }
 
+    const renderTitlesBlock = block => {
+        const isAtitle = ['header-one', 'header-two', 'header-three'].includes(block.getType().toLowerCase())
+
+        if(isAtitle) return ({
+            attributes: {
+                class: styles.title
+            }
+        })
+
+        return null
+    }
+
     const renderAtomicBlock = block => {
         const entity = block.getData()
 
@@ -65,8 +76,6 @@ const PostContent = ({ content }) => {
     const renderListItemBlock = block => {
         if(['unordered-list-item', 'ordered-list-item'].includes(block.getType().toLowerCase())){
             const text = block.getText()
-
-            console.log(text)
 
             return (
                 `<li>${text.trimStart()}</li>`
@@ -91,7 +100,7 @@ const PostContent = ({ content }) => {
                     style: { background: '#FFD382' }
                 }
             },
-            
+            blockStyleFn: renderTitlesBlock
         })
 
         setHTMLContent(convertedContent)
