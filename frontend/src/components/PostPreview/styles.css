@@ -62,7 +62,7 @@
 .blog-post-preview .post-preview-data{
     display: flex;
     flex-direction: column;
-    row-gap: 1.8rem;
+    
 }
 
 .blog-post-preview .post-preview-data h2{

@@ -13,11 +13,12 @@ import {
 import moment from 'moment'
 import axios from 'axios'
 
-import './styles.css'
+import styles from './styles.module.scss'
 
 const Menu = lazy(() => import('../../components/Menu/'))
 const Footer = lazy(() => import('../../components/Footer/'))
 const PostContent = lazy(() => import('../../components/PostContent/'))
+const PostPreview = lazy(() => import('../../components/PostPreview/'))
 
 const PostViewer = () => {
     const { slug } = useParams(), postURL = `https://fpsfinder.com/blog/post/${slug}`
@@ -25,6 +26,7 @@ const PostViewer = () => {
     const emptyContent = EditorState.createEmpty().getCurrentContent()
 
     const [ post, setPost ] = useState({})
+    const [ latestPosts, setLatestPosts ] = useState([])
 
     useEffect(() => (async () => {
         if(!slug) return
@@ -32,7 +34,7 @@ const PostViewer = () => {
         const source = axios.CancelToken.source()
 
         try{
-            const { data } = await blogAPI(`https://fpsfinder-blog.herokuapp.com/blog/${slug}/`, { cancelToken: source.token })
+            const { data } = await blogAPI(`/${slug}/`, { cancelToken: source.token })
 
             const [ date ] = data.last_edited_at.split('T')
 
@@ -41,8 +43,6 @@ const PostViewer = () => {
             const banner = { src: data.banner_link, font: data.font_banner }
 
             document.title = data.title
-
-            console.log(JSON.parse(data.content))
 
             setPost({
                 title: data.title,
@@ -59,13 +59,29 @@ const PostViewer = () => {
 
     })(), [ slug ])
 
+    useEffect(() => (async () => {
+        const source = axios.CancelToken.source()
+
+        try{
+            const { data } = await blogAPI.get('/latest-posts/', { cancelToken: source.token })
+
+            setLatestPosts(data)
+        }
+        catch(error){
+            alert(error.message)
+        }
+
+        return () => source.cancel('Requisição cancelada')
+    })(), [  ])
+    
+
     return (
-        <div className="PostViewer">
+        <div className={styles.postViewerContainer}>
             <Suspense fallback={<div></div>}>
                 <Menu searchInput={{ isVisible: false }} />
             </Suspense>
-            <main className="post-viewer-container">
-                <header className="post-viewer-header">
+            <main>
+                <header>
                     <h1>{post.title}</h1>
                     <div>
                         <span>
@@ -73,7 +89,7 @@ const PostViewer = () => {
                             {post.lastEditedAt}
                         </span>
 
-                        <div className="social-media-share-btns">
+                        <div className={styles.socialMediaButtons}>
                             <WhatsappShareButton url={postURL} title={post?.title ?? ""} separator={'\n'}>
                                 <WhatsappIcon size={24} round={false} />
                             </WhatsappShareButton>
@@ -97,6 +113,17 @@ const PostViewer = () => {
                 </Suspense>
                 
             </main>
+            <section className={styles?.readMore ?? "" }>
+                <h2>Leia mais</h2>
+
+                <div className={styles?.latestPosts ?? ""}>
+                    <Suspense fallback={<div></div>}>
+                        { latestPosts.map(post => (
+                            <PostPreview post={post}/>
+                        )) }
+                    </Suspense>
+                </div>
+            </section>
             <Suspense fallback={<div></div>}>
                 <Footer />
             </Suspense>
