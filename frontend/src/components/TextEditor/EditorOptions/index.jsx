@@ -49,14 +49,14 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
     }
 
     const handleTextColor = ({ color }) => event => {
-        onClick({ style: 'TEXT-COLOR', color })(event)
+        onClick({ style: `COLOR${color}` })(event)
 
         setSelectedTextColor(color)
         setIsColorPalleteVisible(!isColorPalleteVisible)
     }
 
     const handleHighlightColor = ({ color }) => event => {
-        onClick({ style: 'HIGHLIGHT', color })(event)
+        onClick({ style: `HIGHLIGHT${color}`, color })(event)
 
         setSelectedHighlightColor(color || '#FFF')
         setIsBgPalleteVisible(!isBgPalleteVisible)

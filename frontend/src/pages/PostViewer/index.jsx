@@ -12,6 +12,7 @@ import {
 
 import moment from 'moment'
 import axios from 'axios'
+import ScrollToTop from '../../components/ScrollToTop'
 
 import styles from './styles.module.scss'
 
@@ -27,7 +28,6 @@ const PostViewer = () => {
 
     const [ post, setPost ] = useState({})
     const [ latestPosts, setLatestPosts ] = useState([])
-
 
     useEffect(() => (async () => {
         if(!slug) return
@@ -78,6 +78,7 @@ const PostViewer = () => {
 
     return (
         <div className={styles.postViewerContainer}>
+            { window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }) }
             <Suspense fallback={<div></div>}>
                 <Menu searchInput={{ isVisible: false }} />
             </Suspense>

@@ -12,7 +12,7 @@ const AboutUs = () => {
                 <Menu searchInput={{ isVisible: false }}/>
             </Suspense>
             <main className="about-us-content">
-                <h1 className="blog-title">Sobre nós</h1>
+                <h1 className="blog-title">Sobre nos</h1>
                 <div className="about-us-illustration">
                     <img src="/images/illustration-about-us.svg" width={340} height={208} alt="Ilustração" />
                 </div>

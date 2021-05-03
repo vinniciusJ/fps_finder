@@ -55,7 +55,7 @@ const Footer = () => {
                             <textarea id="message" required cols="30" rows="10" ref={messageInput} placeholder="Mensagem..."></textarea>
                         </label>
 
-                        <button className="btn main two" onClick={handleMailSubmit}><span><Send width={24}/><strong>Enviar</strong></span></button>
+                        <button className="btn main" onClick={handleMailSubmit}><span><Send width={24}/><strong>Enviar</strong></span></button>
                     </form>
                 </section>
             </div>

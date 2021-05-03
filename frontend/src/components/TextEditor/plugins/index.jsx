@@ -1,14 +1,21 @@
 import React from 'react'
 
-export const createTextColorPlugin = ({ color = '#000' }) => ({
+export const createTextColorPlugin = () => ({
     customStyleMap: {
-        'TEXT-COLOR': { color }
+        'COLOR#000000': { color: '#000000' },
+		'COLOR#737373': { color: '#737373' },
+		'COLOR#E7E6E6': { color: '#E7E6E6' },
+		'COLOR#5500F1': { color: '#5500F1' },
+		'COLOR#9776FF': { color: '#9776FF' },
+		'COLOR#FFD382': { color: '#FFD382' },
     }
 })
 
-export const createHighlightPlugin = ({ color = 'transparent' }) => ({
+export const createHighlightPlugin = () => ({
     customStyleMap: {
-        'HIGHLIGHT': { background: color }
+        'HIGHLIGHT#5500F1': { background: '#5500F1' },
+		'HIGHLIGHT##9776FF': { background: '#9776FF' },
+		'HIGHLIGHT#FFD382': { background: '#FFD382' }
     }
 })
 

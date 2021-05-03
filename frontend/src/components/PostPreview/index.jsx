@@ -1,8 +1,8 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react'
-import moment from 'moment'
-
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import { Clock, MoreHorizontal, Heart, X, Edit3 } from 'react-feather'
+
+import moment from 'moment'
 
 import './styles.css'
 
@@ -10,6 +10,7 @@ const DeletePopUp = lazy(() => import('../DeletePopUp/'))
 
 const PostPreview = ({ post, admin, onFeature, isOnSearch = false }) => {
     const { id, title, slug, content, last_edited_at, banner_link, font_banner, featured } = post
+
     const [ postDescription, setPostDescription ] = useState('')
     const [ createdAtDate, setCreatedAtDate ] = useState('')
     const [ moreOptions, setMoreOptions ] = useState(false)
@@ -58,8 +59,7 @@ const PostPreview = ({ post, admin, onFeature, isOnSearch = false }) => {
                         )}
                     </div>
                 ) }
-            <Link to={`/blog/post/${slug}`} className={className} >
-                
+            <Link to={`/blog/post/${slug}#`} className={className} >
                 <img src={banner_link} alt={font_banner}/>
 
                 <section className="post-preview-data">

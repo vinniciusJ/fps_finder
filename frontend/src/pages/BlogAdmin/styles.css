@@ -8,6 +8,7 @@
 
 .BlogAdmin .ba-post{
     width: 88vw;
+    margin-top: 6rem;
 }
 
 .BlogAdmin .ba-post > *:last-child{

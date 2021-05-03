@@ -1,9 +1,10 @@
-import React, { Suspense, lazy, useState, useEffect } from 'react'
 import Editor from 'draft-js-plugins-editor'
 
+import { Suspense, lazy, useState, useEffect } from 'react'
 import { RichUtils, EditorState, AtomicBlockUtils } from 'draft-js'
 import { createTextColorPlugin, createHighlightPlugin, createLinkPlugin } from './plugins'
 import { entityBlockRenderer } from './Entities/mediaBlockRenderer'
+import { createSearcher } from '../../utils/'
 
 import './styles.css'
 
@@ -12,11 +13,17 @@ const EditorOptions = lazy(() => import('./EditorOptions'))
 const TextEditor = ({ editorState, onChange }) => {
     const [ activeButtons, setActiveButtons ] = useState([])
 
+    const plugins = [
+        createTextColorPlugin(), 
+        createHighlightPlugin(),
+        createLinkPlugin()
+    ]
+    /*
     const [ plugins, setPlugins ] = useState([ 
         createTextColorPlugin({}), 
         createHighlightPlugin({}),
         createLinkPlugin()
-    ])
+    ])*/
 
     useEffect(() => {
         const newActivesButtons = activeButtons.filter(activeButton => editorState.getCurrentInlineStyle().has(activeButton))
@@ -112,12 +119,15 @@ const TextEditor = ({ editorState, onChange }) => {
         const currentStyle = { [style]: editorState.getCurrentInlineStyle().has(style) }
         let currentEditorState = editorState
 
-        if(currentStyle[style] && (style === 'TEXT-COLOR' || style === 'HIGHLIGHT') ){
+        const colorSearcher = createSearcher({ value: 'COLOR' })
+        const highlightSearcher = createSearcher({ value: 'HIGHLIGHT' })
+
+        if(currentStyle[style] && (style.match(colorSearcher) || style.match(highlightSearcher)) ){
             currentEditorState = RichUtils.toggleInlineStyle(editorState, style)
         }
 
         currentEditorState = RichUtils.toggleInlineStyle(currentEditorState, style)
-
+/*
         switch(style){
             case 'TEXT-COLOR': 
                 setPlugins([createTextColorPlugin({ color }), plugins[1], createLinkPlugin()]) 
@@ -126,7 +136,9 @@ const TextEditor = ({ editorState, onChange }) => {
                 setPlugins([ plugins[0], createHighlightPlugin({ color }), createLinkPlugin() ])
                 break
             default: setActiveButtons(currentStyle[style] ? activeButtons.filter(btn => btn !== style) : [...activeButtons, style])
-        }
+        }*/
+
+        setActiveButtons(currentStyle[style] ? activeButtons.filter(btn => btn !== style) : [...activeButtons, style])
 
         onChange(currentEditorState)
     }

@@ -147,10 +147,6 @@ const Post = props => {
                     return { ...block, data: { ...data, type } }
                 }
 
-                if(block.type.toLocaleLowerCase() === 'unstyled'){
-                    
-                }
-
                 return block
             })
 

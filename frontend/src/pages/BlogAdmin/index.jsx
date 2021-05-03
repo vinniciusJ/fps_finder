@@ -23,7 +23,7 @@ const BlogAdmin = props => {
     const [ totalPosts, setTotalPosts ] = useState(0)
     const [ isWideScreen, setIsWideScreen ] = useState(false)
     const [ isSearching, setIsSearching ] = useState(false)
-    const [ noPostFound, setNoPostFound] = useState(false)
+    const [ foundPosts, setFoundPosts] = useState([])
 
     const setPostsByCategory = useCallback(({ posts, screen = isWideScreen }) => {
         const [ receivedSavedPosts, receivedPublishedPosts ] = [
@@ -77,7 +77,7 @@ const BlogAdmin = props => {
         const searcher = createSearcher({ value })
         
         if(!value) {
-            setNoPostFound(false)
+            setFoundPosts(false)
             setPostsByCategory({ posts })
         }
 
@@ -91,8 +91,8 @@ const BlogAdmin = props => {
             else
                 foundPosts = publishedPosts.filter(({ title }) => title.toUpperCase().match(searcher))
 
-            setPublishedPosts(foundPosts)
-            setNoPostFound(foundPosts.length ? false : true) 
+            console.log(foundPosts)
+            setFoundPosts(foundPosts) 
         }    
     } 
 
@@ -191,21 +191,26 @@ const BlogAdmin = props => {
                                     </div>
                                     ) }
                             </Suspense>
-                    </section>
+                        </section>
                         </>
                     ) }
 
                     { isSearching && (
                         <>
-                        { noPostFound || (
+                        { foundPosts.length && (
                             <Suspense fallback={<div></div>}>
-                                {publishedPosts.map(post => (
-                                    <PostPreview key={`${Date.now()}#${post.id}`} post={post} admin={true} onFeature={handlePostFeature}/>
+                                {foundPosts.map(post => post && (
+                                    <PostPreview 
+                                        key={post?.id ?? Date.now()} 
+                                        post={post} 
+                                        admin={true} 
+                                        onFeature={handlePostFeature}
+                                    />
                                 ))}
                             </Suspense>
                         ) }
 
-                        { noPostFound && (
+                        { foundPosts.length  || (
                             <div className="no-post-found">
                                 <AlertCircle width={96} height={96} color='#E7E6E6'/>
                                 <p> Nenhuma postagem foi encontrada</p>
