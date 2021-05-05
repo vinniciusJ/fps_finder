@@ -32,6 +32,8 @@ const Home = () => {
 
     useEffect(() => {
         (async () => {
+            document.title = 'Calculadora | FPS Finder'
+
             const source = axios.CancelToken.source()
 
             try{

@@ -102,28 +102,61 @@ const TextEditor = ({ editorState, onChange }) => {
 
     const handleEntitiyButtons = ({ type, attrs }) => {
         switch(type){
-            case 'LINK': return addLink(attrs)
-            case 'IMAGE': return addMediaEntity({ media: 'image', ...attrs  })
-            case 'VIDEO': return addMediaEntity({ media: 'video', ...attrs  })
-            default: return
+            case 'LINK': 
+                return addLink(attrs)
+            case 'IMAGE': 
+                return addMediaEntity({ media: 'image', ...attrs  })
+            case 'VIDEO': 
+                return addMediaEntity({ media: 'video', ...attrs  })
+            default: 
+                return
         }
     }
 
-    const handleUIButtons = ({ type, style, color }, ...args) => event => {
+    const handleUIButtons = ({ type, style }, ...args) => event => {
         event.preventDefault()
 
         const [ attrs ] = args
 
         if(type) return handleEntitiyButtons({ type, attrs })
 
-        const currentStyle = { [style]: editorState.getCurrentInlineStyle().has(style) }
+        const hasStyle = editorState.getCurrentInlineStyle().has(style)
+
         let currentEditorState = editorState
 
         const colorSearcher = createSearcher({ value: 'COLOR' })
         const highlightSearcher = createSearcher({ value: 'HIGHLIGHT' })
 
-        if(currentStyle[style] && (style.match(colorSearcher) || style.match(highlightSearcher)) ){
-            currentEditorState = RichUtils.toggleInlineStyle(editorState, style)
+        const isComplexInlineStyle = (style.match(colorSearcher) || style.match(highlightSearcher))
+
+        if(isComplexInlineStyle){
+            const [ colors, bgColors ] = [
+                [ '#000000', '#737373', '#E7E6E6', '#5500F1', '#9776FF', '#FFD382'],
+                ['#FFFFFF', '#5500F1', '#9776FF', '#FFD382']
+            ]
+
+            const colorInlineStyles = [], bgInlineStyles = []
+
+            bgColors.forEach(opt => {
+                editorState.getCurrentInlineStyle().has(`HIGHLIGHT${opt}`) && bgInlineStyles.push(`HIGHLIGHT${opt}`)
+            })
+
+            colors.forEach(opt => {
+                editorState.getCurrentInlineStyle().has(`COLOR${opt}`) && colorInlineStyles.push(`COLOR${opt}`)
+            })
+
+            if(style.match(colorSearcher)){
+                colorInlineStyles.forEach(inlineStyle => {
+                    currentEditorState = RichUtils.toggleInlineStyle(editorState, inlineStyle)
+                })
+            }
+
+            if(style.match(highlightSearcher)){
+                bgInlineStyles.forEach(inlineStyle => {
+                    currentEditorState = RichUtils.toggleInlineStyle(editorState, inlineStyle)
+                })
+            }
+
         }
 
         currentEditorState = RichUtils.toggleInlineStyle(currentEditorState, style)
@@ -138,7 +171,7 @@ const TextEditor = ({ editorState, onChange }) => {
             default: setActiveButtons(currentStyle[style] ? activeButtons.filter(btn => btn !== style) : [...activeButtons, style])
         }*/
 
-        setActiveButtons(currentStyle[style] ? activeButtons.filter(btn => btn !== style) : [...activeButtons, style])
+        setActiveButtons(hasStyle ? activeButtons.filter(btn => btn !== style) : [...activeButtons, style])
 
         onChange(currentEditorState)
     }

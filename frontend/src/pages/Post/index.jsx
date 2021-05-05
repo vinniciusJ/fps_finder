@@ -21,6 +21,8 @@ const Post = props => {
     const [ postHeader, setPostHeader ] = useState({ title: null, banner: { src: null, type: null, font: null, file: null } })
  
     useEffect(() => (async () => {
+        document.title = id ? 'Editar postagem' : 'Criar postagem'
+
         if(!id) return
 
         const source = axios.CancelToken.source()
@@ -88,7 +90,7 @@ const Post = props => {
     const onCancel = (event) => {
         event.preventDefault()
 
-        history.push('/blog-admin')
+        history.push('/admin/blog')
     }
 
     const onSave = async event => {
@@ -174,7 +176,7 @@ const Post = props => {
                 httpsCodes.includes(status) && alert(message)
             }
             
-            history.push('/admin')
+            history.push('/admin/blog')
         }
         catch(error){
             alert(error.message)

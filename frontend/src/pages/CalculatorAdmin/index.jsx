@@ -24,6 +24,8 @@ const CalculatorAdmin = props => {
        
     useEffect(() => {
         (async () => {
+            document.title = 'Calculadora | Admin'
+
             const source = axios.CancelToken.source()
 
             try{

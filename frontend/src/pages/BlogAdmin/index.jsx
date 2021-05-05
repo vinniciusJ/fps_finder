@@ -97,6 +97,8 @@ const BlogAdmin = props => {
     } 
 
     useEffect(() => (async () => {
+        document.title = 'Blog | Admin'
+
         const source = axios.CancelToken.source()
 
         try{

@@ -1,5 +1,4 @@
-import React, { useRef } from 'react'
-
+import { useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { calculatorAPI } from '../../services/api'
 
@@ -11,6 +10,8 @@ const Login = props => {
     const history = useHistory()
 
     const { location: { state = { from: { pathname: '/admin'} }} } = props
+
+    useEffect(() => document.title = 'Login', [ ])
 
     const handleLogIn = async event => {
         event.preventDefault()

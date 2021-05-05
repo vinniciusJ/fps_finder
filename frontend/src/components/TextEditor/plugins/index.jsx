@@ -13,9 +13,10 @@ export const createTextColorPlugin = () => ({
 
 export const createHighlightPlugin = () => ({
     customStyleMap: {
-        'HIGHLIGHT#5500F1': { background: '#5500F1' },
-		'HIGHLIGHT##9776FF': { background: '#9776FF' },
-		'HIGHLIGHT#FFD382': { background: '#FFD382' }
+		'HIGHLIGHT#FFFFFF': { background: '#FFFFFF' },
+        'HIGHLIGHT#5500F1': { background: '#5500F1', color: '#FFFFFF' },
+		'HIGHLIGHT#9776FF': { background: '#9776FF', color: '#FFFFFF'  },
+		'HIGHLIGHT#FFD382': { background: '#FFD382'  }
     }
 })
 

@@ -1,10 +1,12 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 
 import './styles.css'
 
 const AdminPanel = props => {
     const user = sessionStorage.getItem('user')
+
+    useEffect(() => document.title = 'Admin', [ ])
 
     return (
         <div className="adminpanel-container">

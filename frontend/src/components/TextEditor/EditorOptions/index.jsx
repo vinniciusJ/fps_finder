@@ -56,6 +56,7 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
     }
 
     const handleHighlightColor = ({ color }) => event => {
+        console.log( `HIGHLIGHT${color}`)
         onClick({ style: `HIGHLIGHT${color}`, color })(event)
 
         setSelectedHighlightColor(color || '#FFF')
@@ -165,7 +166,7 @@ const EditorOptions = ({ editorState, activeButtons, onToggleFn, onClick }) => {
                         </div>
 
                         <div className={`bg-options ${isBgPalleteVisible ? 'visible': ' '}`}>
-                            <span className="none-bg" onClick={handleHighlightColor({ })}><Slash color="#000" width={6} height={6}/>Nenhuma</span>
+                            <span className="none-bg" onClick={handleHighlightColor({ color: '#FFFFFF' })}><Slash color="#000" width={6} height={6}/>Nenhuma</span>
                             
                             <div className="bg-options-colors">
                                 {bgColors.map(color => (

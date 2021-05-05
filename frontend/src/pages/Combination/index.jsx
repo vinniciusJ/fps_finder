@@ -28,6 +28,8 @@ const Combination = props => {
 
     useEffect(() => {
         (async() => {
+            document.title = id ? 'Editar combinação' : 'Criar combinação'
+            
             const source = axios.CancelToken.source()
 
             try{ 
@@ -201,7 +203,7 @@ const Combination = props => {
             alert(`Houve um problema na ${id ? 'edição' : 'criação'} da combinação, por favor tente mais tarde novamente.`)
         }
          
-        history.push('/calculator-admin')
+        history.push('/admin/calculator')
 
         return () => source.cancel()
     }
@@ -209,7 +211,7 @@ const Combination = props => {
     const cancelOperation = event => {
         event.preventDefault()
 
-        history.push('/calculator-admin')
+        history.push('/admin/calculator')
     }
 
     return (

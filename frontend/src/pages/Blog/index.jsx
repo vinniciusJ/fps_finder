@@ -96,6 +96,8 @@ const Blog = () => {
     useEffect(() => (async () => {
         const source = axios.CancelToken.source()
 
+        document.title = 'Blog | FPS Finder'
+
         try{
             const { data: page } = await blogAPI.get(`/?page=1`, { cancelToken: source.token })
             const { data: receivedFeaturedPost } = await blogAPI.get('/featured/', { cancelToken: source.token })

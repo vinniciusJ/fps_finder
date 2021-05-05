@@ -12,7 +12,6 @@ import {
 
 import moment from 'moment'
 import axios from 'axios'
-import ScrollToTop from '../../components/ScrollToTop'
 
 import styles from './styles.module.scss'
 

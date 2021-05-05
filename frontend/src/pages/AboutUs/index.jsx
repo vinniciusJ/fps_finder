@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import { useEffect, Suspense, lazy } from 'react'
 
 import './styles.css'
 
@@ -6,6 +6,8 @@ const Menu = lazy(() => import('../../components/Menu/'))
 const Footer = lazy(() => import('../../components/Footer/'))
 
 const AboutUs = () => {
+    useEffect(() => document.title = 'Sobre nós | FPS Finder', [ ])
+
     return (
         <div className="about-us-container">
             <Suspense fallback={<div></div>}>
