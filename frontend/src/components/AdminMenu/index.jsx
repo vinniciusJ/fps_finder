@@ -7,6 +7,8 @@ import { Plus, ArrowLeft } from 'react-feather'
 import './styles.css'
 
 const AdminMenu = ({ type, total, onSearch }) => {
+    const baseURL = type === 'combination' ? '/admin/calculator/combination' : '/admin/blog/post'
+
     return (
         <header className="admin-header">
             <div>
@@ -24,7 +26,7 @@ const AdminMenu = ({ type, total, onSearch }) => {
                         spellCheck={false
                     }/>
                 </label>
-                <Link className="add-new-combination" to={`/${type}`}>
+                <Link className="add-new-combination" to={baseURL}>
                     <Plus color="#FFF" width={24} height={24} strokeWidth={1.5}/>
                 </Link>  
             </div>

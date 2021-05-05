@@ -56,23 +56,31 @@ const BlogAdmin = props => {
     const handlePostFeature = async ({ target: { dataset: { id } } }) => {
         const source = axios.CancelToken.source()
 
-        try{
-            const receivedPost = await (await blogAPI.put(`/featured/${id}`, { cancelToken: source.token })).data
-            
-            const updatedPosts = posts.map(post => {
-                if(post.id === receivedPost.id) 
-                    return receivedPost
-                else if(post.id === featuredPost.id)
-                    return { ...featuredPost, featured: false }
-                else
-                    return post
-            })
+        const isSelectedPostPublished = posts.find(post => post.id === Number(id)).published
 
-            setPostsByCategory({ posts: updatedPosts })
+        if(isSelectedPostPublished){
+            try{
+                const receivedPost = await (await blogAPI.put(`/featured/${id}`, { cancelToken: source.token })).data
+                
+                const updatedPosts = posts.map(post => {
+                    if(post.id === receivedPost.id) 
+                        return receivedPost
+                    else if(post.id === featuredPost.id)
+                        return { ...featuredPost, featured: false }
+                    else
+                        return post
+                })
+    
+                setPostsByCategory({ posts: updatedPosts })
+            }
+            catch(error){
+                alert(error.message)
+            }
+
+            return
         }
-        catch(error){
-            alert(error.message)
-        }
+
+        alert('Você só pode destacar postagens que foram publicadas. Postagens somente salvas não pode receber destaque.')
     }
 
     const handlePostSearching = ({ target: { value } }) => {

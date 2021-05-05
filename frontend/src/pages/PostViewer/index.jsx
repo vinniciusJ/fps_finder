@@ -44,10 +44,10 @@ const PostViewer = () => {
             const contentState = convertFromRaw(JSON.parse(data.content))
             const banner = { src: data.banner_link, font: data.font_banner }
 
-            document.title = data.title
+            document.title = `${data.title} | Blog`
 
             setIsLoading(false)
-            setPost({title: data.title, lastEditedAt, banner, content: contentState})
+            setPost({ title: data.title, lastEditedAt, banner, content: contentState })
         }
         catch(error){
             alert(error.messsage)
@@ -75,7 +75,6 @@ const PostViewer = () => {
 
     return (
         <div className={styles.postViewerContainer}>
-            { window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }) }
             <Suspense fallback={<div></div>}>
                 <Menu searchInput={{ isVisible: false }} />
             </Suspense>

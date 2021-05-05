@@ -39,7 +39,7 @@ const CombinationBox = props => {
 
                 {isMoreOptionVisible && 
                     <div className="combination-options">
-                        <Link to={`/combination/${combination.id}`} className='edit-combination'><Edit3 width={16}/>Editar</Link>
+                        <Link to={`/admin/calculator/combination/${combination.id}`} className='edit-combination'><Edit3 width={16}/>Editar</Link>
                         <button 
                             className='delete-combination' 
                             data-id={combination.id} 

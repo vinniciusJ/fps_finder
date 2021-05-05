@@ -20,10 +20,11 @@ const Routes = () => (
         <Route path='/about-us' component={AboutUs}/>
     
         <Route path='/admin' exact component={AdminPanel} />
-        <Route path='/post/:id?' component={Post} />
-        <Route path='/combination/:id?' component={Combination}/>
-        <Route path='/admin/calculator' component={CalculatorAdmin} />
-        <Route path='/admin/blog' component={BlogAdmin} />
+        <Route path='/admin/blog' exact component={BlogAdmin} />
+        <Route path='/admin/blog/post/:slug?' component={Post} />
+        <Route path='/admin/calculator' exact component={CalculatorAdmin} />
+        <Route path='/admin/calculator/combination/:id?' component={Combination}/>
+        
     </BrowserRouter>
 )
 

@@ -48,7 +48,7 @@ const PostPreview = ({ post, admin, onFeature, isOnSearch = false }) => {
 
                         {moreOptions && (
                             <div className="td-opts">
-                                <Link to={`/post/${id}`}>
+                                <Link to={`/admin/blog/post/${slug}`}>
                                     <Edit3 /> Editar
                                 </Link>
                                 <button onClick={onFeature} data-id={id} disabled={featured ? true : false}>

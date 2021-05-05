@@ -13,24 +13,26 @@ const ImagePopup = lazy(() => import('../../components/ImagePopup'))
 const TextEditor = lazy(() => import('../../components/TextEditor'))
 
 const Post = props => {
-    const { id } = useParams(), history = useHistory(), user = sessionStorage.getItem('user')
+    const { slug } = useParams(), history = useHistory(), user = sessionStorage.getItem('user')
 
+    const [ postID, setPostID ] = useState(0)
     const [ imagePopup, setImagePopup ] = useState(false)
     const [ bannerPreview, setBannerPreview ] = useState(false)
     const [ editorState, setEditorState ] = useState(EditorState.createEmpty())
     const [ postHeader, setPostHeader ] = useState({ title: null, banner: { src: null, type: null, font: null, file: null } })
  
     useEffect(() => (async () => {
-        document.title = id ? 'Editar postagem' : 'Criar postagem'
+        document.title = slug ? 'Editar postagem' : 'Criar postagem'
 
-        if(!id) return
+        if(!slug) return
 
         const source = axios.CancelToken.source()
 
         try{
-            const post = await (await blogAPI.get(`/${id}`, { cancelToken: source.token } )).data
-            const { title, content, banner_link, font_banner } = post
+            const post = await (await blogAPI.get(`/${slug}/`, { cancelToken: source.token } )).data
+            const { id, title, content, banner_link, font_banner } = post
 
+            setPostID(id)
             setBannerPreview(true)
             setPostHeader({ title, banner: { src: banner_link, type: 'pasted', font: font_banner, file: null } })
             setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(content))))
@@ -40,7 +42,7 @@ const Post = props => {
         }
 
         return () => source.cancel("Requisição Cancelada")
-    })(), [ id ])
+    })(), [ slug ])
     
     const handleTitleInput = ({ target: { value } }) => {
         const { banner } = postHeader
@@ -112,14 +114,15 @@ const Post = props => {
         })
 
         try{
-            let sources = []
+            let data = []
 
             const getSrcFromSources = ({ key }) => {
-                return Array.isArray(sources) ? sources.find(src => src.name === key).file : sources[key].file
+                return Array.isArray(data) ? data.find(src => src.name === key).file : data.file
             }
 
-            if(!!images.entries().next().value) sources = await (await blogAPI.post('/files/', images)).data
-
+            if(!!images.entries().next().value) 
+                data = await (await blogAPI.post('/files/', images)).data
+            
             if(banner.file){
                 const src = getSrcFromSources({ key: banner.key })
 
@@ -129,6 +132,7 @@ const Post = props => {
             const finalEntityMap = {...Object.values(entityMap).map(entity => {
                 if(entityMap !== 'image' && !entity.data.file) return entity
 
+                console.log(entity.data.key)
                 const src = getSrcFromSources({ key: entity.data.key })
 
                 return { 
@@ -162,11 +166,10 @@ const Post = props => {
             }
 
             const httpsCodes = [ 200, 201, 2004 ]
-            const message = id ? 'A postagem foi atualizada com sucesso' : 'A postagem foi criado com sucesso'
+            const message = slug ? 'A postagem foi atualizada com sucesso' : 'A postagem foi criado com sucesso'
             
-            if(id){
-                console.log(id)
-                const status = await (await blogAPI.put(`/${id}/`, post)).status
+            if(slug){
+                const status = await (await blogAPI.put(`/${postID}/`, post)).status
 
                 httpsCodes.includes(status) && alert(message)
             }
@@ -190,7 +193,7 @@ const Post = props => {
             {user ? (
                 <>
                     <header className="post-header">
-                        <h2>{id ? 'Editar post: ' : 'Criar um post: '}</h2>
+                        <h2>{slug ? 'Editar post: ' : 'Criar um post: '}</h2>
                     </header>
                     <main className="post-data-container">
                         <form className="post-form">

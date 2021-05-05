@@ -166,6 +166,7 @@ const Blog = () => {
 
     return (
         <div className="Blog">
+            {window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
             <Suspense fallback={<div></div>}>
                 <Menu 
                     searchInput={{ isVisible: true }}
