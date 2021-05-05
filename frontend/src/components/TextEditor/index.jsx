@@ -18,12 +18,6 @@ const TextEditor = ({ editorState, onChange }) => {
         createHighlightPlugin(),
         createLinkPlugin()
     ]
-    /*
-    const [ plugins, setPlugins ] = useState([ 
-        createTextColorPlugin({}), 
-        createHighlightPlugin({}),
-        createLinkPlugin()
-    ])*/
 
     useEffect(() => {
         const newActivesButtons = activeButtons.filter(activeButton => editorState.getCurrentInlineStyle().has(activeButton))
@@ -130,50 +124,34 @@ const TextEditor = ({ editorState, onChange }) => {
         const isComplexInlineStyle = (style.match(colorSearcher) || style.match(highlightSearcher))
 
         if(isComplexInlineStyle){
-            const [ colors, bgColors ] = [
+            const [ colors, highlights ] = [
                 [ '#000000', '#737373', '#E7E6E6', '#5500F1', '#9776FF', '#FFD382'],
                 ['#FFFFFF', '#5500F1', '#9776FF', '#FFD382']
             ]
 
-            const colorInlineStyles = [], bgInlineStyles = []
+            const toggleInlineStyles = ({ type, options }) => {
+                const styles = []
 
-            bgColors.forEach(opt => {
-                editorState.getCurrentInlineStyle().has(`HIGHLIGHT${opt}`) && bgInlineStyles.push(`HIGHLIGHT${opt}`)
-            })
+                options.forEach(opt => {
+                    editorState.getCurrentInlineStyle().has(`${type}${opt}`) && styles.push(`${type}${opt}`)
+                })
 
-            colors.forEach(opt => {
-                editorState.getCurrentInlineStyle().has(`COLOR${opt}`) && colorInlineStyles.push(`COLOR${opt}`)
-            })
+                styles.forEach(inlineStyle => currentEditorState = RichUtils.toggleInlineStyle(editorState, inlineStyle))
+            }
 
             if(style.match(colorSearcher)){
-                colorInlineStyles.forEach(inlineStyle => {
-                    currentEditorState = RichUtils.toggleInlineStyle(editorState, inlineStyle)
-                })
+                toggleInlineStyles({ type: 'COLOR', options: colors })
             }
 
             if(style.match(highlightSearcher)){
-                bgInlineStyles.forEach(inlineStyle => {
-                    currentEditorState = RichUtils.toggleInlineStyle(editorState, inlineStyle)
-                })
+                toggleInlineStyles({ type: 'HIGHLIGHT', options: highlights })
             }
-
         }
 
         currentEditorState = RichUtils.toggleInlineStyle(currentEditorState, style)
-/*
-        switch(style){
-            case 'TEXT-COLOR': 
-                setPlugins([createTextColorPlugin({ color }), plugins[1], createLinkPlugin()]) 
-                break
-            case 'HIGHLIGHT':  
-                setPlugins([ plugins[0], createHighlightPlugin({ color }), createLinkPlugin() ])
-                break
-            default: setActiveButtons(currentStyle[style] ? activeButtons.filter(btn => btn !== style) : [...activeButtons, style])
-        }*/
-
-        setActiveButtons(hasStyle ? activeButtons.filter(btn => btn !== style) : [...activeButtons, style])
 
         onChange(currentEditorState)
+        setActiveButtons(hasStyle ? activeButtons.filter(btn => btn !== style) : [...activeButtons, style])
     }
 
     const toggleBlockType = blockType => onChange(RichUtils.toggleBlockType(editorState, blockType))

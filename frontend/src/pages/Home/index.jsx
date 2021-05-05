@@ -352,7 +352,7 @@ const Home = () => {
 
                         <div className="motherboard-box">
                             <div>
-                                <img src="/images/motherboard" width={32} height={32} alt="Placa Mãe recomendada"/>
+                                <img src="/images/motherboard.svg" width={32} height={32} alt="Placa Mãe recomendada"/>
                                 <p>{filteredCombination.motherboard}</p>
                             </div>
 

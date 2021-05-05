@@ -19,6 +19,7 @@ const Menu = lazy(() => import('../../components/Menu/'))
 const Footer = lazy(() => import('../../components/Footer/'))
 const PostContent = lazy(() => import('../../components/PostContent/'))
 const PostPreview = lazy(() => import('../../components/PostPreview/'))
+const Loading = lazy(() => import('../../components/Loading'))
 
 const PostViewer = () => {
     const { slug } = useParams(), postURL = `https://fpsfinder.com/blog/post/${slug}`
@@ -26,6 +27,7 @@ const PostViewer = () => {
     const emptyContent = EditorState.createEmpty().getCurrentContent()
 
     const [ post, setPost ] = useState({})
+    const [ isLoading, setIsLoading ] = useState(true)
     const [ latestPosts, setLatestPosts ] = useState([])
 
     useEffect(() => (async () => {
@@ -44,12 +46,8 @@ const PostViewer = () => {
 
             document.title = data.title
 
-            setPost({
-                title: data.title,
-                lastEditedAt,
-                banner,
-                content: contentState
-            })
+            setIsLoading(false)
+            setPost({title: data.title, lastEditedAt, banner, content: contentState})
         }
         catch(error){
             alert(error.messsage)
@@ -81,50 +79,61 @@ const PostViewer = () => {
             <Suspense fallback={<div></div>}>
                 <Menu searchInput={{ isVisible: false }} />
             </Suspense>
-            <main>
-                <header>
-                    <h1>{post.title}</h1>
-                    <div>
-                        <span>
-                            <Clock color="#737373" strokeWidth={2}/>
-                            {post.lastEditedAt}
-                        </span>
 
-                        <div className={styles.socialMediaButtons}>
-                            <WhatsappShareButton url={postURL} title={post?.title ?? ""} separator={'\n'}>
-                                <WhatsappIcon size={24} round={false} />
-                            </WhatsappShareButton>
-                            <TwitterShareButton url={postURL} title={post?.title ?? ""}>
-                                <TwitterIcon size={24} round={false} />
-                            </TwitterShareButton>
-                            <FacebookShareButton url={postURL} quote={post?.title ?? ""}>
-                                <FacebookIcon size={24} round={false} />
-                            </FacebookShareButton>
-                        </div>
-                    </div>
-
-                    <figure>
-                        <img src={post?.banner?.src ?? ""} alt={post?.banner?.font ?? ""}/>
-                        <figcaption><strong>Fonte: </strong>{ post?.banner?.font ?? "" }</figcaption>
-                    </figure>
-                </header>
-
+            { isLoading && (
                 <Suspense fallback={<div></div>}>
-                    <PostContent content={post?.content ?? emptyContent}/>
+                    <Loading />
                 </Suspense>
-                
-            </main>
-            <section className={styles?.readMore ?? "" }>
-                <h2>Leia mais</h2>
+            )}
 
-                <div className={styles?.latestPosts ?? ""}>
-                    <Suspense fallback={<div></div>}>
-                        { latestPosts.map(post => (
-                            <PostPreview post={post} key={post.id}/>
-                        )) }
-                    </Suspense>
-                </div>
-            </section>
+            { isLoading || (
+                <>
+                    <main>
+                        <header>
+                            <h1>{post.title}</h1>
+                            <div>
+                                <span>
+                                    <Clock color="#737373" strokeWidth={2}/>
+                                    {post.lastEditedAt}
+                                </span>
+
+                                <div className={styles.socialMediaButtons}>
+                                    <WhatsappShareButton url={postURL} title={post?.title ?? ""} separator={'\n'}>
+                                        <WhatsappIcon size={24} round={false} />
+                                    </WhatsappShareButton>
+                                    <TwitterShareButton url={postURL} title={post?.title ?? ""}>
+                                        <TwitterIcon size={24} round={false} />
+                                    </TwitterShareButton>
+                                    <FacebookShareButton url={postURL} quote={post?.title ?? ""}>
+                                        <FacebookIcon size={24} round={false} />
+                                    </FacebookShareButton>
+                                </div>
+                            </div>
+
+                            <figure>
+                                <img src={post?.banner?.src ?? ""} alt={post?.banner?.font ?? ""}/>
+                                <figcaption><strong>Fonte: </strong>{ post?.banner?.font ?? "" }</figcaption>
+                            </figure>
+                        </header>
+
+                        <Suspense fallback={<div></div>}>
+                            <PostContent content={post?.content ?? emptyContent}/>
+                        </Suspense>
+                        
+                    </main>
+                    <section className={styles?.readMore ?? "" }>
+                        <h2>Leia mais</h2>
+
+                        <div className={styles?.latestPosts ?? ""}>
+                            <Suspense fallback={<div></div>}>
+                                { latestPosts.map(post => (
+                                    <PostPreview post={post} key={post.id}/>
+                                )) }
+                            </Suspense>
+                        </div>
+                    </section>
+                </>
+            )}
             <Suspense fallback={<div></div>}>
                 <Footer />
             </Suspense>

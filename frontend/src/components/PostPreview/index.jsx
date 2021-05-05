@@ -17,7 +17,9 @@ const PostPreview = ({ post, admin, onFeature, isOnSearch = false }) => {
 
     const [ isDelPopupVisible, setIsDelPopupVisible ] = useState(false)
 
-    const className = `blog-post-preview ${featured ? 'featured': (isOnSearch ? 'onSearch': ' ')}`
+    const className = `
+        blog-post-preview ${(featured && !isOnSearch) ? 'featured': (isOnSearch ? 'onSearch': ' ')}
+    `
 
     useEffect(() => {
         if(!id) return

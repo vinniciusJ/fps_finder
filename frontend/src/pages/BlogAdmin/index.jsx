@@ -9,6 +9,7 @@ import axios from 'axios'
 
 import './styles.css'
 
+const Loading = lazy(() => import('../../components/Loading'))
 const AdminMenu = lazy(() => import('../../components/AdminMenu/'))
 const PostPreview = lazy(() => import('../../components/PostPreview/'))
 
@@ -23,6 +24,7 @@ const BlogAdmin = props => {
     const [ totalPosts, setTotalPosts ] = useState(0)
     const [ isWideScreen, setIsWideScreen ] = useState(false)
     const [ isSearching, setIsSearching ] = useState(false)
+    const [ isLoading, setIsLoading ] = useState(true)
     const [ foundPosts, setFoundPosts] = useState([])
 
     const setPostsByCategory = useCallback(({ posts, screen = isWideScreen }) => {
@@ -91,7 +93,6 @@ const BlogAdmin = props => {
             else
                 foundPosts = publishedPosts.filter(({ title }) => title.toUpperCase().match(searcher))
 
-            console.log(foundPosts)
             setFoundPosts(foundPosts) 
         }    
     } 
@@ -106,6 +107,7 @@ const BlogAdmin = props => {
          
             const screenStatus = window.matchMedia('(min-width: 1024px)').matches
 
+            setIsLoading(false)
             setPosts(receivedPosts)
             setIsWideScreen(screenStatus)
             setPostsByCategory({ posts: receivedPosts, screen: screenStatus })
@@ -126,102 +128,110 @@ const BlogAdmin = props => {
                 <Suspense fallback={<div></div>}>
                     <AdminMenu onSearch={handlePostSearching} total={totalPosts} type="post"/>
                 </Suspense>
-                <main className="ba-post">
-                    { isSearching || (
-                        <>
-                        <section className="ba-featured-post">
-                            <h2>Postagem em Destaque:</h2>
-                            <Suspense fallback={<div></div>}>
-                                <PostPreview post={featuredPost} admin={true} onFeature={handlePostFeature}/>
-                            </Suspense>
-                        </section>
-                        <section className="ba-saved-posts">
-                            <h2>Postagens salvas:</h2>
+                { isLoading && (
+                   <Suspense fallback={<div></div>}>
+                       <Loading />
+                   </Suspense>
+                ) }
 
-                            <Suspense fallback={<div></div>}>
-                                { isWideScreen || (
-                                    <>
-                                        {savedPosts.map(post => (
-                                            <PostPreview key={`${Date.now()}#${post.id}`} post={post} admin={true} onFeature={handlePostFeature}/>
-                                        ))}
-                                    </>
+                { isLoading || (
+                    <main className="ba-post">
+                        { isSearching || (
+                            <>
+                            <section className="ba-featured-post">
+                                <h2>Postagem em Destaque:</h2>
+                                <Suspense fallback={<div></div>}>
+                                    <PostPreview post={featuredPost} admin={true} onFeature={handlePostFeature}/>
+                                </Suspense>
+                            </section>
+                            <section className="ba-saved-posts">
+                                <h2>Postagens salvas:</h2>
+
+                                <Suspense fallback={<div></div>}>
+                                    { isWideScreen || (
+                                        <>
+                                            {savedPosts.map(post => (
+                                                <PostPreview key={`${Date.now()}#${post.id}`} post={post} admin={true} onFeature={handlePostFeature}/>
+                                            ))}
+                                        </>
+                                        ) }
+
+                                    { isWideScreen && (
+                                        <div className="ba-saved-posts-rows">
+                                            {savedPosts.map((row, index) => (
+                                                <div key={`${Date.now()}#${index}`} className="ba-saved-posts-row">
+                                                    {row.map(post => (
+                                                        <PostPreview 
+                                                            post={post} 
+                                                            admin={true} 
+                                                            onFeature={handlePostFeature}
+                                                            key={`${Date.now()}#${post.id}`}  
+                                                        />
+                                                    ))}
+                                                </div>
+                                            ))}
+                                        </div> 
                                     ) }
+                                </Suspense>
+                            </section>
+                            <section className="ba-all-posts">
+                                <h2>Postagens publicadas:</h2>
 
-                                { isWideScreen && (
-                                    <div className="ba-saved-posts-rows">
-                                        {savedPosts.map((row, index) => (
-                                            <div key={`${Date.now()}#${index}`} className="ba-saved-posts-row">
-                                                {row.map(post => (
-                                                    <PostPreview 
-                                                        post={post} 
-                                                        admin={true} 
-                                                        onFeature={handlePostFeature}
-                                                        key={`${Date.now()}#${post.id}`}  
-                                                    />
-                                                ))}
-                                            </div>
-                                        ))}
-                                    </div> 
-                                ) }
-                            </Suspense>
-                        </section>
-                        <section className="ba-all-posts">
-                            <h2>Postagens publicadas:</h2>
-
-                            <Suspense fallback={<div></div>}>
-                                { isWideScreen || (
-                                    <>
-                                        {publishedPosts.map(post => (
-                                            <PostPreview key={`${Date.now()}#${post.id}`} post={post} admin={true} onFeature={handlePostFeature}/>
-                                        ))}
-                                    </>
-                                ) }
-                                { isWideScreen && (
-                                    <div className="ba-published-posts-rows">
-                                        {publishedPosts.map((row, index) => (
-                                            <div key={`${Date.now()}#${index}`} className="ba-published-posts-row">
-                                                {row.map(post => (
-                                                    <PostPreview 
-                                                        post={post} 
-                                                        admin={true} 
-                                                        onFeature={handlePostFeature}
-                                                        key={`${Date.now()}#${post.id}`}  
-                                                    />
-                                                ))}
-                                            </div>
-                                        ))}
-                                    </div>
+                                <Suspense fallback={<div></div>}>
+                                    { isWideScreen || (
+                                        <>
+                                            {publishedPosts.map(post => (
+                                                <PostPreview key={`${Date.now()}#${post.id}`} post={post} admin={true} onFeature={handlePostFeature}/>
+                                            ))}
+                                        </>
                                     ) }
-                            </Suspense>
-                        </section>
-                        </>
-                    ) }
-
-                    { isSearching && (
-                        <>
-                        { foundPosts.length && (
-                            <Suspense fallback={<div></div>}>
-                                {foundPosts.map(post => post && (
-                                    <PostPreview 
-                                        key={post?.id ?? Date.now()} 
-                                        post={post} 
-                                        admin={true} 
-                                        onFeature={handlePostFeature}
-                                    />
-                                ))}
-                            </Suspense>
+                                    { isWideScreen && (
+                                        <div className="ba-published-posts-rows">
+                                            {publishedPosts.map((row, index) => (
+                                                <div key={`${Date.now()}#${index}`} className="ba-published-posts-row">
+                                                    {row.map(post => (
+                                                        <PostPreview 
+                                                            post={post} 
+                                                            admin={true} 
+                                                            onFeature={handlePostFeature}
+                                                            key={`${Date.now()}#${post.id}`}  
+                                                        />
+                                                    ))}
+                                                </div>
+                                            ))}
+                                        </div>
+                                        ) }
+                                </Suspense>
+                            </section>
+                            </>
                         ) }
 
-                        { foundPosts.length  || (
-                            <div className="no-post-found">
-                                <AlertCircle width={96} height={96} color='#E7E6E6'/>
-                                <p> Nenhuma postagem foi encontrada</p>
-                            </div>
-                        ) }
-                        </>
-                    )}
-                    
-                </main>
+                        { isSearching && (
+                            <>
+                            { foundPosts.length && (
+                                <Suspense fallback={<div></div>}>
+                                    {foundPosts.map(post => post && (
+                                        <PostPreview 
+                                            key={post?.id ?? Date.now()} 
+                                            post={post} 
+                                            admin={true} 
+                                            onFeature={handlePostFeature}
+                                        />
+                                    ))}
+                                </Suspense>
+                            ) }
+
+                            { foundPosts.length  || (
+                                <div className="no-post-found">
+                                    <AlertCircle width={96} height={96} color='#E7E6E6'/>
+                                    <p> Nenhuma postagem foi encontrada</p>
+                                </div>
+                            ) }
+                            </>
+                        )}
+                        
+                    </main>
+                ) }
                 </>
             ) : (
                 <Redirect to={{ pathname: '/login', state: { from: props.location }}} />
