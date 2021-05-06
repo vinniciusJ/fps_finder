@@ -4,13 +4,13 @@ import { AlertCircle } from 'react-feather'
 import { blogAPI } from '../../services/api'
 
 import axios from 'axios'
+import Loading from '../../components/Loading'
 
 import './styles.css'
 
 const Menu = lazy(() => import('../../components/Menu/'))
 const PostPreview = lazy(() => import('../../components/PostPreview/'))
 const Footer = lazy(() => import('../../components/Footer/'))
-const Loading = lazy(() => import('../../components/Loading'))
 
 const Blog = () => {
     const [ postsByPage, setPostsByPage ] = useState({ 1: [] })
@@ -174,11 +174,7 @@ const Blog = () => {
                 />
             </Suspense>
 
-            { isLoading && (
-                <Suspense fallback={<div></div>}>
-                    <Loading />
-                </Suspense>
-            ) }
+            { isLoading && <Loading /> }
 
             { isLoading || (
                 <main className="blog-posts">

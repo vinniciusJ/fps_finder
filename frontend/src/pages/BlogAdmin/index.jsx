@@ -6,10 +6,10 @@ import { parseArrayToMatrices, createSearcher } from '../../utils'
 import { AlertCircle } from 'react-feather'
 
 import axios from 'axios'
+import Loading from '../../components/Loading'
 
 import './styles.css'
 
-const Loading = lazy(() => import('../../components/Loading'))
 const AdminMenu = lazy(() => import('../../components/AdminMenu/'))
 const PostPreview = lazy(() => import('../../components/PostPreview/'))
 
@@ -136,11 +136,8 @@ const BlogAdmin = props => {
                 <Suspense fallback={<div></div>}>
                     <AdminMenu onSearch={handlePostSearching} total={totalPosts} type="post"/>
                 </Suspense>
-                { isLoading && (
-                   <Suspense fallback={<div></div>}>
-                       <Loading />
-                   </Suspense>
-                ) }
+
+                { isLoading && <Loading /> }
 
                 { isLoading || (
                     <main className="ba-post">

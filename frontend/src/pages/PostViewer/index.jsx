@@ -12,6 +12,7 @@ import {
 
 import moment from 'moment'
 import axios from 'axios'
+import Loading from '../../components/Loading'
 
 import styles from './styles.module.scss'
 
@@ -19,7 +20,6 @@ const Menu = lazy(() => import('../../components/Menu/'))
 const Footer = lazy(() => import('../../components/Footer/'))
 const PostContent = lazy(() => import('../../components/PostContent/'))
 const PostPreview = lazy(() => import('../../components/PostPreview/'))
-const Loading = lazy(() => import('../../components/Loading'))
 
 const PostViewer = () => {
     const { slug } = useParams(), postURL = `https://fpsfinder.com/blog/post/${slug}`
@@ -79,11 +79,7 @@ const PostViewer = () => {
                 <Menu searchInput={{ isVisible: false }} />
             </Suspense>
 
-            { isLoading && (
-                <Suspense fallback={<div></div>}>
-                    <Loading />
-                </Suspense>
-            )}
+            { isLoading && <Loading /> }
 
             { isLoading || (
                 <>
