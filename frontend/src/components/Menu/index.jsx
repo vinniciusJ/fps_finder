@@ -16,9 +16,9 @@ const Menu = ({ searchInput, onSearch = () => {} }) => {
     return (
         <nav className="nav-bar">
             <div className={`nav-bar-inner ${!hiddenMenu ? 'extended' : ''}`}>
-                <a href="/" className="nav-bar-logo">
+                <Link to="/" className="nav-bar-logo">
                     <img width={120} height={80} src="/images/logo.svg" alt="FPS Finder"/>
-                </a>
+                </Link>
                 <div className="nav-bar-main">
                     <div className="nav-bar-links">
                         <Link to="/blog">Blog</Link>
