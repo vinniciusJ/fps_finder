@@ -36,7 +36,7 @@ const Footer = () => {
                     </div>
                     <div className="suport-us">
                         <h1>APOIE NOSSO PROJETO</h1>
-                            <form action="https://www.paypal.com/donate" method="post" target="_top">
+                            <form className="donate" action="https://www.paypal.com/donate" method="post" target="_top">
                             <input type="hidden" name="business" value="WYAYHVW7AHRKW" />
                             <input type="hidden" name="item_name" value="Doações" />
                             <input type="hidden" name="currency_code" value="BRL" />
