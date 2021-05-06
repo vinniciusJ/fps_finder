@@ -38,9 +38,9 @@ const Footer = () => {
                         <h1>APOIE NOSSO PROJETO</h1>
                             <form action="https://www.paypal.com/donate" method="post" target="_top">
                             <input type="hidden" name="business" value="WYAYHVW7AHRKW" />
-                            <input type="hidden" name="item_name" value="Doação" />
+                            <input type="hidden" name="item_name" value="Doações" />
                             <input type="hidden" name="currency_code" value="BRL" />
-                            <input type="image" src="https://www.paypalobjects.com/pt_BR/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Faça doações com o botão do PayPal" />
+                            <input type="image" src="https://fpsfinder.com/images/donate.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Faça doações com o botão do PayPal" />
                             <img alt="" border="0" src="https://www.paypal.com/pt_BR/i/scr/pixel.gif" width="1" height="1" />
                         </form>
                     </div>
