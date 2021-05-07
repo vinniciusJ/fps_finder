@@ -203,7 +203,7 @@ const Combination = props => {
             alert(`Houve um problema na ${id ? 'edição' : 'criação'} da combinação, por favor tente mais tarde novamente.`)
         }
          
-        history.push('/admin/calculator')
+        history.push('/2054dbb5f81969e56eede7fa2078218c/calculator')
 
         return () => source.cancel()
     }
@@ -211,7 +211,7 @@ const Combination = props => {
     const cancelOperation = event => {
         event.preventDefault()
 
-        history.push('/admin/calculator')
+        history.push('/2054dbb5f81969e56eede7fa2078218c/calculator')
     }
 
     return (

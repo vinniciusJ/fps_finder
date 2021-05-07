@@ -1,0 +1,18 @@
+.noPostsFound{
+    padding-bottom: 8rem;
+    width: 100%;
+    min-height: 40rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 2rem;
+    align-items: center;
+    font-size: 2.8rem;
+    color: #E7E6E6;
+    text-align: center;
+
+    img{
+        width: 8rem;
+        height: 8rem;
+    }
+}

@@ -92,7 +92,7 @@ const Post = props => {
     const onCancel = (event) => {
         event.preventDefault()
 
-        history.push('/admin/blog')
+        history.push('/2054dbb5f81969e56eede7fa2078218c/blog')
     }
 
     const onSave = async event => {
@@ -179,7 +179,7 @@ const Post = props => {
                 httpsCodes.includes(status) && alert(message)
             }
             
-            history.push('/admin/blog')
+            history.push('/2054dbb5f81969e56eede7fa2078218c/blog')
         }
         catch(error){
             alert(error.message)

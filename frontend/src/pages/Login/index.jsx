@@ -9,7 +9,7 @@ const Login = props => {
     const passwordInput = useRef('')
     const history = useHistory()
 
-    const { location: { state = { from: { pathname: '/admin'} }} } = props
+    const { location: { state = { from: { pathname: '/2054dbb5f81969e56eede7fa2078218c'} }} } = props
 
     useEffect(() => document.title = 'Login', [ ])
 

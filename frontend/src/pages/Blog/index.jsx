@@ -1,6 +1,5 @@
 import { Suspense, lazy, useState, useEffect } from 'react'
 import { parseArrayToMatrices } from '../../utils'
-import { AlertCircle } from 'react-feather'
 import { blogAPI } from '../../services/api'
 
 import axios from 'axios'
@@ -11,6 +10,7 @@ import './styles.css'
 const Menu = lazy(() => import('../../components/Menu/'))
 const PostPreview = lazy(() => import('../../components/PostPreview/'))
 const Footer = lazy(() => import('../../components/Footer/'))
+const NoPostsError = lazy(() => import('../../components/NoPostsError'))
 
 const Blog = () => {
     const [ postsByPage, setPostsByPage ] = useState({ 1: [] })
@@ -43,6 +43,8 @@ const Blog = () => {
 
     const handlePagination = async ({ target }) => {
         const source = axios.CancelToken.source()
+
+        if(pages.length === 1) return
 
         try{
             const value = target.value || target.parentElement.value, page = Number(value.split('=')[1])
@@ -108,6 +110,8 @@ const Blog = () => {
 
             const { count, results } = page, allpages = [], paginatedPosts = parseArrayToMatrices([...results])
 
+            if(!count) allpages.push({ index: 1, page: `/?page=${1}` })
+
             for(let i = 1; i <= Math.ceil(count / 9); i++) 
                 allpages.push({ index: i, page: `/?page=${i}` })
 
@@ -117,7 +121,7 @@ const Blog = () => {
             setIsLoading(false)
             setPostsByPage(firstPagePosts)
             setLatestPosts(receivedLatestPosts)
-            setFeaturedPost(receivedFeaturedPost)
+            setFeaturedPost(Object.entries(receivedFeaturedPost).length === 0 ? false : receivedFeaturedPost)
         }
         catch(error){
             alert(error.message)
@@ -180,37 +184,52 @@ const Blog = () => {
                 <main className="blog-posts">
                     { isSearching || (
                         <>
-                            <section className="blog-featured-post">
-                                <h1 className="blog-title">Destaque:</h1>
-                                <Suspense fallback={<div></div>}>
-                                    <PostPreview post={featuredPost}/>
-                                </Suspense>
-                            </section>
-                            <section className="blog-latest-posts">
-                                <h1 className="blog-title">Mais recentes:</h1>
-                                
-                                <div>
+                            { featuredPost && (
+                                <section className="blog-featured-post">
+                                    <h1 className="blog-title">Destaque:</h1>
+
                                     <Suspense fallback={<div></div>}>
-                                        {latestPosts.map(post => (
-                                            <PostPreview key={`${Date.now}#${post.id}`} post={post}/>
-                                        ))}
+                                            <PostPreview post={featuredPost}/>
                                     </Suspense>
-                                </div>
-                                
-                            </section>
+                                </section>
+                            ) }
+                            
+                            { latestPosts.length !== 0 && (
+                                <section className="blog-latest-posts">
+                                    <h1 className="blog-title">Mais recentes:</h1>
+                                    
+                                    <div>
+                                        <Suspense fallback={<div></div>}>
+                                            {latestPosts.map(post => (
+                                                <PostPreview key={post.id} post={post}/>
+                                            ))}
+                                        </Suspense>
+                                    </div>
+                                    
+                                </section>
+                            ) }
                             <section className="blog-all-posts">
                                 <h1 className="blog-title">Todas as postagens:</h1>
     
-                                
-                                {postsByPage[currentPage].map((values, index) => (
-                                    <div key={index} >
-                                        {values.map(post => (
-                                            <Suspense key={`${Date.now}#${post.id}`} fallback={<div></div>}>
-                                                <PostPreview post={post}/>
-                                            </Suspense>
+                                { postsByPage[currentPage].length === 0 && (
+                                    <NoPostsError />
+                                )}
+
+                                { postsByPage[currentPage].length !== 0 && (
+                                    <>
+                                        {postsByPage[currentPage].map((values, index) => (
+                                            <div key={index} >
+                                                {values.map(post => (
+                                                    <Suspense key={post.id} fallback={<div></div>}>
+                                                        <PostPreview post={post}/>
+                                                    </Suspense>
+                                                ))}
+                                            </div>
                                         ))}
-                                    </div>
-                                ))}
+                                    </>
+                                )}
+
+                                
                             </section>
                             <div className="blog-pages">
                             
@@ -267,10 +286,7 @@ const Blog = () => {
                             ) }
 
                             { noPostsFound === 0 && (
-                                <div className="no-post-found">
-                                    <AlertCircle width={96} height={96} color='#E7E6E6'/>
-                                    <p> Nenhuma postagem foi encontrada</p>
-                                </div>
+                                <NoPostsError />
                             ) }
                     </section>
                 ) }

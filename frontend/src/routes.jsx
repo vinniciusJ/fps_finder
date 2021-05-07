@@ -19,11 +19,11 @@ const Routes = () => (
         <Route path='/blog/post/:slug?' component={PostViewer}/>
         <Route path='/about-us' component={AboutUs}/>
     
-        <Route path='/admin' exact component={AdminPanel} />
-        <Route path='/admin/blog' exact component={BlogAdmin} />
-        <Route path='/admin/blog/post/:slug?' component={Post} />
-        <Route path='/admin/calculator' exact component={CalculatorAdmin} />
-        <Route path='/admin/calculator/combination/:id?' component={Combination}/>
+        <Route path='/2054dbb5f81969e56eede7fa2078218c' exact component={AdminPanel} />
+        <Route path='/2054dbb5f81969e56eede7fa2078218c/blog' exact component={BlogAdmin} />
+        <Route path='/2054dbb5f81969e56eede7fa2078218c/blog/post/:slug?' component={Post} />
+        <Route path='/2054dbb5f81969e56eede7fa2078218c/calculator' exact component={CalculatorAdmin} />
+        <Route path='/2054dbb5f81969e56eede7fa2078218c/calculator/combination/:id?' component={Combination}/>
         
     </BrowserRouter>
 )

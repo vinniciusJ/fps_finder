@@ -32,6 +32,7 @@ class UserController{
 
         return response.status(200).send()
     }
+
     async login(request, response, next){
         const { credential, password } = request.body
         const hashedPassword = getHashedCode(password)

@@ -69,24 +69,6 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-.blog-posts .blog-found-posts .no-post-found{
-    padding-bottom: 8rem;
-    width: 100%;
-    min-height: 40rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    row-gap: 2rem;
-    align-items: center;
-    font-size: 2.8rem;
-    color: #E7E6E6;
-    text-align: center;
-}
-.blog-posts  .no-post-found img{
-    width: 8rem;
-    height: 8rem;
-}
-
 @media screen and (min-width: 416px){
     .blog-posts{
         width: 68vw;
