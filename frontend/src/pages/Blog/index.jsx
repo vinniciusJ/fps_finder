@@ -208,31 +208,35 @@ const Blog = () => {
                                     
                                 </section>
                             ) }
-                            <section className="blog-all-posts">
-                                <h1 className="blog-title">Todas as postagens:</h1>
-    
-                                { postsByPage[currentPage].length === 0 && (
-                                    <Suspense fallback={<div></div>}>
-                                        <NoPostsError />
-                                    </Suspense>
-                                )}
+                            
+                            { (latestPosts.length > 3) && (
+                                <section className="blog-all-posts">
+                                    <h1 className="blog-title">Todas as postagens:</h1>
+        
+                                    { postsByPage[currentPage].length === 0 && (
+                                        <Suspense fallback={<div></div>}>
+                                            <NoPostsError />
+                                        </Suspense>
+                                    )}
 
-                                { postsByPage[currentPage].length !== 0 && (
-                                    <>
-                                        {postsByPage[currentPage].map((values, index) => (
-                                            <div key={index} >
-                                                {values.map(post => (
-                                                    <Suspense key={post.id} fallback={<div></div>}>
-                                                        <PostPreview post={post}/>
-                                                    </Suspense>
-                                                ))}
-                                            </div>
-                                        ))}
-                                    </>
-                                )}
+                                    { postsByPage[currentPage].length !== 0 && (
+                                        <>
+                                            {postsByPage[currentPage].map((values, index) => (
+                                                <div key={index} >
+                                                    {values.map(post => (
+                                                        <Suspense key={post.id} fallback={<div></div>}>
+                                                            <PostPreview post={post}/>
+                                                        </Suspense>
+                                                    ))}
+                                                </div>
+                                            ))}
+                                        </>
+                                    )}
 
-                                
-                            </section>
+                                    
+                                </section>
+                            )}
+
                             <div className="blog-pages">
                             
                                 <button 
