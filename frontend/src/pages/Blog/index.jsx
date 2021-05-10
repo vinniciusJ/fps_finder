@@ -212,7 +212,9 @@ const Blog = () => {
                                 <h1 className="blog-title">Todas as postagens:</h1>
     
                                 { postsByPage[currentPage].length === 0 && (
-                                    <NoPostsError />
+                                    <Suspense fallback={<div></div>}>
+                                        <NoPostsError />
+                                    </Suspense>
                                 )}
 
                                 { postsByPage[currentPage].length !== 0 && (
@@ -286,7 +288,9 @@ const Blog = () => {
                             ) }
 
                             { noPostsFound === 0 && (
-                                <NoPostsError />
+                                <Suspense fallback={<div></div>}>
+                                    <NoPostsError />
+                                </Suspense>
                             ) }
                     </section>
                 ) }

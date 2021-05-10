@@ -8,7 +8,7 @@ import './styles.css'
 
 const DeletePopUp = lazy(() => import('../DeletePopUp/'))
 
-const PostPreview = ({ post, admin, onFeature, isOnSearch = false }) => {
+const PostPreview = ({ post, admin, onFeature, isOnSearch = false, simpleView }) => {
     const { id, title, slug, content, last_edited_at, banner_link, font_banner, featured } = post
 
     const [ postDescription, setPostDescription ] = useState('')
@@ -18,7 +18,7 @@ const PostPreview = ({ post, admin, onFeature, isOnSearch = false }) => {
     const [ isDelPopupVisible, setIsDelPopupVisible ] = useState(false)
 
     const className = `
-        blog-post-preview ${(featured && !isOnSearch) ? 'featured': (isOnSearch ? 'onSearch': ' ')}
+        blog-post-preview ${(featured && !isOnSearch &&!simpleView) ? 'featured': (isOnSearch ? 'onSearch': ' ')}
     `
 
     useEffect(() => {
@@ -48,7 +48,7 @@ const PostPreview = ({ post, admin, onFeature, isOnSearch = false }) => {
 
                         {moreOptions && (
                             <div className="td-opts">
-                                <Link to={`/admin/blog/post/${slug}`}>
+                                <Link to={`/2054dbb5f81969e56eede7fa2078218c/blog/post/${slug}`}>
                                     <Edit3 /> Editar
                                 </Link>
                                 <button onClick={onFeature} data-id={id} disabled={featured ? true : false}>
@@ -67,7 +67,7 @@ const PostPreview = ({ post, admin, onFeature, isOnSearch = false }) => {
                 <section className="post-preview-data">
                     <h2>{title}</h2>
 
-                    {(featured || isOnSearch) && <p>{postDescription}</p> }
+                    {((featured || isOnSearch) && !simpleView) && <p>{postDescription}</p> }
 
                     <span className="post-timestamp">
                         <Clock color='#737373' strokeWidth={2}/> {createdAtDate}

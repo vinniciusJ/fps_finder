@@ -199,7 +199,7 @@ const Post = props => {
                         <form className="post-form">
                             <div className="post-input">
                                 <label htmlFor="title">Título:</label>
-                                <input type="text" value={postHeader.title ?? ' '} name="title" id="title" placeholder="Escreva aqui..." onChange={handleTitleInput}/>
+                                <input type="text" value={postHeader.title ?? ' '} name="title" id="title" placeholder="Escreva aqui..." onChange={handleTitleInput} autoFocus maxLength={50}/>
                             </div>
                             {(bannerPreview) || (
                                 <div className="post-input">

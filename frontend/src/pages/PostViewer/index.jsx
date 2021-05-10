@@ -116,17 +116,19 @@ const PostViewer = () => {
                         </Suspense>
                         
                     </main>
-                    <section className={styles?.readMore ?? "" }>
-                        <h2>Leia mais</h2>
+                    { latestPosts.length !== 0 && (
+                        <section className={styles?.readMore ?? "" }>
+                            <h2>Leia mais</h2>
 
-                        <div className={styles?.latestPosts ?? ""}>
-                            <Suspense fallback={<div></div>}>
-                                { latestPosts.map(post => (
-                                    <PostPreview post={post} key={post.id}/>
-                                )) }
-                            </Suspense>
-                        </div>
-                    </section>
+                            <div className={styles?.latestPosts ?? ""}>
+                                <Suspense fallback={<div></div>}>
+                                    { latestPosts.map(post => (
+                                        <PostPreview post={post} key={post.id}/>
+                                    )) }
+                                </Suspense>
+                            </div>
+                        </section>
+                    ) }
                 </>
             )}
             <Suspense fallback={<div></div>}>

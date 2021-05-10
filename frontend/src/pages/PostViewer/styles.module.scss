@@ -93,15 +93,18 @@
         flex-direction: column;
         align-items: center;
 
-        main, .readMore{
+        main{
             width: 68vw;
         }
 
         .readMore{
+            width: 68vw;
+
             .latestPosts{
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: space-between;
+
             }
         }
     }

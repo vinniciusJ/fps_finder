@@ -30,7 +30,7 @@ const BlogAdmin = props => {
     const setPostsByCategory = useCallback(({ posts, screen = isWideScreen }) => {
         const [ receivedSavedPosts, receivedPublishedPosts ] = [
             posts.filter(post => !post.published && !post.featured),
-            posts.filter(post => post.published && !post.featured)
+            posts.filter(post => post.published)
         ]
 
         setTotalPosts(posts.length)
@@ -194,20 +194,27 @@ const BlogAdmin = props => {
                                         { isWideScreen || (
                                             <>
                                                 {publishedPosts.map(post => (
-                                                    <PostPreview key={`${Date.now()}#${post.id}`} post={post} admin={true} onFeature={handlePostFeature}/>
+                                                    <PostPreview 
+                                                        key={post.id} 
+                                                        post={post} 
+                                                        admin={true} 
+                                                        onFeature={handlePostFeature}
+                                                        simpleView={post.featured}
+                                                    />
                                                 ))}
                                             </>
                                         ) }
                                         { isWideScreen && (
                                             <div className="ba-published-posts-rows">
                                                 {publishedPosts.map((row, index) => (
-                                                    <div key={`${Date.now()}#${index}`} className="ba-published-posts-row">
+                                                    <div key={`${Date.now()}${index}`} className="ba-published-posts-row">
                                                         {row.map(post => (
                                                             <PostPreview 
                                                                 post={post} 
                                                                 admin={true} 
                                                                 onFeature={handlePostFeature}
-                                                                key={`${Date.now()}#${post.id}`}  
+                                                                simpleView={post.featured}
+                                                                key={post.id}  
                                                             />
                                                         ))}
                                                     </div>

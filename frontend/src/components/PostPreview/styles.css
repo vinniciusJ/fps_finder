@@ -150,11 +150,13 @@
     .blog-post-preview.featured{
         align-items: center;
         max-width: inherit;
+        
     }
     .blog-post-preview.featured img{
-        width: 48vw;
+        width: 42vw;
+        height: 36rem;
         max-width: inherit;
-        object-fit:cover;
+        object-fit: cover;
     }
 
     .blog-post-preview.featured .post-preview-data h2{
