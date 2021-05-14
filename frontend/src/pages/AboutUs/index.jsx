@@ -1,4 +1,4 @@
-import { useEffect, Suspense, lazy } from 'react'
+import React, { useEffect, Suspense, lazy } from 'react'
 
 import './styles.css'
 

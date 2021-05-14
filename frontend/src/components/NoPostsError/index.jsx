@@ -1,3 +1,4 @@
+import React from 'react'
 import { AlertCircle } from "react-feather"
 
 import styles from './styles.module.scss'

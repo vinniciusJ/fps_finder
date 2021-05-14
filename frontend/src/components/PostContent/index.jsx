@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { stateToHTML } from 'draft-js-export-html'
 
 import styles from './styles.module.scss'

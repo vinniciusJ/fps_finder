@@ -1,4 +1,4 @@
-import { Suspense, lazy, useState, useEffect, useCallback } from 'react'
+import React, { Suspense, lazy, useState, useEffect, useCallback } from 'react'
 import { blogAPI } from '../../services/api'
 import { Redirect } from 'react-router-dom'
 import { PostInterface } from '../../utils/interfaces.json'

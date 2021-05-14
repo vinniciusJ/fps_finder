@@ -1,7 +1,7 @@
+import React, { Suspense, lazy, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { blogAPI } from '../../services/api'
 import { convertFromRaw, EditorState } from 'draft-js'
-import { Suspense, lazy, useEffect, useState } from 'react'
 import { Clock } from 'react-feather'
 
 import { 

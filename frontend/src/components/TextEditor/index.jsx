@@ -1,6 +1,6 @@
 import Editor from 'draft-js-plugins-editor'
 
-import { Suspense, lazy, useState, useEffect } from 'react'
+import React, { Suspense, lazy, useState, useEffect } from 'react'
 import { RichUtils, EditorState, AtomicBlockUtils } from 'draft-js'
 import { createTextColorPlugin, createHighlightPlugin, createLinkPlugin } from './plugins'
 import { entityBlockRenderer } from './Entities/mediaBlockRenderer'

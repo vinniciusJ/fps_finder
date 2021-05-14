@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from 'react'
+import React, { useState, useEffect, lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import { Clock, MoreHorizontal, Heart, X, Edit3 } from 'react-feather'
 

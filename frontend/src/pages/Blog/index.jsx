@@ -1,4 +1,4 @@
-import { Suspense, lazy, useState, useEffect } from 'react'
+import React, { Suspense, lazy, useState, useEffect } from 'react'
 import { parseArrayToMatrices } from '../../utils'
 import { blogAPI } from '../../services/api'
 
