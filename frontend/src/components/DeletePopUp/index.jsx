@@ -28,12 +28,10 @@ const DeletePopUp = ({ type, id, confirmText, handleVisibility}) => {
         const source = axios.CancelToken.source()
 
         if(inputName.current.value !== confirmText) return setIsTextCorrect(false)
-        
-        try{
-            let response = null
 
+        try{
             if(type === 'combination'){
-                response = await calculatorAPI.delete('/combinations', {  
+                await calculatorAPI.delete('/combinations', {  
                     headers: { user: sessionStorage.getItem('user') }, 
                     data: { id },
                     cancelToken: source.token
@@ -42,10 +40,10 @@ const DeletePopUp = ({ type, id, confirmText, handleVisibility}) => {
                 window.location.reload()
             }
             else {
-                response = await blogAPI.delete(`/blog/${id}/`, { cancelToken: source.token })
+                await blogAPI.delete(`/${id}/`, { cancelToken: source.token })
             }
           
-            if(response.status === 200) document.body.style.overflow = 'initial'
+            document.body.style.overflow = 'initial'
         }
         catch(error){
             console.log(error)
