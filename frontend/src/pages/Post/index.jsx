@@ -105,7 +105,8 @@ const Post = props => {
         const { title, banner } = postHeader
         const { blocks, entityMap } = convertToRaw(editorState.getCurrentContent())
 
-        if(!(banner.src || banner.file ) || !title) return alert('Por favor, preencha todos os campos')
+        if(!(banner.src || banner.file ) || !title || !banner.font) 
+            return alert('Por favor, preencha todos os campos obrigatórios (Banner, Fonte do Banner e o Título)')
 
         if(banner.file) images.append(banner.key, banner.file)
         
@@ -132,7 +133,6 @@ const Post = props => {
             const finalEntityMap = {...Object.values(entityMap).map(entity => {
                 if(entityMap !== 'image' && !entity.data.file) return entity
 
-                console.log(entity.data.key)
                 const src = getSrcFromSources({ key: entity.data.key })
 
                 return { 
@@ -216,7 +216,13 @@ const Post = props => {
                                 <div className="banner-preview">
                                     <figure>
                                         <img src={postHeader.banner.src} alt={postHeader.banner.font}/>
-                                        <figcaption><strong>Fonte: </strong> {postHeader.banner.font}</figcaption>
+
+                                        { postHeader.banner.font && (
+                                            <figcaption>
+                                                <strong>Fonte: </strong> {postHeader.banner.font}
+                                            </figcaption>
+                                        ) }
+
                                     </figure>
 
                                     <button className="banner-edit" onClick={handleImagePopupVisibility} title="Editar banner">

@@ -27,8 +27,7 @@ const ImagePopup = ({ image = { src: null, font: null, type: null }, onChangeIma
             reader.onload = ({ target: { result } }) => {
                 onChangeImage({ file, src: result, type: 'uploaded' })
                 setCurrentImage({ src: result, type: 'uploaded' })
-            }
-                    
+            }      
         }
     }
 
@@ -108,7 +107,8 @@ const ImagePopup = ({ image = { src: null, font: null, type: null }, onChangeIma
                                 type="text" 
                                 id="font" 
                                 name="font" 
-                                value={currentImage.type === 'pasted' ? currentImage.font : ''}
+                                required
+                                defaultValue={currentImage.type === 'pasted' ? currentImage.font : ''}
                                 placeholder="Escreva aqui..." 
                                 onChange={onFontInput}
                             />
@@ -118,7 +118,8 @@ const ImagePopup = ({ image = { src: null, font: null, type: null }, onChangeIma
                                 type="text" 
                                 id="font" 
                                 name="font" 
-                                value={currentImage.type === 'uploaded' ? currentImage.font : ''}
+                                required
+                                defaultValue={currentImage.type === 'uploaded' ? currentImage.font : ''}
                                 placeholder="Escreva aqui..." 
                                 onChange={onFontInput}
                             />

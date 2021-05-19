@@ -82,7 +82,7 @@ const PostContent = ({ content }) => {
                 return (`
                     <figure>
                         <img src=${src} alt=${font} />
-                        <figcaption><strong>Fonte: </strong>${font}</figcaption>
+                        ${ font ? `<figcaption><strong>Fonte: </strong>${font}</figcaption>` : ' ' }
                     </figure>
                 `)
             }
