@@ -94,7 +94,7 @@ const Combination = props => {
     const addFPSAverage = () => {
         const { id: lastID, fake_id: lastFakeID } = FPSAverages[FPSAverages.length - 1]
 
-        if(lastFakeID === 0){
+        if(!id){
             return setFPSAverages([ ...FPSAverages, { fake_id: (lastFakeID + 1) ,id_game: 0, id_combination: Number(id), fps_average: 0 }])
         }
 
